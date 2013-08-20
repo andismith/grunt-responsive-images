@@ -1,7 +1,7 @@
 {
   "name": "grunt-responsive-images",
   "description": "Produces images at different sizes",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/andrew.smith/grunt-responsive-images",
   "author": {
     "name": "andismith",
@@ -31,15 +31,10 @@
   "dependencies": {
     "lodash": "~1.0.0",
     "node-imagemagick": "~0.1.8",
-    "async": "~0.2.8"
-  },
-  "devDependencies": {
+    "async": "~0.2.8",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt": "~0.4.1"
-  },
-  "peerDependencies": {
     "grunt": "~0.4.1"
   },
   "keywords": [
