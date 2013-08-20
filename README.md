@@ -1,4 +1,4 @@
-# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images) [![Build Status](https://travis-ci.org/andismith/grunt-responsive-images.png?branch=master)](https://travis-ci.org/andismith/grunt-responsive-images)
+# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images)
 
 > Produces images at different sizes
 
@@ -82,11 +82,11 @@ Use `suffix` for retina graphic filenames. e.g. my-image-320x240_x2.jpg
 
 Use `quality` to change the quality of an image (0.1, 0.2 ... 0.9, 1).
 
-#### options.seperator
+#### options.separator
 Type: `String`
 Default value: `-`
 
-The character used to seperate the image filename from the size name.
+The character used to separate the image filename from the size name.
 
 ### Usage Examples
 
@@ -142,4 +142,5 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+0.0.2 - Added srcset and PictureFill demo
 0.0.1 - Initial Commit
