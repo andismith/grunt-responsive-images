@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>srcset Test</title>
+        <script src="assets/js/srcset.min.js"></script>
+    </head>
+    <body>
+        <h1>Tests for Grunt Responsive Images</h1>
+        <p><a href="https://github.com/andismith/grunt-responsive-images">https://github.com/andismith/grunt-responsive-images</a></p>
+        <h2>srcset Test</h2>
+        <img alt="My Wedding Day"
+         src="assets/img/wedding-small.jpg"
+         srcset="assets/img/wedding-small.jpg 640w, assets/img/wedding-medium.jpg 1024w, assets/img/wedding-large.jpg">
+        
+        <h2>PictureFill Test</h2>
+        <span data-picture data-alt="My Wedding Day">
+            <span data-src="assets/img/wedding-small.jpg"></span>
+            <span data-src="assets/img/wedding-medium.jpg" data-media="(min-width: 640px)"></span>
+            <span data-src="assets/img/wedding-large.jpg" data-media="(min-width: 1024px)"></span>
+
+            <!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
+            <noscript><img src="assets/img/wedding-small.jpg" alt="My Wedding Day"></noscript>
+        </span>
+
+        <script src="assets/js/matchmedia.js"></script>
+        <script src="assets/js/picturefill.js"></script>
+
+
+    </body>
+</html>
