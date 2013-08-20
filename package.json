@@ -2,7 +2,7 @@
   "name": "grunt-responsive-images",
   "description": "Produces images at different sizes",
   "version": "0.0.2",
-  "homepage": "https://github.com/andi.smith/grunt-responsive-images",
+  "homepage": "https://github.com/andismith/grunt-responsive-images",
   "author": {
     "name": "andismith",
     "email": "andi.smith.uk@gmail.com",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andi.smith/grunt-responsive-images.git"
+    "url": "git://github.com/andismith/grunt-responsive-images.git"
   },
   "bugs": {
-    "url": "https://github.com/andi.smith/grunt-responsive-images/issues"
+    "url": "https://github.com/andismith/grunt-responsive-images/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/andi.smith/grunt-responsive-images/blob/master/LICENSE-MIT"
+      "url": "https://github.com/andismith/grunt-responsive-images/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
