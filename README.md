@@ -29,7 +29,9 @@ grunt.loadNpmTasks('grunt-responsive-images');
 
 The responsive_images task will take your source image and create images at different resolutions for use with [PictureFill](https://github.com/scottjehl/picturefill) or with [srcset](https://github.com/borismus/srcset-polyfill).
 
-[A demo of both srcset and PictureFill using Grunt Responsive Images is available here](http://andismith.github.io/grunt-responsive-images/)
+A demo of both srcset and PictureFill using Grunt Responsive Images [is available here](http://andismith.github.io/grunt-responsive-images/).
+
+Some slides about the plugin are [available here](http://slid.es/andismith/grunt-responsive-images).
 
 In your project's Gruntfile, add a section named `responsive_images` to the data object passed into `grunt.initConfig()`.
 
