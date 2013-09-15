@@ -87,7 +87,7 @@ module.exports = function(grunt) {
       };
 
       // variable
-      var sizeOptions = _.clone(_.extend(s, DEFAULT_SIZE_OPTIONS));
+      var sizeOptions = _.clone(_.extend(DEFAULT_SIZE_OPTIONS, s));
       var sizingMethod = 'resize';
 
       if (!isValidSize(s)) {
@@ -126,7 +126,7 @@ module.exports = function(grunt) {
         imageOptions = {
           srcPath:  srcPath,
           dstPath:  dstPath,
-          format:   extName
+          format:   extName.replace('.', '')
         };
 
         // combine image options with size options.
