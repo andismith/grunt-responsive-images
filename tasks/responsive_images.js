@@ -102,16 +102,32 @@ module.exports = function(grunt) {
       // create a name suffix for our image
       sizeOptions.name = getName(s.name, s.width, s.height, options.separator, s.suffix);
 
+
       // Iterate over all specified file groups.
       that.files.forEach(function(f) {
 
-        var dirName = path.dirname(f.dest);
-        var extName = path.extname(f.dest);
-        var srcPath = f.src[0];
-        var baseName = path.basename(srcPath, extName); // filename without extension
-        var dstPath = path.join(dirName, baseName + sizeOptions.name + extName);
-        var imageOptions = {};
+        var extName = path.extname(f.dest),
+            srcPath = f.src[0],
+            baseName = path.basename(srcPath, extName), // filename without extension
+            dirName,
+            dstPath;
 
+        if (f.custom_dest) {
+          grunt.template.addDelimiters('size', '{%', '%}');
+          dirName = grunt.template.process(f.custom_dest, {
+            delimiters: 'size',
+            data: sizeOptions
+          });
+          dstPath = path.join(dirName, baseName + extName);
+        }
+
+        else {
+          dirName = path.dirname(f.dest);
+          dstPath = path.join(dirName, baseName + sizeOptions.name + extName);
+        }
+        
+        var imageOptions = {};
+        
         // more than 1 source.
         if (f.src.length > 1) {
           return grunt.fail.warn('Unable to resize more than one image in compact or files object format.\n'+
