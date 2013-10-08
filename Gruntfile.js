@@ -69,6 +69,23 @@ module.exports = function(grunt) {
           cwd: 'test/assets/',
           dest: 'tmp/'
         }]
+      },
+      custom_dest: {
+        options: {
+          sizes: [{
+            width: 320,
+          },{
+            width: 640,
+          },{
+            width: 1024,
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['**.{jpg,gif,png}'],
+          cwd: 'test/assets/custom_dest/',
+          custom_dest: 'tmp/custom_dest/{%= width %}/'
+        }]
       }
     },
 
