@@ -56,7 +56,7 @@ Type: `Array`
 Default value:
 
 ```js
-{
+[{
   name: "small",
   width: 320,
   height: 240,
@@ -71,7 +71,7 @@ Default value:
   width: 1024,
   height: 768,
   quality: 1
-}
+}]
 ```
 
 An array of objects containing the sizes we want to resize our image to.
@@ -100,9 +100,11 @@ Using the default options will produce 3 responsive images - one at 320px wide, 
 ```js
 grunt.initConfig({
   responsive_images: {
-    options: {},
-    files: {
-      'dest/mario-yoshi.jpg': 'test/assets/mario-yoshi.jpg'
+    task: {
+      options: {},
+      files: {
+        'dest/mario-yoshi.jpg': 'test/assets/mario-yoshi.jpg'
+      }
     }
   }
 })
@@ -114,26 +116,28 @@ In this example, we specify our own image sizes, including a retina graphic. We 
 ```js
 grunt.initConfig({
   responsive_images: {
-    options: {
-      sizes: [{
-        width: 320,
-        height: 240
-      },{
-        name: 'large',
-        width: 640
-      },{
-        name: "large",
-        width: 1024,
-        suffix: "_x2",
-        quality: 0.6
+    task: {
+      options: {
+        sizes: [{
+          width: 320,
+          height: 240
+        },{
+          name: 'large',
+          width: 640
+        },{
+          name: "large",
+          width: 1024,
+          suffix: "_x2",
+          quality: 0.6
+        }]
+      },
+      files: [{
+        expand: true,
+        src: ['assets/**.{jpg,gif,png}'],
+        cwd: 'test/',
+        dest: 'tmp/'
       }]
-    },
-    files: [{
-      expand: true,
-      src: ['assets/**.{jpg,gif,png}'],
-      cwd: 'test/',
-      dest: 'tmp/'
-    }]
+    }
   },
 })
 ```
