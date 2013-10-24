@@ -100,7 +100,7 @@ Using the default options will produce 3 responsive images - one at 320px wide, 
 ```js
 grunt.initConfig({
   responsive_images: {
-    task: {
+    myTask: {
       options: {},
       files: {
         'dest/mario-yoshi.jpg': 'test/assets/mario-yoshi.jpg'
@@ -116,7 +116,7 @@ In this example, we specify our own image sizes, including a retina graphic. We 
 ```js
 grunt.initConfig({
   responsive_images: {
-    task: {
+    myTask: {
       options: {
         sizes: [{
           width: 320,
@@ -142,7 +142,34 @@ grunt.initConfig({
 })
 ```
 
-### FAQ
+#### Custom Destination
+If you would like to output each image size to a different directory, you can do so with custom_dest. For example:
+
+```js
+grunt.initConfig({
+  responsive_images: {
+    myTask: {
+      options: {
+        sizes: [{
+          width: 320,
+        },{
+          width: 640,
+        },{
+          width: 1024,
+        }]
+      },
+      files: [{
+        expand: true,
+        src: ['**.{jpg,gif,png}'],
+        cwd: 'test/assets/custom_dest/',
+        custom_dest: 'tmp/custom_dest/{%= width %}/'
+      }]
+    }
+  },
+})
+```
+
+## FAQ
 
 * *Receiving a `fatal error: spawn ENOENT`* - Ensure Imagemagick CLI tools are installed. Try uninstalling and reinstalling them if you are having issues.
 
@@ -150,5 +177,24 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-0.0.2 - Added srcset and PictureFill demo
-0.0.1 - Initial Commit
+*0.0.4*
+
+* Fixed issue with quality setting not producing correct quality output. (thanks to [pdud](https://github.com/pdud)).
+* Reduced the amount of logging when running the task (thanks to [tnguyen](https://github.com/tnguyen14)).
+* Allowed images of different sizes to be uploaded to different directories with custom_dest (thanks to [maslen](https://github.com/maslen) and [oncletom](https://github.com/oncletom)).
+
+*0.0.3*
+
+* Bug fixes for Srcset and PictureFill demos
+
+*0.0.2*
+
+* Added srcset and PictureFill demo
+
+*0.0.1*
+
+* Initial Commit
+
+## Roadmap
+
+* The ability to resize images by a percentage of their original size.
