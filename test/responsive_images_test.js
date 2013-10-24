@@ -163,5 +163,38 @@ exports.responsive_images = {
     }
 
     test.done();
+  },
+  custom_dest: function(test) {
+
+    var actual = {},
+    expected = {};
+
+    var files = [{
+          filename: 'battle-cat.jpg',
+          expected: 'test/expected/custom_dest/320/',
+          actual:   'tmp/custom_dest/320/'
+        },
+        {
+          filename: 'battle-cat.jpg',
+          expected: 'test/expected/custom_dest/640/',
+          actual:   'tmp/custom_dest/640/'
+        },{
+          filename: 'battle-cat.jpg',
+          expected: 'test/expected/custom_dest/1024/',
+          actual:   'tmp/custom_dest/1024/'
+        }];
+
+    test.expect(files.length);
+
+    for (var i = 0, l = files.length; i < l; i++) {
+
+      actual = grunt.file.read(files[i].actual + files[i].filename);
+      expected = grunt.file.read(files[i].expected + files[i].filename);
+      test.equal(actual, expected, 'should be the same image.');
+
+    }
+
+    test.done();
+
   }
 };
