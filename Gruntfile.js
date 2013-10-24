@@ -51,16 +51,20 @@ module.exports = function(grunt) {
         options: {
           sizes: [{
             width: 110,
-            name: "small"
+            name: "small",
+            quality: 0.4
           },{
-            width: 220
+            width: 220,
+            quality: 1
           },{
             width: 330,
-            name: "large"
+            name: "large",
+            quality: 0.8
           },{
             width: 660,
             name: "large",
-            suffix: "_x2" // retina gfx
+            suffix: "_x2",  // retina gfx
+            quality: 0.5
           }]
         },
         files: [{
