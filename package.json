@@ -1,43 +1,13 @@
 {
-  "name": "grunt-responsive-images",
-  "description": "Produces images at different sizes",
-  "version": "0.0.4",
-  "homepage": "https://github.com/andismith/grunt-responsive-images",
-  "author": {
-    "name": "andismith",
-    "email": "andi.smith.uk@gmail.com",
-    "url": "http://www.andismith.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/andismith/grunt-responsive-images.git"
-  },
-  "bugs": {
-    "url": "https://github.com/andismith/grunt-responsive-images/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/andismith/grunt-responsive-images/blob/master/LICENSE-MIT"
-    }
-  ],
-  "main": "Gruntfile.js",
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  },
+  "name": "Responsive-Image-Demo",
+  "version": "0.0.1",
   "dependencies": {
-    "lodash": "~1.0.0",
-    "node-imagemagick": "~0.1.8",
-    "async": "~0.2.8",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.1",
+    "grunt-responsive-images": "~0.0.1",
+    "grunt-contrib-copy": "~0.4.1"
   },
-  "keywords": [
-    "gruntplugin"
-  ]
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-gh-pages": "~0.8.1"
+  }
 }
