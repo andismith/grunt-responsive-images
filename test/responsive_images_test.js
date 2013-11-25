@@ -196,5 +196,34 @@ exports.responsive_images = {
 
     test.done();
 
+  },
+  maintain_sub_directory_structure: function (test) {
+
+    var actual = {},
+    expected = {};
+
+    var files = [{
+          filename: 'battle-cat.jpg',
+          expected: 'test/expected/maintain_sub_directory_structure/320/',
+          actual:   'tmp/maintain_sub_directory_structure/320/'
+        },
+        {
+          filename: 'battle-dog.jpg',
+          expected: 'test/expected/maintain_sub_directory_structure/640/sub_directory/',
+          actual:   'tmp/maintain_sub_directory_structure/640/sub_directory/'
+        }];
+
+    test.expect(files.length);
+
+    for (var i = 0, l = files.length; i < l; i++) {
+
+      actual = grunt.file.read(files[i].actual + files[i].filename);
+      expected = grunt.file.read(files[i].expected + files[i].filename);
+      test.equal(actual, expected, 'should be the same image.');
+
+    }
+
+    test.done();
+
   }
 };

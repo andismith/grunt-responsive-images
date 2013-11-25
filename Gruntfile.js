@@ -86,6 +86,24 @@ module.exports = function(grunt) {
           cwd: 'test/assets/custom_dest/',
           custom_dest: 'tmp/custom_dest/{%= width %}/'
         }]
+      },
+      maintain_sub_directory_structure: {
+        options: {
+          sizes: [{
+              width: 320,
+            },{
+              width: 640,
+            },{
+              width: 1024,
+            }],
+          maintain_directory_structure: true
+        },
+        files: [{
+          expand: true,
+          src: ['**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/maintain_sub_directory_structure/',
+          custom_dest: 'tmp/maintain_sub_directory_structure/{%= width %}/'
+        }]
       }
     },
 

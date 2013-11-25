@@ -29,7 +29,8 @@ module.exports = function(grunt) {
         name: 'large',
         width: 1024,
         height: 768
-      }]
+      }],
+    maintain_directory_structure: false
   };
 
   // check if there are any items in our array
@@ -102,7 +103,6 @@ module.exports = function(grunt) {
       // create a name suffix for our image
       sizeOptions.name = getName(s.name, s.width, s.height, options.separator, s.suffix);
 
-
       // Iterate over all specified file groups.
       that.files.forEach(function(f) {
 
@@ -110,7 +110,12 @@ module.exports = function(grunt) {
             srcPath = f.src[0],
             baseName = path.basename(srcPath, extName), // filename without extension
             dirName,
-            dstPath;
+            dstPath,
+            subDir = "";
+
+        if (options.maintain_directory_structure) {
+          subDir = f.src[0].replace(new RegExp(f.orig.cwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
+        }
 
         if (f.custom_dest) {
           grunt.template.addDelimiters('size', '{%', '%}');
@@ -118,14 +123,14 @@ module.exports = function(grunt) {
             delimiters: 'size',
             data: sizeOptions
           });
-          dstPath = path.join(dirName, baseName + extName);
+          dstPath = path.join(dirName, subDir, baseName + extName);
         }
 
         else {
           dirName = path.dirname(f.dest);
-          dstPath = path.join(dirName, baseName + sizeOptions.name + extName);
+          dstPath = path.join(dirName, subDir, baseName + sizeOptions.name + extName);
         }
-        
+
         var imageOptions = {};
         
         // more than 1 source.
@@ -135,8 +140,8 @@ module.exports = function(grunt) {
         }
 
         // Make directory if it doesn't exist.
-        if (!grunt.file.isDir(dirName)) {
-          grunt.file.mkdir(dirName);
+        if (!grunt.file.isDir(path.join(dirName, subDir))) {
+          grunt.file.mkdir(path.join(dirName, subDir));
         }
 
         imageOptions = {
