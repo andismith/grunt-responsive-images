@@ -100,8 +100,13 @@ module.exports = function(grunt) {
         sizingMethod = 'crop';
       }
 
-      // create a name suffix for our image
-      sizeOptions.name = getName(s.name, s.width, s.height, options.separator, s.suffix);
+      // create a name suffix for our image, called outputName so we can still use name
+      sizeOptions.outputName = getName(s.name, s.width, s.height, options.separator, s.suffix);
+
+      // set name to outputName if one does not exist
+      if (typeof sizeOptions.name === 'undefined') {
+        sizeOptions.name = sizeOptions.outputName;
+      }
 
       tally[sizeOptions.name] = 0;
 
@@ -125,7 +130,7 @@ module.exports = function(grunt) {
 
         else {
           dirName = path.dirname(f.dest);
-          dstPath = path.join(dirName, baseName + sizeOptions.name + extName);
+          dstPath = path.join(dirName, baseName + sizeOptions.outputName + extName);
         }
         
         var imageOptions = {};

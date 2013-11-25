@@ -74,14 +74,14 @@ module.exports = function(grunt) {
           dest: 'tmp/'
         }]
       },
-      custom_dest: {
+      custom_dest_width: {
         options: {
           sizes: [{
-            width: 320,
+            width: 320
           },{
-            width: 640,
+            width: 640
           },{
-            width: 1024,
+            width: 1024
           }]
         },
         files: [{
@@ -89,6 +89,26 @@ module.exports = function(grunt) {
           src: ['**.{jpg,gif,png}'],
           cwd: 'test/assets/custom_dest/',
           custom_dest: 'tmp/custom_dest/{%= width %}/'
+        }]
+      },
+      custom_dest_name: {
+        options: {
+          sizes: [{
+            width: 100,
+            name: "leo"
+          },{
+            width: 200,
+            name: "donnie"
+          },{
+            width: 400,
+            name: "raph"
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['**.{jpg,gif,png}'],
+          cwd: 'test/assets/custom_dest_name/',
+          custom_dest: 'tmp/custom_dest_name/{%= name %}/'
         }]
       }
     },

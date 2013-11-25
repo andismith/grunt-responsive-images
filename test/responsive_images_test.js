@@ -196,5 +196,38 @@ exports.responsive_images = {
 
     test.done();
 
+  },
+  custom_dest_name: function(test) {
+
+    var actual = {},
+    expected = {};
+
+    var files = [{
+          filename: 'tmnt.png',
+          expected: 'test/expected/custom_dest_name/leo/',
+          actual:   'tmp/custom_dest_name/leo/'
+        },
+        {
+          filename: 'tmnt.png',
+          expected: 'test/expected/custom_dest_name/donnie/',
+          actual:   'tmp/custom_dest_name/donnie/'
+        },{
+          filename: 'tmnt.png',
+          expected: 'test/expected/custom_dest_name/raph/',
+          actual:   'tmp/custom_dest_name/raph/'
+        }];
+
+    test.expect(files.length);
+
+    for (var i = 0, l = files.length; i < l; i++) {
+
+      actual = grunt.file.read(files[i].actual + files[i].filename);
+      expected = grunt.file.read(files[i].expected + files[i].filename);
+      test.equal(actual, expected, 'should be the same image.');
+
+    }
+
+    test.done();
+
   }
 };

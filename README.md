@@ -169,6 +169,8 @@ grunt.initConfig({
 })
 ```
 
+You can use `{%= width %}` or `{%= name %}` as a delimiter.
+
 ## FAQ
 
 * *Receiving a `fatal error: spawn ENOENT`* - Ensure Imagemagick CLI tools are installed. Try uninstalling and reinstalling them if you are having issues.
@@ -177,6 +179,10 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+*0.0.5*
+* Fixed issue with custom_dest names including a prefixed separator.
+* Fixed issue with tallies including a prefixed separator.
+
 *0.0.4*
 
 * Fixed issue with quality setting not producing correct quality output. (thanks to [pdud](https://github.com/pdud)).
