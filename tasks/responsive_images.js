@@ -68,20 +68,21 @@ module.exports = function(grunt) {
   }
 
   grunt.registerMultiTask('responsive_images', 'Images at various responsive sizes', function() {
-    
+
     // Merge task-specific and/or target-specific options with these defaults.
-    
+
     var done = this.async();
     var series = [];
     var options = this.options(DEFAULT_OPTIONS);
     var that = this;
+    var tally = {};
 
     if (!isValidArray(options.sizes)) {
       return grunt.fail.warn('No sizes have been defined.');
     }
 
     options.sizes.forEach(function(s) {
-      
+
       // consts
       var DEFAULT_SIZE_OPTIONS = {
         quality: 1
@@ -100,8 +101,15 @@ module.exports = function(grunt) {
         sizingMethod = 'crop';
       }
 
-      // create a name suffix for our image
-      sizeOptions.name = getName(s.name, s.width, s.height, options.separator, s.suffix);
+      // create a name suffix for our image, called outputName so we can still use name
+      sizeOptions.outputName = getName(s.name, s.width, s.height, options.separator, s.suffix);
+
+      // set name to outputName if one does not exist
+      if (typeof sizeOptions.name === 'undefined') {
+        sizeOptions.name = sizeOptions.outputName;
+      }
+
+      tally[sizeOptions.name] = 0;
 
       // Iterate over all specified file groups.
       that.files.forEach(function(f) {
@@ -128,7 +136,7 @@ module.exports = function(grunt) {
 
         else {
           dirName = path.dirname(f.dest);
-          dstPath = path.join(dirName, subDir, baseName + sizeOptions.name + extName);
+          dstPath = path.join(dirName, subDir, baseName + sizeOptions.outputName + extName);
         }
 
         var imageOptions = {};
@@ -158,15 +166,21 @@ module.exports = function(grunt) {
             if (error) {
               grunt.fail.warn(error.message);
             } else {
-              grunt.log.ok('Responsive Image: ' + srcPath + ' now '+ dstPath);
+              grunt.verbose.ok('Responsive Image: ' + srcPath + ' now '+ dstPath);
+              tally[sizeOptions.name]++;
             }
             return callback();
           });
-
         });
+      });
+      series.push(function(callback) {
+        if (tally[sizeOptions.name]) {
+          grunt.log.writeln('Created ' + tally[sizeOptions.name].toString().cyan + ' files for size ' + sizeOptions.name);
+        }
+        return callback();
       });
     });
 
     async.series(series, done);
-  });  
+  });
 };

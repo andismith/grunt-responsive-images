@@ -51,16 +51,20 @@ module.exports = function(grunt) {
         options: {
           sizes: [{
             width: 110,
-            name: "small"
+            name: "small",
+            quality: 0.4
           },{
-            width: 220
+            width: 220,
+            quality: 1
           },{
             width: 330,
-            name: "large"
+            name: "large",
+            quality: 0.8
           },{
             width: 660,
             name: "large",
-            suffix: "_x2" // retina gfx
+            suffix: "_x2",  // retina gfx
+            quality: 0.5
           }]
         },
         files: [{
@@ -70,14 +74,14 @@ module.exports = function(grunt) {
           dest: 'tmp/'
         }]
       },
-      custom_dest: {
+      custom_dest_width: {
         options: {
           sizes: [{
-            width: 320,
+            width: 320
           },{
-            width: 640,
+            width: 640
           },{
-            width: 1024,
+            width: 1024
           }]
         },
         files: [{
@@ -85,6 +89,26 @@ module.exports = function(grunt) {
           src: ['**.{jpg,gif,png}'],
           cwd: 'test/assets/custom_dest/',
           custom_dest: 'tmp/custom_dest/{%= width %}/'
+        }]
+      },
+      custom_dest_name: {
+        options: {
+          sizes: [{
+            width: 100,
+            name: "leo"
+          },{
+            width: 200,
+            name: "donnie"
+          },{
+            width: 400,
+            name: "raph"
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['**.{jpg,gif,png}'],
+          cwd: 'test/assets/custom_dest_name/',
+          custom_dest: 'tmp/custom_dest_name/{%= name %}/'
         }]
       },
       maintain_sub_directory_structure: {
