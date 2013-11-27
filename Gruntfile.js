@@ -1,6 +1,6 @@
 /*
  * grunt-responsive-images
- * https://github.com/andrew.smith/grunt-responsive-images
+ * https://github.com/andismith/grunt-responsive-images
  *
  * Copyright (c) 2013 andismith
  * Licensed under the MIT license.
