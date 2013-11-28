@@ -185,7 +185,7 @@ The following sites and libraries are using Grunt Responsive Images (because the
 
 And the inspiration for (grunt-responsive-videos)[https://github.com/sjwilliams/grunt-responsive-videos].
 
-Please let us know if your live site or library uses Grunt Responsive Images. We'll add the best ones.
+Please let us know if your live site or library uses Grunt Responsive Images. We'll add our favorites.
 
 ## FAQ
 
@@ -199,7 +199,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *0.0.6*
 
 * Added path value to custom_dest to allow for persistent directory structures (thanks to [maslen](https://github.com/maslen)
-* Started list of sites using Grunt Responsive Images plugin (contact @andismith to add yours)
+* Started list of sites using Grunt Responsive Images plugin (contact [@andismith](http://www.twitter.com/andismith) to add yours)
 
 *0.0.5*
 
