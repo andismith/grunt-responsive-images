@@ -169,7 +169,13 @@ grunt.initConfig({
 })
 ```
 
-You can use `{%= width %}` or `{%= name %}` as a delimiter.
+You can use `{%= width %}`, `{%= height %}`, `{%= name %}` or `{%= path %}` as a delimiter.
+
+Please note that `{%= width %}`, `{%= height %}` and `{%= name %}` are only available if they are set in the object literal that you use to set each generated size option.
+
+The `{%= path %}` value contains additional directory structure from the current working directory (cwd in files array) to each image.  Using `{%= path %}` allows any complex directory structure to persist into the rendered responsive images directory.
+
+NOTE: for grunt-responsive-images to pick up images within subdirectories you must set your files.src property to `**/*.{jpg,gif,png}`.
 
 ## FAQ
 

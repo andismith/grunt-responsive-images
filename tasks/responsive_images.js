@@ -117,22 +117,24 @@ module.exports = function(grunt) {
             srcPath = f.src[0],
             baseName = path.basename(srcPath, extName), // filename without extension
             dirName,
-            dstPath;
+            dstPath,
+            subDir = "";
 
         if (f.custom_dest) {
+          sizeOptions.path = f.src[0].replace(new RegExp(f.orig.cwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
           grunt.template.addDelimiters('size', '{%', '%}');
           dirName = grunt.template.process(f.custom_dest, {
             delimiters: 'size',
             data: sizeOptions
           });
-          dstPath = path.join(dirName, baseName + extName);
+          dstPath = path.join(dirName, subDir, baseName + extName);
         }
 
         else {
           dirName = path.dirname(f.dest);
-          dstPath = path.join(dirName, baseName + sizeOptions.outputName + extName);
+          dstPath = path.join(dirName, subDir, baseName + sizeOptions.outputName + extName);
         }
-        
+
         var imageOptions = {};
         
         // more than 1 source.
@@ -142,8 +144,8 @@ module.exports = function(grunt) {
         }
 
         // Make directory if it doesn't exist.
-        if (!grunt.file.isDir(dirName)) {
-          grunt.file.mkdir(dirName);
+        if (!grunt.file.isDir(path.join(dirName, subDir))) {
+          grunt.file.mkdir(path.join(dirName, subDir));
         }
 
         imageOptions = {
