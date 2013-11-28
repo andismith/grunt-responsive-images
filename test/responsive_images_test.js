@@ -164,25 +164,25 @@ exports.responsive_images = {
 
     test.done();
   },
-  custom_dest: function(test) {
+  custom_dest_width: function(test) {
 
     var actual = {},
     expected = {};
 
     var files = [{
-          filename: 'battle-cat.jpg',
-          expected: 'test/expected/custom_dest/320/',
-          actual:   'tmp/custom_dest/320/'
+          filename: 'cedric_sneer.jpg',
+          expected: 'test/expected/custom_dest_width/320/',
+          actual:   'tmp/custom_dest_width/320/'
         },
         {
-          filename: 'battle-cat.jpg',
-          expected: 'test/expected/custom_dest/640/',
-          actual:   'tmp/custom_dest/640/'
+          filename: 'cedric_sneer.jpg',
+          expected: 'test/expected/custom_dest_width/640/',
+          actual:   'tmp/custom_dest_width/640/'
         },
         {
-          filename: 'battle-cat.jpg',
-          expected: 'test/expected/custom_dest/1024/',
-          actual:   'tmp/custom_dest/1024/'
+          filename: 'cedric_sneer.jpg',
+          expected: 'test/expected/custom_dest_width/1024/',
+          actual:   'tmp/custom_dest_width/1024/'
         }];
 
     test.expect(files.length);
@@ -231,7 +231,7 @@ exports.responsive_images = {
     test.done();
 
   },
-  maintain_sub_directory_structure: function (test) {
+  custom_dest_path: function (test) {
 
     var actual = {},
     expected = {};
@@ -239,13 +239,13 @@ exports.responsive_images = {
     var files = [{
 
           filename: 'battle-cat.jpg',
-          expected: 'test/expected/maintain_sub_directory_structure/320/',
-          actual:   'tmp/maintain_sub_directory_structure/320/'
+          expected: 'test/expected/custom_dest_path/320/',
+          actual:   'tmp/custom_dest_path/320/'
         },
         {
           filename: 'battle-dog.jpg',
-          expected: 'test/expected/maintain_sub_directory_structure/640/sub_directory/',
-          actual:   'tmp/maintain_sub_directory_structure/640/sub_directory/'
+          expected: 'test/expected/custom_dest_path/640/sub_directory/',
+          actual:   'tmp/custom_dest_path/640/sub_directory/'
         }];
 
     test.expect(files.length);

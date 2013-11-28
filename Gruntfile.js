@@ -86,9 +86,9 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['**.{jpg,gif,png}'],
-          cwd: 'test/assets/custom_dest/',
-          custom_dest: 'tmp/custom_dest/{%= width %}/'
+          src: ['**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/custom_dest_width/',
+          custom_dest: 'tmp/custom_dest_width/{%= width %}/'
         }]
       },
       custom_dest_name: {
@@ -106,12 +106,12 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['**.{jpg,gif,png}'],
+          src: ['**/*.{jpg,gif,png}'],
           cwd: 'test/assets/custom_dest_name/',
           custom_dest: 'tmp/custom_dest_name/{%= name %}/'
         }]
       },
-      maintain_sub_directory_structure: {
+      custom_dest_path: {
         options: {
           sizes: [{
               width: 320,
@@ -124,15 +124,15 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['**/*.{jpg,gif,png}'],
-          cwd: 'test/assets/maintain_sub_directory_structure/',
-          custom_dest: 'tmp/maintain_sub_directory_structure/{%= width %}/{%= path %}'
+          cwd: 'test/assets/custom_dest_path/',
+          custom_dest: 'tmp/custom_dest_path/{%= width %}/{%= path %}'
         }]
       }
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js']
+      tests: ['test/**/*_test.js']
     }
 
   });

@@ -1,4 +1,5 @@
 .DS_Store
+.so_long_and_thanks_for_all_the_fish
 node_modules
 npm-debug.log
 tmp
