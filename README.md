@@ -177,6 +177,16 @@ The `{%= path %}` value contains additional directory structure from the current
 
 NOTE: for grunt-responsive-images to pick up images within subdirectories you must set your files.src property to `**/*.{jpg,gif,png}`.
 
+## As Seen On...
+
+The following sites and libraries are using Grunt Responsive Images (because they ROCK!):
+
+* [BBC-News/Imager.js](https://github.com/BBC-News/Imager.js/)
+
+And the inspiration for (grunt-responsive-videos)[https://github.com/sjwilliams/grunt-responsive-videos].
+
+Please let us know if your live site or library uses Grunt Responsive Images. We'll add the best ones.
+
 ## FAQ
 
 * *Receiving a `fatal error: spawn ENOENT`* - Ensure Imagemagick CLI tools are installed. Try uninstalling and reinstalling them if you are having issues.
@@ -185,7 +195,14 @@ NOTE: for grunt-responsive-images to pick up images within subdirectories you mu
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+*0.0.6*
+
+* Added path value to custom_dest to allow for persistent directory structures (thanks to [maslen](https://github.com/maslen)
+* Started list of sites using Grunt Responsive Images plugin (contact @andismith to add yours)
+
 *0.0.5*
+
 * Fixed issue with custom_dest names including a prefixed separator.
 * Fixed issue with tallies including a prefixed separator.
 
