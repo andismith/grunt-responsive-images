@@ -92,56 +92,6 @@ Default value: `-`
 
 The character used to separate the image filename from the size name.
 
-#### options.maintain_sub_directory_structure
-Type: `Boolean`
-
-Default value: false
-
-Set to true if you have a complex directory structure source that you want to persist into the rendered responsive output.  For example:
-
-```
-images/heroes/battlecat.jpg
-images/heroes/he-man.jpg
-images/villians/skeletor.jpg
-images/villians/trapjaw.jpg
-```
-
-by default will be rendered as:
-
-```
-output/battlecat-320.jpg
-output/battlecat-640.jpg
-output/battlecat-1024.jpg
-output/he-man-320.jpg
-output/he-man-640.jpg
-output/he-man-1024.jpg
-output/skeletor-320.jpg
-output/skeletor-640.jpg
-output/skeletor-1024.jpg
-output/trapjaw-320.jpg
-output/trapjaw-640.jpg
-output/trapjaw-1024.jpg
-```
-
-But by setting `maintain_sub_directory_structure` to true, the rendered responsive output will be:
-
-```
-output/heroes/battlecat-320.jpg
-output/heroes/battlecat-640.jpg
-output/heroes/battlecat-1024.jpg
-output/heroes/he-man-320.jpg
-output/heroes/he-man-640.jpg
-output/heroes/he-man-1024.jpg
-output/villians/skeletor-320.jpg
-output/villians/skeletor-640.jpg
-output/villians/skeletor-1024.jpg
-output/villians/trapjaw-320.jpg
-output/villians/trapjaw-640.jpg
-output/villians/trapjaw-1024.jpg
-```
-
-NOTE: for grunt-responsive-images to pick up content within subdirectories you must set your files.src property to `**/*.{jpg,gif,png}`.
-
 ### Usage Examples
 
 #### Default Options
@@ -219,7 +169,13 @@ grunt.initConfig({
 })
 ```
 
-You can use `{%= width %}` or `{%= name %}` as a delimiter.
+You can use `{%= width %}`, `{%= height %}`, `{%= name %}` or `{%= path %}` as a delimiter.
+
+Please note that `{%= width %}`, `{%= height %}` and `{%= name %}` are only available if they are set in the object literal that you use to set each generated size option.
+
+The `{%= path %}` value contains additional directory structure from the current working directory (cwd in files array) to each image.  Using `{%= path %}` allows any complex directory structure to persist into the rendered responsive images directory.
+
+NOTE: for grunt-responsive-images to pick up images within subdirectories you must set your files.src property to `**/*.{jpg,gif,png}`.
 
 ## FAQ
 

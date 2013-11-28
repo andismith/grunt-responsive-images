@@ -119,14 +119,13 @@ module.exports = function(grunt) {
               width: 640,
             },{
               width: 1024,
-            }],
-          maintain_directory_structure: true
+            }]
         },
         files: [{
           expand: true,
           src: ['**/*.{jpg,gif,png}'],
           cwd: 'test/assets/maintain_sub_directory_structure/',
-          custom_dest: 'tmp/maintain_sub_directory_structure/{%= width %}/'
+          custom_dest: 'tmp/maintain_sub_directory_structure/{%= width %}/{%= path %}'
         }]
       }
     },

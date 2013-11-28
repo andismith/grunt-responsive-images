@@ -29,8 +29,7 @@ module.exports = function(grunt) {
         name: 'large',
         width: 1024,
         height: 768
-      }],
-    maintain_directory_structure: false
+      }]
   };
 
   // check if there are any items in our array
@@ -121,11 +120,8 @@ module.exports = function(grunt) {
             dstPath,
             subDir = "";
 
-        if (options.maintain_directory_structure) {
-          subDir = f.src[0].replace(new RegExp(f.orig.cwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
-        }
-
         if (f.custom_dest) {
+          sizeOptions.path = f.src[0].replace(new RegExp(f.orig.cwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
           grunt.template.addDelimiters('size', '{%', '%}');
           dirName = grunt.template.process(f.custom_dest, {
             delimiters: 'size',
