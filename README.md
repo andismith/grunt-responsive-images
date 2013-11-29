@@ -184,7 +184,7 @@ The following sites and libraries are using Grunt Responsive Images (because the
 * [BBC-News/Imager.js](https://github.com/BBC-News/Imager.js/)
 * [yeoman/generator-mobile](https://github.com/yeoman/generator-mobile)
 
-And the inspiration for (grunt-responsive-videos)[https://github.com/sjwilliams/grunt-responsive-videos].
+And the inspiration for [grunt-responsive-videos](https://github.com/sjwilliams/grunt-responsive-videos).
 
 Please let us know if your live site or library uses Grunt Responsive Images. We'll add our favorites.
 
