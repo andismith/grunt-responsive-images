@@ -182,6 +182,7 @@ NOTE: for grunt-responsive-images to pick up images within subdirectories you mu
 The following sites and libraries are using Grunt Responsive Images (because they ROCK!):
 
 * [BBC-News/Imager.js](https://github.com/BBC-News/Imager.js/)
+* [yeoman/generator-mobile](https://github.com/yeoman/generator-mobile)
 
 And the inspiration for (grunt-responsive-videos)[https://github.com/sjwilliams/grunt-responsive-videos].
 
