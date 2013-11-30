@@ -39,7 +39,10 @@ module.exports = function(grunt) {
 
   // check whether we've been given any valid size values
   function isValidSize(obj) {
-    return (_.isNumber(obj.width) || _.isNumber(obj.height));
+    return _.isNumber(obj.width) ||
+      _.isNumber(obj.height) ||
+      _.isString(obj.width) ||
+      _.isString(obj.height);
   }
 
   // create a name to suffix to our file.
