@@ -199,7 +199,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 *0.0.6*
 
-* Added path value to custom_dest to allow for persistent directory structures (thanks to [maslen](https://github.com/maslen)
+* Added path value to custom_dest to allow for persistent directory structures (thanks to [maslen](https://github.com/maslen))
 * Started list of sites using Grunt Responsive Images plugin (contact [@andismith](http://www.twitter.com/andismith) to add yours)
 
 *0.0.5*
