@@ -66,16 +66,15 @@
             if ((actualProp.compression === expectedProp.compression) &&
               (actualProp.width === expectedProp.width) &&
               (actualProp.height === expectedProp.height) &&
-              (actualProp.quality === expectedProp.quality) &&
-              (actualProp.filesize === expectedProp.filesize)) {
+              (actualProp.quality === expectedProp.quality)) {
               deferred.resolve(true);
             } else {
               deferred.reject(filename + ': ' +
-                'actual image (' + actualProp.compression + ' ' + actualProp.width + 'x' + actualProp.height +
-                ' - Q:' + actualProp.quality + ' - ' + actualProp.filesize +
+                'actual image (' + actualProp.compression + ' ' + actualProp.width +
+                'x' + actualProp.height + ' - Q:' + actualProp.quality
                 ') and ' +
-                'expected image (' + expectedProp.compression + ' ' + expectedProp.width + 'x' + expectedProp.height +
-                ' - Q:' + expectedProp.quality + ' - ' + expectedProp.filesize +
+                'expected image (' + expectedProp.compression + ' ' + expectedProp.width +
+                'x' + expectedProp.height + ' - Q:' + expectedProp.quality
                 ') should match');
             }
           }   
