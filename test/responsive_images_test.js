@@ -71,10 +71,10 @@
             } else {
               deferred.reject(filename + ': ' +
                 'actual image (' + actualProp.compression + ' ' + actualProp.width +
-                'x' + actualProp.height + ' - Q:' + actualProp.quality
+                'x' + actualProp.height + ' - Q:' + actualProp.quality +
                 ') and ' +
                 'expected image (' + expectedProp.compression + ' ' + expectedProp.width +
-                'x' + expectedProp.height + ' - Q:' + expectedProp.quality
+                'x' + expectedProp.height + ' - Q:' + expectedProp.quality +
                 ') should match');
             }
           }   
