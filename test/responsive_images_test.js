@@ -1,8 +1,16 @@
-'use strict';
+/**
+ * grunt-responsive-images
+ * https://github.com/andismith/grunt-responsive-images
+ *
+ * Copyright (c) 2013 andismith
+ * Licensed under the MIT license.
+ *
+ * Test suite for Grunt Responsive Images
+ *
+ * @author Andi Smith (http://twitter.com/andismith)
+ * @version 1.0
+ */
 
-var grunt = require('grunt'),
-    im = require('node-imagemagick'),
-    async = require('async');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -24,240 +32,194 @@ var grunt = require('grunt'),
     test.ifError(value)
 */
 
-exports.responsive_images = {
-  setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
-  default_options: function(test) {
+(function() {
+  'use strict';
 
-    var actual = {},
-        expected = {};
+  var async = require('async'),
+    grunt = require('grunt'),
+    im = require('node-imagemagick'),
+    q = require('q');
 
-    var files = [{
-          filename: 'minions-small.jpg',
-          expected: 'test/expected/default_options/',
-          actual: 'tmp/default_options/'
-        },
-        {
-          filename: 'minions-medium.jpg',
-          expected: 'test/expected/default_options/',
-          actual: 'tmp/default_options/'
-        },
-        {
-          filename: 'minions-large.jpg',
-          expected: 'test/expected/default_options/',
-          actual: 'tmp/default_options/'
-        }];
+  /**
+   * Compare the created image against the expected image.
+   *
+   * @private
+   * @param   {string}  filename  The name of the file
+   * @param   {string}  actual    The actual file path
+   * @param   {string}  expected  The expected file path
+   * @return  {object}  promise   Either resolved rejected with an error message.
+   */
+  var compareImageProperties = function(filename, actualPath, expectedPath) {
+    var deferred = q.defer();
+    
+    // load created image
+    im.identify(actualPath + filename, function(error, actualProp) {
+      if (error) {
+        deferred.reject('Failed to load actual (created) image "' + actualPath + filename + '"');
+      } else {
+        // load expected image
+        im.identify(expectedPath + filename, function(error, expectedProp) {
+          if (error) {
+            deferred.reject('Failed to load expected image "' + expectedPath + filename + '"');
+          } else {
+            // check if we have a match
+            if ((actualProp.compression === expectedProp.compression) &&
+              (actualProp.width === expectedProp.width) &&
+              (actualProp.height === expectedProp.height) &&
+              (actualProp.quality === expectedProp.quality) &&
+              (actualProp.filesize === expectedProp.filesize)) {
+              deferred.resolve(true);
+            } else {
+              deferred.reject(filename + ': ' +
+                'actual image (' + actualProp.compression + ' ' + actualProp.width + 'x' + actualProp.height +
+                ' - Q:' + actualProp.quality + ' - ' + actualProp.filesize +
+                ') and ' +
+                'expected image (' + expectedProp.compression + ' ' + expectedProp.width + 'x' + expectedProp.height +
+                ' - Q:' + expectedProp.quality + ' - ' + expectedProp.filesize +
+                ') should match');
+            }
+          }   
+        });
+      }
+    });
+    return deferred.promise;
+  };
 
+  /**
+   * Inspect and handle test results from inspecting an image
+   *
+   * @private
+   * @param   {object}  file      The file object
+   * @param   {object}  test      Test instance
+   * @param   {string}  callback  Async callback, to be run when the test is complete
+   */
+  var inspectImage = function(file, test, callback) {
+    compareImageProperties(file.filename, file.actual, file.expected)
+    .then(function(result) {
+      test.ok(true);
+    }, function(error) {
+      test.ok(false, error);
+    })
+    .done(function() {
+      return callback();
+    });
+  };
+
+  /**
+   * Run through the array of files and add them to the queue of images to be tested
+   *
+   * @private
+   * @param   {array}   files     List of files to check (with filename, expected and actual paths)
+   * @param   {object}  test      Test instance
+   */
+  var checkImages = function(actual, expected, files, test) {
+    var series = [],
+        file = {};
+    
     test.expect(files.length);
 
-    for (var i = 0, l = files.length; i < l; i++) {
+    files.forEach(function(filename) {
+      var file = {
+        actual: actual,
+        expected: expected,
+        filename: filename
+      };
 
-      actual = grunt.file.read(files[i].actual + files[i].filename);
-      expected = grunt.file.read(files[i].expected + files[i].filename);
-      test.equal(actual, expected, 'should be the same image.');
+      series.push(function(callback) {
+        inspectImage(file, test, callback);
+      });
+    });
 
+    async.series(series, function() {
+      test.done();
+    });
+  };
+
+  
+  // List of tests to be run
+  exports.responsive_images = {
+    default_options: function(test) {
+      var actualPath = 'tmp/default_options/',
+          expectedPath = 'test/expected/default_options/',
+          files = [
+            'minions-small.jpg',
+            'minions-medium.jpg',
+            'minions-large.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    file_wildcard_options: function(test) {
+      var actualPath = 'tmp/file_wildcard_options/',
+          expectedPath = 'test/expected/file_wildcard_options/',
+          files = [
+            'sonic-small.png',
+            'sonic-medium.png',
+            'sonic-large.png',
+            'mario-yoshi-small.jpg',
+            'mario-yoshi-medium.jpg',
+            'mario-yoshi-large.jpg',
+            'mickey-mouse-small.gif',
+            'mickey-mouse-medium.gif',
+            'mickey-mouse-large.gif'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    custom_options: function(test) {
+      var actualPath = 'tmp/custom_options/',
+          expectedPath = 'test/expected/custom_options/',
+          files = [
+            'panther-small.jpg',
+            'panther-220.jpg',
+            'panther-large.jpg',
+            'panther-large_x2.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    percentage_sizes: function(test) {
+      var actualPath = 'tmp/percentage_sizes/',
+          expectedPath = 'test/expected/percentage_sizes/',
+          files = [
+            'captain-planet-10%.jpg',
+            'captain-planet-50%.jpg',
+            'captain-planet-200%.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    custom_dest_width: function(test) {
+      var actualPath = 'tmp/custom_dest_width/',
+          expectedPath = 'test/expected/custom_dest_width/',
+          files = [
+            '320/cedric_sneer.jpg',
+            '640/cedric_sneer.jpg',
+            '1024/cedric_sneer.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    custom_dest_name: function(test) {
+      var actualPath = 'tmp/custom_dest_name/',
+          expectedPath = 'test/expected/custom_dest_name/',
+          files = [
+            'leo/tmnt.png',
+            'donnie/tmnt.png',
+            'raph/tmnt.png'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    custom_dest_path: function (test) {
+      var actualPath = 'tmp/custom_dest_path/',
+          expectedPath = 'test/expected/custom_dest_path/',
+          files = [
+            '320/battle-cat.jpg',
+            '640/sub_directory/battle-dog.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
     }
-
-    test.done();
-  },
-  file_wildcard_options: function(test) {
-
-    var actual = {},
-        expected = {},
-        series = [];
-
-    var files = [{
-          filename: 'sonic-small.png',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'sonic-medium.png',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'sonic-large.png',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'mario-yoshi-small.jpg',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'mario-yoshi-medium.jpg',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'mario-yoshi-large.jpg',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'mickey-mouse-small.gif',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'mickey-mouse-medium.gif',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        },
-        {
-          filename: 'mickey-mouse-large.gif',
-          expected: 'test/expected/file_wildcard_options/',
-          actual: 'tmp/file_wildcard_options/'
-        }];
-
-    test.expect(files.length);
-
-    for (var i = 0, l = files.length; i < l; i++) {
-
-      actual = grunt.file.read(files[i].actual + files[i].filename);
-      expected = grunt.file.read(files[i].expected + files[i].filename);
-      test.equal(actual, expected, 'should be the same image.');
-      
-    }
-
-    async.series(series, test.done);
-
-  },
-  custom_options: function(test) {
-
-    var actual = {},
-        expected = {};
-
-    var files = [{
-          filename: 'panther-small.jpg',
-          expected: 'test/expected/custom_options/',
-          actual: 'tmp/custom_options/'
-        },
-        {
-          filename: 'panther-220.jpg',
-          expected: 'test/expected/custom_options/',
-          actual: 'tmp/custom_options/'
-        },{
-          filename: 'panther-large.jpg',
-          expected: 'test/expected/custom_options/',
-          actual: 'tmp/custom_options/'
-        },
-        {
-          filename: 'panther-large_x2.jpg',
-          expected: 'test/expected/custom_options/',
-          actual: 'tmp/custom_options/'
-        }];
-
-    test.expect(files.length);
-
-    for (var i = 0, l = files.length; i < l; i++) {
-
-      actual = grunt.file.read(files[i].actual + files[i].filename);
-      expected = grunt.file.read(files[i].expected + files[i].filename);
-      test.equal(actual, expected, 'should be the same image.');
-
-    }
-
-    test.done();
-  },
-  custom_dest_width: function(test) {
-
-    var actual = {},
-    expected = {};
-
-    var files = [{
-          filename: 'cedric_sneer.jpg',
-          expected: 'test/expected/custom_dest_width/320/',
-          actual:   'tmp/custom_dest_width/320/'
-        },
-        {
-          filename: 'cedric_sneer.jpg',
-          expected: 'test/expected/custom_dest_width/640/',
-          actual:   'tmp/custom_dest_width/640/'
-        },
-        {
-          filename: 'cedric_sneer.jpg',
-          expected: 'test/expected/custom_dest_width/1024/',
-          actual:   'tmp/custom_dest_width/1024/'
-        }];
-
-    test.expect(files.length);
-
-    for (var i = 0, l = files.length; i < l; i++) {
-
-      actual = grunt.file.read(files[i].actual + files[i].filename);
-      expected = grunt.file.read(files[i].expected + files[i].filename);
-      test.equal(actual, expected, 'should be the same image.');
-
-    }
-
-    test.done();
-
-  },
-  custom_dest_name: function(test) {
-
-    var actual = {},
-    expected = {};
-
-    var files = [{
-          filename: 'tmnt.png',
-          expected: 'test/expected/custom_dest_name/leo/',
-          actual:   'tmp/custom_dest_name/leo/'
-        },
-        {
-          filename: 'tmnt.png',
-          expected: 'test/expected/custom_dest_name/donnie/',
-          actual:   'tmp/custom_dest_name/donnie/'
-        },{
-          filename: 'tmnt.png',
-          expected: 'test/expected/custom_dest_name/raph/',
-          actual:   'tmp/custom_dest_name/raph/'
-        }];
-
-    test.expect(files.length);
-
-    for (var i = 0, l = files.length; i < l; i++) {
-
-      actual = grunt.file.read(files[i].actual + files[i].filename);
-      expected = grunt.file.read(files[i].expected + files[i].filename);
-      test.equal(actual, expected, 'should be the same image.');
-
-    }
-
-    test.done();
-
-  },
-  custom_dest_path: function (test) {
-
-    var actual = {},
-    expected = {};
-
-    var files = [{
-
-          filename: 'battle-cat.jpg',
-          expected: 'test/expected/custom_dest_path/320/',
-          actual:   'tmp/custom_dest_path/320/'
-        },
-        {
-          filename: 'battle-dog.jpg',
-          expected: 'test/expected/custom_dest_path/640/sub_directory/',
-          actual:   'tmp/custom_dest_path/640/sub_directory/'
-        }];
-
-    test.expect(files.length);
-
-    for (var i = 0, l = files.length; i < l; i++) {
-
-      actual = grunt.file.read(files[i].actual + files[i].filename);
-      expected = grunt.file.read(files[i].expected + files[i].filename);
-      test.equal(actual, expected, 'should be the same image.');
-
-    }
-
-    test.done();
-  }
-};
+  };
+}());

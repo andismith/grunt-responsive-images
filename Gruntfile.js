@@ -74,6 +74,23 @@ module.exports = function(grunt) {
           dest: 'tmp/'
         }]
       },
+      percentage_sizes: {
+        options: {
+          sizes: [{
+              width: '10%',
+            },{
+              width: '50%',
+            },{
+              width: '200%'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['percentage_sizes/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
       custom_dest_width: {
         options: {
           sizes: [{
