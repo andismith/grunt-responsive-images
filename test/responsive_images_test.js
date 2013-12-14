@@ -177,13 +177,27 @@
 
       checkImages(actualPath, expectedPath, files, test);
     },
+    pixel_sizes: function(test) {
+      var actualPath = 'tmp/pixel_sizes/',
+          expectedPath = 'test/expected/pixel_sizes/',
+          files = [
+            'magikarp-10.png',
+            'magikarp-50x50.png',
+            'magikarp-200x500.png',
+            'meowth-10.jpg',
+            'meowth-50x50.jpg',
+            'meowth-200x500.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
     percentage_sizes: function(test) {
       var actualPath = 'tmp/percentage_sizes/',
           expectedPath = 'test/expected/percentage_sizes/',
           files = [
-            'captain-planet-10%.jpg',
-            'captain-planet-50%.jpg',
-            'captain-planet-200%.jpg'
+            'captain-planet-10pc.jpg',
+            'captain-planet-50pcx50pc.jpg',
+            'captain-planet-200pcx80pc.jpg'
           ];
 
       checkImages(actualPath, expectedPath, files, test);
@@ -221,4 +235,7 @@
       checkImages(actualPath, expectedPath, files, test);
     }
   };
+
+  // It works! I finally invent something that works!
+
 }());

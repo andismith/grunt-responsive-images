@@ -74,13 +74,34 @@ module.exports = function(grunt) {
           dest: 'tmp/'
         }]
       },
+      pixel_sizes: {
+        options: {
+          sizes: [{
+              width: '10px',
+            },{
+              height: '50px',
+              width: '50px',
+            },{
+              height: '500px',
+              width: '200px'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['pixel_sizes/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
       percentage_sizes: {
         options: {
           sizes: [{
               width: '10%',
             },{
+              height: '50%',
               width: '50%',
             },{
+              height: '80%',
               width: '200%'
             }]
         },

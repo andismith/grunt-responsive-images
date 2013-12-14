@@ -20,99 +20,193 @@ var _     = require('lodash'),
 
 module.exports = function(grunt) {
 
-  /**
-   * Default options should a user not specify any sizes
-   */
-  var DEFAULT_OPTIONS = {
-    separator: '-',
-    sizes: [{
-        name: 'small',
-        width: 320,
-        height: 240
-      },{
-        name: 'medium',
-        width: 640,
-        height: 480
-      },{
-        name: 'large',
-        width: 1024,
-        height: 768
-      }]
-  };
-
-  /**
-   * Checks for a valid array, and that there are items in the array.
-   *
-   * @private
-   * @param   {object}          obj       The object to check
-   * @return  {boolean}         Whether it is a valid array with items.
-   */
-  function isValidArray(obj) {
-    return (_.isArray(obj) && obj.length > 0);
-  }
-
-  /**
-   * Checks for a valid width and/or height.
-   * We do not need both - one is sufficient, but if a value is supplied it must be a valid value.
-   *
-   * @private
-   * @param   {number/string}   width     The width, either as a number or a percentage (or as undefined)
-   * @param   {number/string}   height    The height, either as a number or a percentage (or as undefined)
-   * @return  {boolean}         Whether the size is valid.
-   */
-  function isValidSize(width, height) {
-    // Valid values = 1, 1.1, '1', '1.1', '1%', '1.1%', '11.11111%', '111111%'
-    // Invalid values = -1, '1.1.1%', '1a', 'a1'
-    var regExp = /^[0-9]*\.?[0-9]+%?$/;
-
-    return (!!(width || height) && // at least one value exists
-      !!(width || 0).toString().match(regExp) &&
-      !!(height || 0).toString().match(regExp));
-  }
-
-  /**
-   * Create a name to suffix to our file.
-   *
-   * @private
-   * @param   {string}          name       Name
-   * @param   {number/string}   width      The image width
-   * @param   {number/string}   height     The image height
-   * @param   {string}          separator  Separator
-   * @param   {string}          suffix     Suffix
-   * @return  {string}          A new name
-   */
-  function getName(name, width, height, separator, suffix) {
-
-    // handle empty separator as no separator
-    if (typeof separator === 'undefined') {
-      separator = '';
-    }
-
-    // handle empty suffix as no suffix
-    if (typeof suffix === 'undefined') {
-      suffix = '';
-    }
-
-    if (name) {
-      return separator + name + suffix;
-    } else {
-      if (width && height) {
-        return separator + width + 'x' + height + suffix;
-      } else {
-        return separator + (width || height) + suffix;
-      }
-    }
-  }
+  // TO DO:
+  // * upscaling
+  // * aspect ratio
+  // * default sizes
 
   grunt.registerMultiTask('responsive_images', 'Images at various responsive sizes', function() {
 
-    // Merge task-specific and/or target-specific options with these defaults.
+    /**
+     * Default options should a user not specify any sizes
+     */
+    var DEFAULT_OPTIONS = {
+      percentageUnit: 'pc',
+      pixelUnit: '',
+      timesUnit: 'x',
+      usePixelForPercentage: false,
+      separator: '-',
+      sizes: [{
+          name: 'small',
+          width: 320,
+          height: 240
+        },{
+          name: 'medium',
+          width: 640,
+          height: 480
+        },{
+          name: 'large',
+          width: 1024,
+          height: 768
+        }]
+    };
 
     var done = this.async();
     var series = [];
+    // Merge task-specific and/or target-specific options with these defaults.
+    
     var options = this.options(DEFAULT_OPTIONS);
-    var that = this;
     var tally = {};
+    var task = this;
+
+    /**
+     * Checks for a valid array, and that there are items in the array.
+     *
+     * @private
+     * @param   {object}          obj       The object to check
+     * @return  {boolean}         Whether it is a valid array with items.
+     */
+    var isValidArray = function(obj) {
+      return (_.isArray(obj) && obj.length > 0);
+    };
+
+    /**
+     * Checks for a valid width and/or height.
+     * We do not need both - one is sufficient, but if a value is supplied it must be a valid value.
+     * If width is a percentage, height must also be a percentage - they cannot be mixed.
+     *
+     * @private
+     * @param   {number/string}   width     The width, either as a number or a percentage (or as undefined)
+     * @param   {number/string}   height    The height, either as a number or a percentage (or as undefined)
+     * @return  {boolean}         Whether the size is valid.
+     */
+    var isValidSize = function(width, height) {
+      // Valid values = 1, '1px', '1', '1%', '1.1%', '11.11111%', '111111%'
+      // Invalid values = -1, '1.1.1%', '1a', 'a1'
+      var pcRegExp = /^[0-9]*\.?[0-9]+%?$/,
+          pxRegExp = /^[0-9]+(?:px)?$/,
+          isValid = false;
+
+      if ((width || height)) {
+        // check if we have a valid percentage value
+        if (!!(width || 0).toString().match(pcRegExp) &&
+          !!(height || 0).toString().match(pcRegExp)) {
+          isValid = true;
+        // check if we have a valid pixel value
+        } else if (!!(width || 0).toString().match(pxRegExp) &&
+          !!(height || 0).toString().match(pxRegExp)) {
+          isValid = true;
+        } else {
+          grunt.log.error('Width/height value is not valid. Percentages and pixels cannot be mixed.');
+        }
+
+      } else {
+        grunt.log.error('Either width and/or height must be specified.');
+      }
+
+      return isValid;
+    };
+
+    /**
+     * Create a name to suffix to our file.
+     *
+     * @private
+     * @param   {object}          properties Contains properties for name, width, height (where applicable)
+     * @return  {string}          A new name
+     */
+    var getName = function(properties, options) {
+
+      //name, width, height, separator, suffix
+
+      var filename = '',
+        widthUnit = '',
+        heightUnit = '';
+
+      // name takes precedence
+      if (properties.name) {
+        return properties.name;
+      } else {
+        // figure out the units for width and height (they can be different)
+        widthUnit = ((properties.width || 0).toString().indexOf('%') > 0) ? options.percentageUnit : options.pixelUnit;
+        heightUnit = ((properties.height || 0 ).toString().indexOf('%') > 0) ? options.percentageUnit : options.pixelUnit;
+
+        if (properties.width && properties.height) {
+          return parseFloat(properties.width) + widthUnit + options.timesUnit + parseFloat(properties.height) + heightUnit;
+        } else {
+          return (properties.width) ? parseFloat(properties.width) + widthUnit : parseFloat(properties.height) + heightUnit;
+        }
+      }
+
+      return (properties.separator || '') + filename + (properties.suffix || '');
+    };
+
+    var addPrefixSuffix = function(value, prefix, suffix) {
+      return (prefix || '') + value + (suffix || '');
+    };
+
+    /**
+     * Check the target has been set up in Grunt properly.
+     * Graceful handling of https://github.com/andismith/grunt-responsive-images/issues/2
+     *
+     * @private
+     * @param   {number}          count     The file count.
+     * @param   {string}          name      Name of the image.
+     */
+    var checkForValidTarget = function(f) {
+      var test;
+
+      try {
+        test = f.src;
+      } catch (exception) {
+        grunt.fail.fatal('Unable to read configuration.\n' +
+          'Have you specified a target? See: http://gruntjs.com/configuring-tasks');
+      }
+    };
+
+    /**
+     * Check if a directory exists, and create it if it doesn't.
+     *
+     * @private
+     * @param   {string}          dirPath   The path we want to check
+     */
+    var checkDirectoryExists = function(dirPath) {
+      if (!grunt.file.isDir(dirPath)) {
+        grunt.file.mkdir(dirPath);
+      }
+    };
+
+    /**
+     * Removes characters from the values of the object keys specified
+     *
+     * @private
+     * @param   {object}          obj       The object to inspect.
+     * @param   {array}           keys      The keys to check the values of.
+     * @param   {string}          remove    The string to remove.
+     */
+    var removeCharsFromObjectValue = function(obj, keys, remove) {
+      var i = 0,
+        l = keys.length;
+      for (i = 0; i < l; i++) {
+        if (obj[keys[i]] && obj[keys[i]].toString().indexOf(remove) > -1) {
+          obj[keys[i]] = obj[keys[i]].toString().replace(remove, '');
+        }
+      }
+      return obj;
+    };
+
+    /**
+     * Outputs the result of the tally.
+     *
+     * @private
+     * @param   {number}          count     The file count.
+     * @param   {string}          name      Name of the image.
+     */
+    var outputResult = function(count, name) {
+      if (count) {
+        grunt.log.writeln('Resized ' + count.toString().cyan + ' ' +
+          grunt.util.pluralize(count, 'file/files') + ' for ' + name);
+      }
+    };
 
     if (!isValidArray(options.sizes)) {
       return grunt.fail.warn('No sizes have been defined.');
@@ -130,7 +224,7 @@ module.exports = function(grunt) {
       var sizingMethod = 'resize';
 
       if (!isValidSize(s.width, s.height)) {
-        return grunt.fail.warn('Size is invalid (' + s.width + ', ' + s.height + ')');
+        return grunt.fail.fatal('Size is invalid (' + s.width + ', ' + s.height + ')');
       }
 
       // use crop if both width and height are specified.
@@ -138,21 +232,22 @@ module.exports = function(grunt) {
         sizingMethod = 'crop';
       }
 
-      // create a name suffix for our image, called outputName so we can still use name
-      sizeOptions.outputName = getName(s.name, s.width, s.height, options.separator, s.suffix);
+      // create a name for our image based on name, width, height
+      sizeOptions.name = getName({ name: s.name, width: s.width, height: s.height }, options);
 
-      // set name to outputName if one does not exist
-      if (typeof sizeOptions.name === 'undefined') {
-        sizeOptions.name = sizeOptions.outputName;
-      }
+      // create an output name with prefix, suffix
+      sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, options.separator, s.suffix);
 
       tally[sizeOptions.name] = 0;
 
-      if (that.files.length === 0) {
+      if (task.files.length === 0) {
         grunt.fail.warn('Unable to compile; no valid source files were found.');
       } else {
+
         // Iterate over all specified file groups.
-        that.files.forEach(function(f) {
+        task.files.forEach(function(f) {
+
+          checkForValidTarget(f);
 
           var extName = path.extname(f.dest),
               srcPath = f.src[0],
@@ -160,6 +255,8 @@ module.exports = function(grunt) {
               dirName,
               dstPath,
               subDir = "";
+
+            var imageOptions = {};
 
           if (f.custom_dest) {
             sizeOptions.path = f.src[0].replace(new RegExp(f.orig.cwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
@@ -169,14 +266,10 @@ module.exports = function(grunt) {
               data: sizeOptions
             });
             dstPath = path.join(dirName, subDir, baseName + extName);
-          }
-
-          else {
+          } else {
             dirName = path.dirname(f.dest);
             dstPath = path.join(dirName, subDir, baseName + sizeOptions.outputName + extName);
           }
-
-          var imageOptions = {};
           
           // more than 1 source.
           if (f.src.length > 1) {
@@ -184,16 +277,16 @@ module.exports = function(grunt) {
               'For multiple files please use the files array format.\nSee http://gruntjs.com/configuring-tasks');
           }
 
-          // Make directory if it doesn't exist.
-          if (!grunt.file.isDir(path.join(dirName, subDir))) {
-            grunt.file.mkdir(path.join(dirName, subDir));
-          }
+          checkDirectoryExists(path.join(dirName, subDir));
 
           imageOptions = {
             srcPath:  srcPath,
             dstPath:  dstPath,
             format:   extName.replace('.', '')
           };
+
+          // remove pixels from the value so Imagemagick doesn't complain
+          sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
 
           // combine image options with size options.
           imageOptions = _.extend(imageOptions, sizeOptions);
@@ -212,9 +305,7 @@ module.exports = function(grunt) {
         });
       
         series.push(function(callback) {
-          if (tally[sizeOptions.name]) {
-            grunt.log.writeln('Created ' + tally[sizeOptions.name].toString().cyan + ' files for size ' + sizeOptions.name);
-          }
+          outputResult(tally[sizeOptions.name], sizeOptions.name);
           return callback();
         });
       }
