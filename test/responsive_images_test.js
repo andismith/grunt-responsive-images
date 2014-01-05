@@ -191,6 +191,17 @@
 
       checkImages(actualPath, expectedPath, files, test);
     },
+    pixel_sizes_custom_unit: function(test) {
+      var actualPath = 'tmp/pixel_sizes_custom_unit/',
+          expectedPath = 'test/expected/pixel_sizes_custom_unit/',
+          files = [
+            'popeye-20abc123.jpg',
+            'popeye-80abc123x50abc123.jpg',
+            'popeye-500abc123x500abc123.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
     percentage_sizes: function(test) {
       var actualPath = 'tmp/percentage_sizes/',
           expectedPath = 'test/expected/percentage_sizes/',
@@ -198,6 +209,28 @@
             'captain-planet-10pc.jpg',
             'captain-planet-50pcx50pc.jpg',
             'captain-planet-200pcx80pc.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    percentage_sizes_custom_unit: function(test) {
+      var actualPath = 'tmp/percentage_sizes_custom_unit/',
+          expectedPath = 'test/expected/percentage_sizes_custom_unit/',
+          files = [
+            'transformers-10abc123.jpg',
+            'transformers-50abc123x50abc123.jpg',
+            'transformers-200abc123x80abc123.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    custom_multiply_unit: function(test) {
+      var actualPath = 'tmp/custom_multiply_unit/',
+          expectedPath = 'test/expected/custom_multiply_unit/',
+          files = [
+            'scooby-doo-10pc.jpg',
+            'scooby-doo-50pcabc12350pc.jpg',
+            'scooby-doo-800abc123450.jpg'
           ];
 
       checkImages(actualPath, expectedPath, files, test);

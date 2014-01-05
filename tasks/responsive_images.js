@@ -33,8 +33,6 @@ module.exports = function(grunt) {
     var DEFAULT_OPTIONS = {
       percentageUnit: 'pc',
       pixelUnit: '',
-      timesUnit: 'x',
-      usePixelForPercentage: false,
       separator: '-',
       sizes: [{
           name: 'small',
@@ -48,7 +46,10 @@ module.exports = function(grunt) {
           name: 'large',
           width: 1024,
           height: 768
-        }]
+        }],
+      timesUnit: 'x',
+      upscaling: false,
+      usePixelsForPercentage: false
     };
 
     var done = this.async();
@@ -247,16 +248,18 @@ module.exports = function(grunt) {
         // Iterate over all specified file groups.
         task.files.forEach(function(f) {
 
+          var extName = '',
+              srcPath = '',
+              baseName = '',
+              dirName = '',
+              dstPath = '',
+              imageOptions = {};
+
           checkForValidTarget(f);
 
-          var extName = path.extname(f.dest),
-              srcPath = f.src[0],
-              baseName = path.basename(srcPath, extName), // filename without extension
-              dirName,
-              dstPath,
-              subDir = "";
-
-            var imageOptions = {};
+          extName = path.extname(f.dest);
+          srcPath = f.src[0];
+          baseName = path.basename(srcPath, extName); // filename without extension
 
           if (f.custom_dest) {
             sizeOptions.path = f.src[0].replace(new RegExp(f.orig.cwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
@@ -265,10 +268,10 @@ module.exports = function(grunt) {
               delimiters: 'size',
               data: sizeOptions
             });
-            dstPath = path.join(dirName, subDir, baseName + extName);
+            dstPath = path.join(dirName, baseName + extName);
           } else {
             dirName = path.dirname(f.dest);
-            dstPath = path.join(dirName, subDir, baseName + sizeOptions.outputName + extName);
+            dstPath = path.join(dirName, baseName + sizeOptions.outputName + extName);
           }
           
           // more than 1 source.
@@ -277,7 +280,7 @@ module.exports = function(grunt) {
               'For multiple files please use the files array format.\nSee http://gruntjs.com/configuring-tasks');
           }
 
-          checkDirectoryExists(path.join(dirName, subDir));
+          checkDirectoryExists(path.join(dirName));
 
           imageOptions = {
             srcPath:  srcPath,

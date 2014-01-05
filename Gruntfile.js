@@ -93,6 +93,26 @@ module.exports = function(grunt) {
           dest: 'tmp/'
         }]
       },
+      pixel_sizes_custom_unit: {
+        options: {
+          pixelUnit: 'abc123',
+          sizes: [{
+              width: '20px',
+            },{
+              height: '50px',
+              width: '80px',
+            },{
+              height: '500px',
+              width: '500px'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['pixel_sizes_custom_unit/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
       percentage_sizes: {
         options: {
           sizes: [{
@@ -108,6 +128,46 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['percentage_sizes/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+      percentage_sizes_custom_unit: {
+        options: {
+          percentageUnit: 'abc123',
+          sizes: [{
+              width: '10%',
+            },{
+              height: '50%',
+              width: '50%',
+            },{
+              height: '80%',
+              width: '200%'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['percentage_sizes_custom_unit/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+      custom_multiply_unit: {
+        options: {
+          timesUnit: 'abc123',
+          sizes: [{
+              width: '10%',
+            },{
+              height: '50%',
+              width: '50%',
+            },{
+              height: '450px',
+              width: '800px'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['custom_multiply_unit/**/*.{jpg,gif,png}'],
           cwd: 'test/assets/',
           dest: 'tmp/'
         }]
