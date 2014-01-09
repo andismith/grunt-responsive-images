@@ -30,6 +30,9 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     responsive_images: {
+      options: {
+        engine: 'im'
+      },
       default_options: {
         options: {
         },
