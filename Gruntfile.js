@@ -39,6 +39,22 @@ module.exports = function(grunt) {
       },
       file_wildcard_options: {
         options: {
+          sizes: [{
+            aspectRatio: false,
+            height: 240,
+            name: 'small',
+            width: 320
+          },{
+            aspectRatio: false,
+            height: 480,
+            name: 'medium',
+            width: 640
+          },{
+            aspectRatio: false,
+            height: 768,
+            name: 'large',
+            width: 1024
+          }]
         },
         files: [{
           expand: true,
@@ -52,19 +68,19 @@ module.exports = function(grunt) {
           sizes: [{
             width: 110,
             name: "small",
-            quality: 0.4
+            quality: 40
           },{
             width: 220,
-            quality: 1
+            quality: 100
           },{
             width: 330,
             name: "large",
-            quality: 0.8
+            quality: 80
           },{
             width: 660,
             name: "large",
             suffix: "_x2",  // retina gfx
-            quality: 0.5
+            quality: 50
           }]
         },
         files: [{
@@ -77,11 +93,14 @@ module.exports = function(grunt) {
       pixel_sizes: {
         options: {
           sizes: [{
-              width: '10px',
+              aspectRatio: false,
+              width: '10px'
             },{
+              aspectRatio: false,
               height: '50px',
-              width: '50px',
+              width: '50px'
             },{
+              aspectRatio: false,
               height: '500px',
               width: '200px'
             }]
@@ -95,16 +114,21 @@ module.exports = function(grunt) {
       },
       pixel_sizes_custom_unit: {
         options: {
-          pixelUnit: 'abc123',
+          units: {
+            pixel: 'abc123'
+          },
           sizes: [{
-              width: '20px',
-            },{
-              height: '50px',
-              width: '80px',
-            },{
-              height: '500px',
-              width: '500px'
-            }]
+            aspectRatio: false,
+            width: '20px',
+          },{
+            aspectRatio: false,
+            height: '50px',
+            width: '80px',
+          },{
+            aspectRatio: false,
+            height: '500px',
+            width: '500px'
+          }]
         },
         files: [{
           expand: true,
@@ -116,14 +140,14 @@ module.exports = function(grunt) {
       percentage_sizes: {
         options: {
           sizes: [{
-              width: '10%',
-            },{
-              height: '50%',
-              width: '50%',
-            },{
-              height: '80%',
-              width: '200%'
-            }]
+            width: '10%',
+          },{
+            height: '50%',
+            width: '50%',
+          },{
+            height: '80%',
+            width: '200%'
+          }]
         },
         files: [{
           expand: true,
@@ -134,16 +158,18 @@ module.exports = function(grunt) {
       },
       percentage_sizes_custom_unit: {
         options: {
-          percentageUnit: 'abc123',
+          units: {
+            percentage: 'abc123'
+          },
           sizes: [{
-              width: '10%',
-            },{
-              height: '50%',
-              width: '50%',
-            },{
-              height: '80%',
-              width: '200%'
-            }]
+            width: '10%',
+          },{
+            height: '50%',
+            width: '50%',
+          },{
+            height: '80%',
+            width: '200%'
+          }]
         },
         files: [{
           expand: true,
@@ -154,16 +180,18 @@ module.exports = function(grunt) {
       },
       custom_multiply_unit: {
         options: {
-          timesUnit: 'abc123',
+          units: {
+            multiply: 'abc123'
+          },
           sizes: [{
-              width: '10%',
-            },{
-              height: '50%',
-              width: '50%',
-            },{
-              height: '450px',
-              width: '800px'
-            }]
+            width: '10%',
+          },{
+            height: '50%',
+            width: '50%',
+          },{
+            height: '450px',
+            width: '800px'
+          }]
         },
         files: [{
           expand: true,
@@ -175,10 +203,16 @@ module.exports = function(grunt) {
       custom_dest_width: {
         options: {
           sizes: [{
+            aspectRatio: false,
+            upscale: true,
             width: 320
           },{
+            aspectRatio: false,
+            upscale: true,
             width: 640
           },{
+            aspectRatio: false,
+            upscale: true,
             width: 1024
           }]
         },
@@ -212,12 +246,12 @@ module.exports = function(grunt) {
       custom_dest_path: {
         options: {
           sizes: [{
-              width: 320,
-            },{
-              width: 640,
-            },{
-              width: 1024,
-            }]
+            width: 320
+          },{
+            width: 640
+          },{
+            width: 1024
+          }]
         },
         files: [{
           expand: true,

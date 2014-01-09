@@ -1,9 +1,9 @@
-# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images)
+# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images) [![Travis-CI Build](https://api.travis-ci.org/andismith/grunt-responsive-images.png?branch=master)](https://travis-ci.org/andismith/grunt-responsive-images)
 
 > Produces images at different sizes
 
 ## Getting Started
-This plugin requires Grunt `~0.4.0`
+This plugin requires Grunt `~0.4.0`.
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -11,17 +11,30 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 npm install grunt-responsive-images --save-dev
 ```
 
-You'll also need to install Imagemagick CLI Tools.
+You also need to install either GraphicsMagick or Imagemagick CLI tools.
 
+**Installing GraphicsMagick (Recommended)**
+```shell
+brew install GraphicsMagick
+```
+Otherwise, please visit the [GraphicsMagick downloads page](http://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/).
+
+
+**Or installing ImageMagick**
+If you're a Mac user and have [Homebrew](http://brew.sh/) installed, simply type:
 ```shell
 brew install ImageMagick
 ```
+Otherwise, please visit the [ImageMagick downloads page](http://www.imagemagick.org/script/binary-releases.php).
 
-Once both the plugin and ImageMagick have been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+Once both the plugin and graphics engine have been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
 grunt.loadNpmTasks('grunt-responsive-images');
 ```
+
+## Important
+v0.1.0 changes some of the default settings for Grunt Responsive Images. Before updating, please ensure you check the readme for changes.
 
 ## The "responsive_images" task
 
@@ -30,8 +43,6 @@ grunt.loadNpmTasks('grunt-responsive-images');
 The responsive_images task will take your source image and create images at different resolutions for use with [PictureFill](https://github.com/scottjehl/picturefill) or with [srcset](https://github.com/borismus/srcset-polyfill).
 
 A demo of both srcset and PictureFill using Grunt Responsive Images [is available here](http://andismith.github.io/grunt-responsive-images/).
-
-Some slides about the plugin are [available here](http://slid.es/andismith/grunt-responsive-images).
 
 In your project's Gruntfile, add a section named `responsive_images` to the data object passed into `grunt.initConfig()`.
 
@@ -50,47 +61,132 @@ grunt.initConfig({
 
 ### Options
 
-#### options.sizes
-Type: `Array`
+* **options.engine**<br />
+  *Type:* `String`<br />
+  *Default:* `gm`<br />
+  *Available Values:* `gm` || `im`<br />
+  *Version:* 0.1.0 and above
 
-Default value:
+  Chooses which graphics engine to use when resizing images. To use GraphicsMagick, set this to `gm`. To use ImageMagick, set this to `im`. You'll need the relevant engine installed.
 
-```js
-[{
-  name: "small",
-  width: 320,
-  height: 240,
-  quality: 1
+* **options.sizes**<br />
+  *Type:* `Array`<br />
+  *Default:* `[{ name: 'small', width: 320 },{ name: 'medium', width: 640 },{ name: 'large', width: 1024 }]`<br />
+  *Version:* 0.0.1 and above
+
+  An array of objects containing the sizes and settings we want to resize our image to.
+
+  For example:
+  ```js
+sizes: [{
+      name: "small",
+      width: 480
 },{
-  name: "medium",
-  width: 640,
-  height: 480,
-  quality: 1
-},{
-  name: "large",
-  width: 1024,
-  height: 768,
-  quality: 1
-}]
+      name: "large",
+      width: 1024
+  }]
 ```
 
-An array of objects containing the sizes we want to resize our image to.
+  The settings available are as follows:
 
-If both width and height are specified, then the image will be resized and cropped.
+  * **width**<br />
+    *Type:* `Number` or `String`<br />
+    *Version:* 0.0.1 and above
 
-If a `name` is specified, then the file will be suffixed with this name. e.g. my-image-small.jpg
+    `width` can either be in pixels or percentages. Please note both width and height need to use the same units, so if width is a percentage value and you wish to specify a height this must also be a percentage.
 
-If a `name` is not specified, then the file will be suffixed with the width and/or height. e.g. my-image-320x240.jpg
+    The following values are examples of valid widths: `1`, `'1px'`, `'1'`, `'1%'`, `'1.1%'`, `'11.11111%'`, `'111111%'`<br />
+    The following values are examples of invalid values for width: `-1`, `1.1`, `1.1px`, `'1.1.1%'`, `'1a'`, `'a1'`
 
-Use `suffix` for retina graphic filenames. e.g. my-image-320x240_x2.jpg
+  * **height**<br />
+    *Type:* `Number` or `String`<br />
+    *Version:* 0.0.1 and above
 
-Use `quality` to change the quality of an image (0.1, 0.2 ... 0.9, 1).
+    `height` can either be in pixels or percentages. Please note both width and height need to use the same units, so if height is a percentage value and you wish to specify a width this must also be a percentage.<br />
+    `height` accepts the same values as width.
 
-#### options.separator
-Type: `String`
-Default value: `-`
+  * **name**<br />
+    *Type:* `String`<br />
+    *Default:* none<br />
+    *Version:* 0.0.1 and above
 
-The character used to separate the image filename from the size name.
+    If a `name` is specified, then the file will be suffixed with this name. e.g. `my-image-small.jpg`<br />
+    If a `name` is not specified, then the file will be suffixed with the width and/or height specified in the size options. e.g. `my-image-320x240.jpg`
+
+  * **quality**<br />
+    *Type:* `Number`<br />
+    *Default:* `100`<br />
+    *Available Values:* `1` - `100`<br />
+    *Version:* 0.0.4 and above
+    
+    JPEG format only. The quality of the image, 100 being the highest quality and 1 being the lowest.
+
+    Please note: In versions below 0.1.0, quality is specified between 0 and 1.
+
+  * **suffix**<br />
+    *Type:* `String`<br />
+    *Default:* none<br />
+    *Version:* 0.0.1 and above
+
+    Use `suffix` for retina graphic filenames. e.g. `my-image-320x240_x2.jpg`
+
+  * **aspectRatio**<br />
+    *Type:* `Boolean`<br />
+    *Default:* `true`<br />
+    *Available Values:* `true` || `false`<br />
+    *Version:* 0.1.0 and above
+
+    Maintains the aspect ratio of the image. The width and the height are treated as maximum values,
+    so the image is expanded or contracted to fit the width and height value while maintaining the aspect ratio of the image.
+    If `aspectRatio` is set to `false` and both width and height are specified, the image will be cropped.
+
+  * **gravity**<br />
+    *Type:* `String`<br />
+    *Default:* `Center`<br />
+    *Available Values:* `NorthWest` || `North` || `NorthEast` || `West` || `Center` || `East` || `SouthWest` || `South` || `SouthEast`<br />
+    *Version:* 0.1.0 and above
+    
+    `gravity` determines the placement of the image within the crop. The default is `Center`.
+    This setting only applies if an image is cropped. Cropping occurs when the aspectRatio is set to `false` and both width and height are specified.
+
+  * **upscale**<br />
+    *Type:* `Boolean`<br />
+    *Default:* `false`<br />
+    *Available Values:* `true` || `false`<br />
+    *Version:* 0.1.0 and above.
+
+    If the requested size is larger than the source image should the image be upscaled?
+
+* **options.separator**<br />
+  *Type:* `String`<br />
+  *Default:* `-`<br />
+  *Version:* 0.0.1 and above
+
+  The character used to separate the image filename from the size name.
+
+* **options.units**<br />
+  *Type:* 'Object'<br />
+  *Default:* `{ percentage: 'pc', pixel: '', multiply: 'x' }`<br />
+  *Version:* 0.0.1 and above
+  
+  'units' contains the strings that should be used to represent the size units in an image 'name' when `name` has not been specified. e.g. `my-image-50pcx50pc.jpg`
+  
+  * **pixel**
+    *Type:* `String`<br />
+    *Default:* ``<br />
+    *Version:* 0.0.1 and above
+
+  * **percentage**
+    *Type:* `String`<br />
+    *Default:* `pc`<br />
+    *Version:* 0.0.1 and above
+
+    Please note `%` cannot be used as a valid character in an image name.
+
+  * **multiply**
+    *Type:* `String`<br />
+    *Default:* `x`<br />
+    *Version:* 0.0.1 and above
 
 ### Usage Examples
 
@@ -128,7 +224,7 @@ grunt.initConfig({
           name: "large",
           width: 1024,
           suffix: "_x2",
-          quality: 0.6
+          quality: 60
         }]
       },
       files: [{
@@ -190,17 +286,37 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 ## FAQ
 
-* *Receiving a `fatal error: spawn ENOENT`* - Ensure Imagemagick CLI tools are installed. Try uninstalling and reinstalling them if you are having issues.
+* **I'm receiving a `fatal error: spawn ENOENT` error. Any ideas?**
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+  Ensure either Graphicsmagick or Imagemagick tools are installed, and that you are using the correct engine in your Grunt file options. The default engine is Graphicsmagick. If you'd rather use Imagemagick, the engine value should be changed to `im` as documented above.
+
+  Try uninstalling and reinstalling Graphicsmagick or Imagemagick if you are having issues.
+
+* **How do I only process recently added images?**
+
+  Use this task in combination with [Grunt Newer](https://npmjs.org/package/grunt-newer).
 
 ## Release History
 
-*0.0.6*
+*0.1.0*
 
-* Added path value to custom_dest to allow for persistent directory structures (thanks to [maslen](https://github.com/maslen))
-* Started list of sites using Grunt Responsive Images plugin (contact [@andismith](http://www.twitter.com/andismith) to add yours)
+* Added [GraphicsMagick](http://www.graphicsmagick.org/)! GraphicsMagick is now the default imaging library, although it easy to change to ImageMagick if you'd prefer.
+* Added percentage re-sizing! Specify percentage sizes as strings, like this: '42%'. A percentage dimension cannot be mixed with a pixel dimension as the graphics engines do not allow it, sorry.
+* Keep aspect ratios, so your images are no longer squished or cropped by default.
+* More control over cropping images with gravity.
+* Customise units! Added pixel (default: ''), percentage (default: 'pc') and multiply (default: 'x') units.
+* Now handles missing configuration target more gracefully.
+* Complete re-write of the plugin's unit tests. No more failing Travis builds!
+* Re-write of quite a lot of the plugin itself!
+* Added nice JSDoc comments :)
+* Removed height values from default. If you used the default settings, you'll need to update your configuration.
+* Added Flux Capacitor.
+
+*0.0.7*
+
+* Added path value to custom_dest to allow for persistent directory structures.
+* Started list of sites using Grunt Responsive Images plugin ([contact @andismith](http://www.twitter.com/andismith) to add yours).
+* Said goodbye to the dolphins.
 
 *0.0.5*
 
@@ -209,9 +325,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 *0.0.4*
 
-* Fixed issue with quality setting not producing correct quality output. (thanks to [pdud](https://github.com/pdud)).
-* Reduced the amount of logging when running the task (thanks to [tnguyen](https://github.com/tnguyen14)).
-* Allowed images of different sizes to be uploaded to different directories with custom_dest (thanks to [maslen](https://github.com/maslen) and [oncletom](https://github.com/oncletom)).
+* Fixed issue with quality setting not producing correct quality output.
+* Reduced the amount of logging when running the task.
+* Allowed images of different sizes to be uploaded to different directories with custom_dest.
 
 *0.0.3*
 
@@ -225,6 +341,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 * Initial Commit
 
-## Roadmap
+## Contributing
 
-* The ability to resize images by a percentage of their original size.
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+
+Thanks to [all the contributors](https://github.com/andismith/grunt-responsive-images/graphs/contributors) who've submitted a pull request; and everyone who's raised issues or contributed to issue resolution.
