@@ -14,6 +14,8 @@ npm install grunt-responsive-images --save-dev
 You also need to install either GraphicsMagick or Imagemagick CLI tools.
 
 **Installing GraphicsMagick (Recommended)**
+
+If you're a Mac user and have [Homebrew](http://brew.sh/) installed, simply type:
 ```shell
 brew install GraphicsMagick
 ```
@@ -21,6 +23,7 @@ Otherwise, please visit the [GraphicsMagick downloads page](http://sourceforge.n
 
 
 **Or installing ImageMagick**
+
 If you're a Mac user and have [Homebrew](http://brew.sh/) installed, simply type:
 ```shell
 brew install ImageMagick
@@ -167,26 +170,26 @@ sizes: [{
 * **options.units**<br />
   *Type:* 'Object'<br />
   *Default:* `{ percentage: 'pc', pixel: '', multiply: 'x' }`<br />
-  *Version:* 0.0.1 and above
+  *Version:* 0.1.0 and above
   
   'units' contains the strings that should be used to represent the size units in an image 'name' when `name` has not been specified. e.g. `my-image-50pcx50pc.jpg`
   
   * **pixel**
     *Type:* `String`<br />
     *Default:* ``<br />
-    *Version:* 0.0.1 and above
+    *Version:* 0.1.0 and above
 
   * **percentage**
     *Type:* `String`<br />
     *Default:* `pc`<br />
-    *Version:* 0.0.1 and above
+    *Version:* 0.1.0 and above
 
     Please note `%` cannot be used as a valid character in an image name.
 
   * **multiply**
     *Type:* `String`<br />
     *Default:* `x`<br />
-    *Version:* 0.0.1 and above
+    *Version:* 0.1.0 and above
 
 ### Usage Examples
 
