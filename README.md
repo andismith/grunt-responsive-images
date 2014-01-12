@@ -309,6 +309,10 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 ## Release History
 
+*0.1.1*
+
+* Added filters, useful for changing the resizing operation.
+
 *0.1.0*
 
 * Added [GraphicsMagick](http://www.graphicsmagick.org/)! GraphicsMagick is now the default imaging library, although it easy to change to ImageMagick if you'd prefer.
