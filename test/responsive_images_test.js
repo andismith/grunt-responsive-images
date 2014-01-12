@@ -266,6 +266,17 @@
           ];
 
       checkImages(actualPath, expectedPath, files, test);
+    },
+    filters: function(test) {
+      var actualPath = 'tmp/filters/',
+          expectedPath = 'test/expected/filters/',
+          files = [
+            'yoshi-320.png',
+            'yoshi-640.png',
+            'yoshi-1024.png'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
     }
   };
 

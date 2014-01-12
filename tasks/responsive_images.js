@@ -398,6 +398,10 @@ module.exports = function(grunt) {
                 if (sizeOptions.upscale  && (sizeOptions.width > size.width || sizeOptions.height > size.height)) {
                   sizingMethod = '^';
                 }
+                
+                if (sizeOptions.filter) {
+                  image.filter(sizeOptions.filter);
+                }
 
                 image
                   .resize(sizeOptions.width, sizeOptions.height, sizingMethod)

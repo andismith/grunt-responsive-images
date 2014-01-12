@@ -1,4 +1,4 @@
-# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images) [![Travis-CI Build](https://api.travis-ci.org/andismith/grunt-responsive-images.png?branch=master)](https://travis-ci.org/andismith/grunt-responsive-images)
+# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images)
 
 > Produces images at different sizes
 
@@ -160,6 +160,14 @@ sizes: [{
 
     If the requested size is larger than the source image should the image be upscaled?
 
+  * **filter**<br />
+    *Type:* `String`<br />
+    *Default:* Either `Mitchell` if the image is being enlarged, or supports a palette or matte channel. Otherwise `Lanczos.`<br />
+    *Available Values:* `Point` || `Box` || `Triangle` || `Hermite` || `Hanning` || `Hamming` || `Blackman` || `Gaussian` || `Quadratic` || `Cubic` || `Catrom` || `Mitchell` || `Lanczos` || `Bessel` || `Sinc`<br />
+    *Version:* 0.1.1 and above.
+
+    `filter` effects the resizing operation of an image. Use `Point` for pixel art. [Read more about filters in the ImageMagick documentation](http://www.imagemagick.org/Usage/filter/).
+
 * **options.separator**<br />
   *Type:* `String`<br />
   *Default:* `-`<br />
@@ -168,7 +176,7 @@ sizes: [{
   The character used to separate the image filename from the size name.
 
 * **options.units**<br />
-  *Type:* 'Object'<br />
+  *Type:* `Object`<br />
   *Default:* `{ percentage: 'pc', pixel: '', multiply: 'x' }`<br />
   *Version:* 0.1.0 and above
   
@@ -309,7 +317,6 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 * More control over cropping images with gravity.
 * Customise units! Added pixel (default: ''), percentage (default: 'pc') and multiply (default: 'x') units.
 * Now handles missing configuration target more gracefully.
-* Complete re-write of the plugin's unit tests. No more failing Travis builds!
 * Re-write of quite a lot of the plugin itself!
 * Added nice JSDoc comments :)
 * Removed height values from default. If you used the default settings, you'll need to update your configuration.

@@ -262,6 +262,29 @@ module.exports = function(grunt) {
           cwd: 'test/assets/custom_dest_path/',
           custom_dest: 'tmp/custom_dest_path/{%= width %}/{%= path %}'
         }]
+      },
+      filters: {
+        options: {
+          sizes: [{
+            filter: 'Point',
+            upscale: true,
+            width: 320
+          },{
+            filter: 'Point',
+            upscale: true,
+            width: 640
+          },{
+            filter: 'Point',
+            upscale: true,
+            width: 1024
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['filters/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
       }
     },
 
