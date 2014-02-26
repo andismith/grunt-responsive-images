@@ -283,11 +283,13 @@ module.exports = function(grunt) {
    * @param   {object}          sizeOptions
    * @param   {string}          customDest 
    * @param   {string}          origCwd
+   * @param   {function}        customRenameFunc
    */
-  var getDestination = function(srcPath, dstPath, sizeOptions, customDest, origCwd) {
+  var getDestination = function(srcPath, dstPath, sizeOptions, customDest, origCwd, customRenameFunc) {
     var baseName = '',
         dirName = '',
-        extName = '';
+        extName = '',
+        dest;
 
     extName = path.extname(dstPath);
     baseName = path.basename(srcPath, extName); // filename without extension
@@ -303,8 +305,15 @@ module.exports = function(grunt) {
         data: sizeOptions
       });
 
-      checkDirectoryExists(path.join(dirName));
-      return path.join(dirName, baseName + extName);
+      if (customRenameFunc) {
+        dest = customRenameFunc(dirName, baseName + extName);
+        checkDirectoryExists(path.dirname(dest))
+      } else {
+        dest = path.join(dirName, baseName + extName);
+        checkDirectoryExists(path.join(dirName));
+      }
+
+      return dest;
 
     } else {
       
@@ -370,7 +379,7 @@ module.exports = function(grunt) {
           sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, options.separator, sizeOptions.suffix);
 
           srcPath = f.src[0];
-          dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd);
+          dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd, f.orig.custom_rename);
 
           // remove pixels from the value so the gfx process doesn't complain
           sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
