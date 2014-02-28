@@ -81,7 +81,7 @@ module.exports = function(grunt) {
       return grunt.fail.warn('Invalid render engine specified');
     }
     grunt.verbose.ok('Using render engine: ' + GFX_ENGINES[engine].name);
-    gm.subClass({ imageMagick: (engine === 'im') });
+    gm = gm.subClass({ imageMagick: (engine === 'im') });
   };
 
   /**
