@@ -20,9 +20,10 @@ module.exports = function(grunt) {
   var gm    = require('gm');
   var path  = require('path');
 
-  var DEFAULT_OPTIONS = { 
+  var DEFAULT_OPTIONS = {
     engine: 'gm',         // gm or im - DEFAULT CHANGED
     separator: '-',
+    quality: 100,         // value between 1 and 100
     sizes: [{
       name: 'small',
       width: 320
@@ -36,9 +37,8 @@ module.exports = function(grunt) {
   };
 
   var DEFAULT_SIZE_OPTIONS = {
-    aspectRatio: true,  // DEFAULT CHANGED - maintain the aspect ratio of the image (when width and height are supplied) 
+    aspectRatio: true,  // DEFAULT CHANGED - maintain the aspect ratio of the image (when width and height are supplied)
     gravity: 'Center',  // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
-    quality: 100,       // value between 1 and 100
     upscale: false      // DEFAULT CHANGED - true/false
   };
 
@@ -200,7 +200,7 @@ module.exports = function(grunt) {
    * @private
    * @param   {object}          files         The files object
    */
-  var checkForSingleSource = function(files) {     
+  var checkForSingleSource = function(files) {
     // more than 1 source.
     if (files.src.length > 1) {
       return grunt.fail.warn('Unable to resize more than one image in compact or files object format.\n'+
@@ -281,7 +281,7 @@ module.exports = function(grunt) {
    * @param   {string}          srcPath   The source path
    * @param   {string}          filename  Image Filename
    * @param   {object}          sizeOptions
-   * @param   {string}          customDest 
+   * @param   {string}          customDest
    * @param   {string}          origCwd
    */
   var getDestination = function(srcPath, dstPath, sizeOptions, customDest, origCwd) {
@@ -295,9 +295,9 @@ module.exports = function(grunt) {
     if (customDest) {
 
       sizeOptions.path = srcPath.replace(new RegExp(origCwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
-      
+
       grunt.template.addDelimiters('size', '{%', '%}');
-      
+
       dirName = grunt.template.process(customDest, {
         delimiters: 'size',
         data: sizeOptions
@@ -307,7 +307,7 @@ module.exports = function(grunt) {
       return path.join(dirName, baseName + extName);
 
     } else {
-      
+
       dirName = path.dirname(dstPath);
       checkDirectoryExists(path.join(dirName));
       return path.join(dirName, baseName + sizeOptions.outputName + extName);
@@ -380,7 +380,7 @@ module.exports = function(grunt) {
             var image = gm(srcPath);
 
             image.size(function(error, size) {
-              
+
               var sizingMethod = '';
               var mode = 'resize';
 
@@ -393,26 +393,26 @@ module.exports = function(grunt) {
                   sizingMethod = '^';
                   mode = 'crop';
                 }
-                
+
                 // upscale
                 if (sizeOptions.upscale  && (sizeOptions.width > size.width || sizeOptions.height > size.height)) {
                   sizingMethod = '^';
                 }
-                
+
                 if (sizeOptions.filter) {
                   image.filter(sizeOptions.filter);
                 }
 
                 image
                   .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
-                  .quality(sizeOptions.quality);
+                  .quality(sizeOptions.quality || options.quality);
 
                 if (mode === 'crop') {
                   image
                     .gravity(sizeOptions.gravity)
                     .crop(sizeOptions.width, sizeOptions.height, 0, 0);
                 }
-                
+
                 image.write(dstPath, function (error) {
                   if (error) {
                     handleImageErrors(error, options.engine);
@@ -426,7 +426,7 @@ module.exports = function(grunt) {
             });
           });
         });
-      
+
         series.push(function(callback) {
           outputResult(tally[sizeOptions.id], sizeOptions.name);
           return callback();
