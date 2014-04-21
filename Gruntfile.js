@@ -40,6 +40,19 @@ module.exports = function(grunt) {
           'tmp/default_options/minions.jpg': 'test/assets/default_options/minions.jpg'
         }
       },
+      no_files: {
+        options: {
+          sizes: [{
+            width: 320
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['no_files/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
       file_wildcard_options: {
         options: {
           sizes: [{
@@ -282,6 +295,24 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['filters/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+      global_quality: {
+        options: {
+          quality: 80,
+          sizes: [{
+            width: 320
+          },{
+            width: 640
+          },{
+            width: 1024
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['global_quality/**/*.{jpg,gif,png}'],
           cwd: 'test/assets/',
           dest: 'tmp/'
         }]
