@@ -309,9 +309,17 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 ## Release History
 
+*0.1.2*
+
+* Quality can now be defined globally.
+* If no files are found, the task will now silently fail.
+* Bug fixes.
+* Ipsy upsy daisy dooooo.
+
 *0.1.1*
 
 * Added filters, useful for changing the resizing operation.
+* 100% more dinosaur.
 
 *0.1.0*
 
