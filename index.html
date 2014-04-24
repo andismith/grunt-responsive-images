@@ -1,30 +1,201 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>srcset Test</title>
-        <script src="assets/js/srcset.min.js"></script>
-    </head>
-    <body>
-        <h1>Tests for Grunt Responsive Images</h1>
-        <p><a href="https://github.com/andismith/grunt-responsive-images">https://github.com/andismith/grunt-responsive-images</a></p>
-        <h2>srcset Test</h2>
-        <img alt="My Wedding Day"
-         src="assets/img/wedding-small.jpg"
-         srcset="assets/img/wedding-small.jpg 640w, assets/img/wedding-medium.jpg 1024w, assets/img/wedding-large.jpg">
+  <head>
+    <title>Grunt Responsive Images</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,700|Source+Code+Pro:300|Droid+Serif:700">
+  </head>
+  <body>
+    <header id="top" class="header">
+      <div class="header-inner">
+        <h1><a href="/">Grunt Responsive Images</a></h1>    
+      </div>
+    </header>
+    <div class="page-header wrapper">
+      <div class="container">
+        <div class="box-out content-block">
+          <h1>Automate</h1>
+          <p>Take the grunt work out of responsive images with this image resizing task.</p>
+        </div>
+      </div>
+    </div>
+    <div class="navigation visible">
+      <ul>
+        <li class="sections"><a href="#install"><span>Installation</span></a>
+        <li class="sections"><a href="#docs"><span>Docs</span></a>
+        <li class="sections"><a href="#screencast"><span>Screencast</span></a>
+        <li class="sections"><a href="#examples"><span>Examples</span></a>
+      </ul>
+    </div>
+
+    <div class="page-content wrapper">
+  <div class="container">
+
+    <div class="main-content">
+      
+      <section class="posts posts-blog">
+        <article class="post content-block" id="intro">
+          <header class="post-header">
+            <h1>Responsive Images are here!</h1>
+          </header>
+
+          <section class="body">
+
+            <div class="post-content">
+              
+              <p>The browser vendors have decided!</p>
+
+              <p>The <code>picture</code> element is the winner!</p>
+
+              <p>Now all you have to do is implement responsive images on your site. And generate hundreds of images at small, medium and large resolutions.</p>
+
+              <p>Never fear! This site will help you with both!</p>
+
+            </div>
+          </section>
+        </article>
+
+        <article class="post content-block" id="install">
+          <header class="post-header">
+            <h1>Installation</h1>
+          </header>
+
+          <section class="body">
+
+            <div class="post-content">
+
+              <p>This plugin requires Grunt <code>~0.4.0</code>.</p>
+
+              <p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before, be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide, as it explains how to create a <a href="http://gruntjs.com/sample-gruntfile">Gruntfile</a> as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:</p>
+
+              <pre><code>npm install grunt-responsive-images --save-dev</code></pre>
+
+              <p>You also need to install either GraphicsMagick or Imagemagick CLI tools.</p>
+
+              <p><strong>Installing GraphicsMagick (Recommended)</strong></p>
+
+              <p>If you're a Mac user and have <a href="http://brew.sh/">Homebrew</a> installed, simply type:</p>
+
+              <pre lang="shell"><code>brew install GraphicsMagick</code></pre>
+
+              <p>Otherwise, please visit the <a href="http://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/">GraphicsMagick downloads page</a>.</p>
+
+              <p><strong>Or installing ImageMagick</strong></p>
+
+              <p>If you're a Mac user and have <a href="http://brew.sh/">Homebrew</a> installed, simply type:</p>
+
+              <pre><code>brew install ImageMagick</code></pre>
+
+              <p>Otherwise, please visit the <a href="http://www.imagemagick.org/script/binary-releases.php">ImageMagick downloads page</a>.</p>
+
+              <p>Once both the plugin and graphics engine have been installed, it may be enabled inside your Gruntfile with this line of JavaScript:</p>
+
+              <pre><code>grunt.loadNpmTasks('grunt-responsive-images');</code></pre>
+
+            </div>
+          </section>
+        </article>
+
+        <article class="post content-block" id="docs">
+          <header class="post-header">
+            <h1>Documentation</h1>
+          </header>
+
+          <section class="body">
+
+            <div class="post-content">
+              <p>Please see the project <a href="https://github.com/andismith/grunt-responsive-images/">readme</a> file for information on how to use the plugin.</p>
+            </div>
+          </section>
+        </article>
+
+        <article class="post content-block" id="screencast">
+          <header class="post-header">
+            <h1>Screencast</h1>
+          </header>
+          <section class="body">
+            <div class="post-content">
+
+              <p>Need a walkthrough?</p>
+              <div class="post-image">
+                <iframe src="//player.vimeo.com/video/92794354?byline=0&amp;portrait=0&amp;color=ffffff" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              </div>
+            </div>
+          </section>
+        </article>
         
-        <h2>PictureFill Test</h2>
-        <span data-picture data-alt="My Wedding Day">
-            <span data-src="assets/img/wedding-small.jpg"></span>
-            <span data-src="assets/img/wedding-medium.jpg" data-media="(min-width: 640px)"></span>
-            <span data-src="assets/img/wedding-large.jpg" data-media="(min-width: 1024px)"></span>
+      </section>
 
-            <!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
-            <noscript><img src="assets/img/wedding-small.jpg" alt="My Wedding Day"></noscript>
-        </span>
+        <article class="post content-block" id="examples">
+          <header class="post-header">
+            <h1>Examples</h1>
+          </header>
 
-        <script src="assets/js/matchmedia.js"></script>
-        <script src="assets/js/picturefill.js"></script>
+          <section class="body">
+
+            <div class="post-content">
+              <h2>srcset Test</h2>
+              <img alt="My Wedding Day"
+               src="assets/img/wedding-small.jpg"
+               srcset="assets/img/wedding-small.jpg 640w, assets/img/wedding-medium.jpg 1024w, assets/img/wedding-large.jpg">
+              
+              <h2>PictureFill Test</h2>
+              <span data-picture data-alt="My Wedding Day">
+                <span data-src="assets/img/wedding-small.jpg"></span>
+                <span data-src="assets/img/wedding-medium.jpg" data-media="(min-width: 640px)"></span>
+                <span data-src="assets/img/wedding-large.jpg" data-media="(min-width: 1024px)"></span>
+
+                <!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
+                <noscript><img src="assets/img/wedding-small.jpg" alt="My Wedding Day"></noscript>
+              </span>
+
+            </div>
+          </section>
+        </article>
+        
+      </section>
+      
+    </div>
+
+    <aside class="sidebar">
+      <section class="content-block">
+          <h1 class="aside">Latest</h1>
+          <p>v0.1.2</p>
+      </section>
+
+      <section class="highlight-block">
+        <a href="https://github.com/andismith/grunt-responsive-images/">
+          <h1 class="aside">Github</h1>
+          <p>Fork and view the source on Github</p>
+        </a>
+      </section>
+
+      <section class="social">
+        <ul>
+          <li class="twitter">
+            <a href="http://www.twitter.com/andismith" target-="_blank"><span>@andismith</span></a>
+          </li>
+          <li class="github">
+            <a href="https://github.com/andismith" target-="_blank"><span>andismith</span></a>
+          </li>
+          <li class="google-plus">
+            <a href="https://plus.google.com/+AndiSmithUK/?rel=author" target-="_blank"><span>AndiSmithUK</span></a>
+          </li>
+          <li class="linked-in">
+            <a href="http://uk.linkedin.com/in/andismith/" target-="_blank"><span>andismith</span></a>
+          </li>
+        </ul>
+      </section>
+
+    </aside>
+  </div>
+</div>
+
+    <script src="assets/js/srcset.min.js"></script>
+    <script src="assets/js/matchmedia.js"></script>
+    <script src="assets/js/picturefill.js"></script>
+    <script src="assets/js/common.js"></script>
 
 
-    </body>
+  </body>
 </html>
