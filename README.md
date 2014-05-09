@@ -43,6 +43,8 @@ v0.1.0 changes some of the default settings for Grunt Responsive Images. Before 
 
 ### Overview
 
+[Learn more about Grunt Responsive Images on the accompanying website.](http://andismith.github.io/grunt-responsive-images/)
+
 The responsive_images task will take your source image and create images at different resolutions for use with [PictureFill](https://github.com/scottjehl/picturefill) or with [srcset](https://github.com/borismus/srcset-polyfill).
 
 A demo of both srcset and PictureFill using Grunt Responsive Images [is available here](http://andismith.github.io/grunt-responsive-images/).
@@ -309,9 +311,17 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 ## Release History
 
+*0.1.2*
+
+* Quality can now be defined globally.
+* If no files are found, the task will now silently fail.
+* Bug fixes.
+* Ipsy upsy daisy dooooo.
+
 *0.1.1*
 
 * Added filters, useful for changing the resizing operation.
+* 100% more dinosaur.
 
 *0.1.0*
 

@@ -23,6 +23,7 @@ module.exports = function(grunt) {
   var DEFAULT_OPTIONS = { 
     engine: 'gm',         // gm or im - DEFAULT CHANGED
     separator: '-',
+    quality: 100,         // value between 1 and 100
     sizes: [{
       name: 'small',
       width: 320
@@ -38,7 +39,6 @@ module.exports = function(grunt) {
   var DEFAULT_SIZE_OPTIONS = {
     aspectRatio: true,  // DEFAULT CHANGED - maintain the aspect ratio of the image (when width and height are supplied) 
     gravity: 'Center',  // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
-    quality: 100,       // value between 1 and 100
     upscale: false      // DEFAULT CHANGED - true/false
   };
 
@@ -76,12 +76,17 @@ module.exports = function(grunt) {
    * @private
    * @param  {string}          engine     im for ImageMagick, gm for GraphicsMagick
    */
-  var setEngine = function(engine) {
+  var getEngine = function(engine) {
     if (typeof GFX_ENGINES[engine] === 'undefined') {
       return grunt.fail.warn('Invalid render engine specified');
     }
     grunt.verbose.ok('Using render engine: ' + GFX_ENGINES[engine].name);
-    gm = gm.subClass({ imageMagick: (engine === 'im') });
+    
+    if (engine === 'im') {
+      return gm.subClass({ imageMagick: (engine === 'im') });
+    }
+
+    return gm;
   };
 
   /**
@@ -130,6 +135,10 @@ module.exports = function(grunt) {
     }
 
     return isValid;
+  };
+
+  var isValidQuality = function(quality) {
+    return (quality > 1);
   };
 
   /**
@@ -319,6 +328,7 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('responsive_images', 'Create images at different sizes for responsive websites.', function() {
 
     var done = this.async();
+    var gfxEngine = {};
     var i = 0;
     var series = [];
     var options = this.options(DEFAULT_OPTIONS); // Merge task-specific and/or target-specific options with these defaults.
@@ -329,7 +339,7 @@ module.exports = function(grunt) {
       return grunt.fail.fatal('No sizes have been defined.');
     }
 
-    setEngine(options.engine);
+    gfxEngine = getEngine(options.engine);
 
     options.units = _.extend(_.clone(DEFAULT_UNIT_OPTIONS), options.units);
 
@@ -338,11 +348,14 @@ module.exports = function(grunt) {
       var sizeOptions = _.extend(_.clone(DEFAULT_SIZE_OPTIONS), s);
 
       if (!isValidSize(sizeOptions.width, sizeOptions.height)) {
-        return grunt.fail.fatal('Size is invalid (' + sizeOptions.width + ', ' + sizeOptions.height + ')');
+        // allow task to be by-passed if no images
+        return grunt.log.warn('Size is invalid (' + sizeOptions.width + ', ' + sizeOptions.height + ')');
       }
 
-      if (sizeOptions.quality < 1) {
-        return grunt.fail.warn('Quality configuration has changed to values between 1 - 100. Please update your configuration');
+      sizeOptions.quality = sizeOptions.quality || options.quality;
+
+      if (!isValidQuality(sizeOptions.quality)) {
+        return grunt.log.warn('Quality configuration has changed to values between 1 - 100. Please update your configuration');
       }
 
       sizeOptions.id = i;
@@ -351,7 +364,7 @@ module.exports = function(grunt) {
       tally[sizeOptions.id] = 0;
 
       if (task.files.length === 0) {
-        return grunt.fail.warn('Unable to compile; no valid source files were found.');
+        return grunt.log.warn('Unable to compile; no valid source files were found.');
       } else {
 
         // Iterate over all specified file groups.
@@ -377,7 +390,7 @@ module.exports = function(grunt) {
 
           series.push(function(callback) {
 
-            var image = gm(srcPath);
+            var image = gfxEngine(srcPath);
 
             image.size(function(error, size) {
               
@@ -388,15 +401,19 @@ module.exports = function(grunt) {
                 handleImageErrors(error, options.engine);
               } else {
 
-                // crop image
                 if (!sizeOptions.aspectRatio && sizeOptions.width && sizeOptions.height) {
+                  // crop image
                   sizingMethod = '^';
                   mode = 'crop';
                 }
-                
-                // upscale
+
                 if (sizeOptions.upscale  && (sizeOptions.width > size.width || sizeOptions.height > size.height)) {
-                  sizingMethod = '^';
+                  // upscale
+                  if (sizeOptions.aspectRatio) {
+                    sizingMethod = '^';
+                  } else {
+                    sizingMethod = '!';
+                  }
                 }
                 
                 if (sizeOptions.filter) {

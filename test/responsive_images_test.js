@@ -35,10 +35,10 @@
 (function() {
   'use strict';
 
-  var async = require('async'),
-    grunt = require('grunt'),
-    im = require('node-imagemagick'),
-    q = require('q');
+  var async = require('async');
+  var gm    = require('gm');
+  var grunt = require('grunt');
+  var q = require('q');
 
   /**
    * Compare the created image against the expected image.
@@ -53,28 +53,28 @@
     var deferred = q.defer();
     
     // load created image
-    im.identify(actualPath + filename, function(error, actualProp) {
+    gm(actualPath + filename).identify(function(error, actualProp) {
       if (error) {
         deferred.reject('Failed to load actual (created) image "' + actualPath + filename + '"');
       } else {
         // load expected image
-        im.identify(expectedPath + filename, function(error, expectedProp) {
+        gm(expectedPath + filename).identify(function(error, expectedProp) {
           if (error) {
             deferred.reject('Failed to load expected image "' + expectedPath + filename + '"');
           } else {
             // check if we have a match
-            if ((actualProp.compression === expectedProp.compression) &&
-              (actualProp.width === expectedProp.width) &&
-              (actualProp.height === expectedProp.height) &&
-              (actualProp.quality === expectedProp.quality)) {
+            if ((actualProp.Compression === expectedProp.Compression) &&
+              (actualProp.size.width === expectedProp.size.width) &&
+              (actualProp.size.height === expectedProp.size.height) &&
+              (actualProp['JPEG-Quality'] === expectedProp['JPEG-Quality'])) {
               deferred.resolve(true);
             } else {
               deferred.reject(filename + ': ' +
-                'actual image (' + actualProp.compression + ' ' + actualProp.width +
-                'x' + actualProp.height + ' - Q:' + actualProp.quality +
+                'actual image (' + actualProp.compression + ' ' + actualProp.size.width +
+                'x' + actualProp.size.height + ' - Q:' + actualProp.quality +
                 ') and ' +
-                'expected image (' + expectedProp.compression + ' ' + expectedProp.width +
-                'x' + expectedProp.height + ' - Q:' + expectedProp.quality +
+                'expected image (' + expectedProp.compression + ' ' + expectedProp.size.width +
+                'x' + expectedProp.size.height + ' - Q:' + expectedProp.quality +
                 ') should match');
             }
           }   
@@ -274,6 +274,17 @@
             'yoshi-320.png',
             'yoshi-640.png',
             'yoshi-1024.png'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    global_quality: function(test) {
+      var actualPath = 'tmp/global_quality/',
+          expectedPath = 'test/expected/global_quality/',
+          files = [
+            'night_garden-320.jpg',
+            'night_garden-640.jpg',
+            'night_garden-1024.jpg'
           ];
 
       checkImages(actualPath, expectedPath, files, test);
