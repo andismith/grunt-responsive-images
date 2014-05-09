@@ -276,6 +276,24 @@ module.exports = function(grunt) {
           custom_dest: 'tmp/custom_dest_path/{%= width %}/{%= path %}'
         }]
       },
+      rename: {
+        options: {
+          sizes: [{
+            width: "100%",
+            name: "unchanged",
+            rename: false
+          },{
+            width: "50%",
+            name: "half"
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['rename/**.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
       filters: {
         options: {
           sizes: [{

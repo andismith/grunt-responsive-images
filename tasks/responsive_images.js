@@ -39,7 +39,8 @@ module.exports = function(grunt) {
   var DEFAULT_SIZE_OPTIONS = {
     aspectRatio: true,  // DEFAULT CHANGED - maintain the aspect ratio of the image (when width and height are supplied) 
     gravity: 'Center',  // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
-    upscale: false      // DEFAULT CHANGED - true/false
+    upscale: false,     // DEFAULT CHANGED - true/false
+    rename: true        // whether file should keep its name
   };
 
   var DEFAULT_UNIT_OPTIONS = {
@@ -181,8 +182,12 @@ module.exports = function(grunt) {
    * @param   {string}          prefix        The required prefix (optional)
    * @param   {string}          suffix        The required suffix (optional)
    */
-  var addPrefixSuffix = function(value, prefix, suffix) {
-    return (prefix || '') + value + (suffix || '');
+  var addPrefixSuffix = function(value, prefix, suffix, rename) {
+    if (rename) {
+      return (prefix || '') + value + (suffix || '');
+    } else {
+      return (suffix || '');
+    }
   };
 
   /**
@@ -380,7 +385,7 @@ module.exports = function(grunt) {
           sizeOptions.name = getName({ name: sizeOptions.name, width: sizeOptions.width, height: sizeOptions.height }, options);
 
           // create an output name with prefix, suffix
-          sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, options.separator, sizeOptions.suffix);
+          sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, options.separator, sizeOptions.suffix, sizeOptions.rename);
 
           srcPath = f.src[0];
           dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd);
