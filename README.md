@@ -121,9 +121,9 @@ sizes: [{
   * **rename**<br />
     *Type:* `Boolean`<br />
     *Default:* `true`<br />
-    *Version:* 0.1.2 and above
+    *Version:* 0.1.3 and above
 
-    If `rename` is set to `false`, then the file will keep its original name. Suffixes will be applied.
+    If `rename` is set to `false`, then at this size the file will not be renamed, but will instead keep its original name. Suffixes will still be applied.
 
   * **quality**<br />
     *Type:* `Number`<br />
@@ -317,6 +317,11 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
   Use this task in combination with [Grunt Newer](https://npmjs.org/package/grunt-newer).
 
 ## Release History
+
+*0.1.3*
+
+* Stop files being renamed with the new 'rename': false option.
+* BEE-DO! BEE-DO!
 
 *0.1.2*
 
