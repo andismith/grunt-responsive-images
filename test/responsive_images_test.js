@@ -267,6 +267,16 @@
 
       checkImages(actualPath, expectedPath, files, test);
     },
+    rename: function(test) {
+      var actualPath = 'tmp/rename/',
+        expectedPath = 'test/expected/rename/',
+        files = [
+          'minions.jpg',
+          'minions-half.jpg'
+        ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
     filters: function(test) {
       var actualPath = 'tmp/filters/',
           expectedPath = 'test/expected/filters/',

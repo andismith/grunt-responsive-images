@@ -118,6 +118,13 @@ sizes: [{
     If a `name` is specified, then the file will be suffixed with this name. e.g. `my-image-small.jpg`<br />
     If a `name` is not specified, then the file will be suffixed with the width and/or height specified in the size options. e.g. `my-image-320x240.jpg`
 
+  * **rename**<br />
+    *Type:* `Boolean`<br />
+    *Default:* `true`<br />
+    *Version:* 0.1.2 and above
+
+    If `rename` is set to `false`, then the file will keep its original name. Suffixes will be applied.
+
   * **quality**<br />
     *Type:* `Number`<br />
     *Default:* `100`<br />
