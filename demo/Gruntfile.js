@@ -6,7 +6,18 @@ module.exports = function(grunt) {
   grunt.initConfig({
     responsive_images: {
       dev: {
-        options: {},
+        options: {
+          sizes: [{
+            width: 320,
+            name: 'small'
+          }, {
+            width: 640,
+            name: 'medium'
+          }, {
+            width: 800,
+            name: 'large'
+          }]
+        },
         files: [{
           expand: true,
           src: ['assets/img/**/*.{jpg,gif,png}'],
