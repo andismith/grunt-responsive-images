@@ -134,20 +134,38 @@
           <section class="body">
 
             <div class="post-content">
-              <h2>srcset Test</h2>
-              <img alt="My Wedding Day"
-               src="assets/img/wedding-small.jpg"
-               srcset="assets/img/wedding-small.jpg 640w, assets/img/wedding-medium.jpg 1024w, assets/img/wedding-large.jpg">
-              
-              <h2>PictureFill Test</h2>
-              <span data-picture data-alt="My Wedding Day">
-                <span data-src="assets/img/wedding-small.jpg"></span>
-                <span data-src="assets/img/wedding-medium.jpg" data-media="(min-width: 640px)"></span>
-                <span data-src="assets/img/wedding-large.jpg" data-media="(min-width: 1024px)"></span>
 
-                <!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
-                <noscript><img src="assets/img/wedding-small.jpg" alt="My Wedding Day"></noscript>
-              </span>
+              <h2>Using the Picture element</h2>
+
+              <p>The &lt;picture> element loads an image based on the matched viewport. The element should contain a series of &lt;source> elements with media queries followed by an &lt;img> element, which will be the fallback for browsers that cannot load the source images.</p>
+
+              <p>At the time of writing, the &lt;picture> element is only implemented in Chrome Canary, with support in Chrome, Firefox, Safari and Opera to follow. For browsers that do not support &lt;picture>, we can include <a href="http://scottjehl.github.io/picturefill/">a picturefill polyfill</a>.</p>
+
+              <p>&lt;picture> can be implemented with the following:</p>
+
+              <pre><code>&lt;picture>
+    &lt;!--[if IE 9]>&lt;video style="display: none;">&lt;![endif]-->
+    &lt;source srcset="wedding-large.jpg" media="(min-width: 1024px)" />
+    &lt;source srcset="wedding-medium.jpg" media="(min-width: 640px)" />
+    &lt;source srcset="wedding-small.jpg" />
+    &lt;!--[if IE 9]>&lt;/video>&lt;![endif]-->
+    &lt;img src="wedding-small.jpg" alt="Wedding Day" />
+&lt;/picture></code></pre>
+
+              <p>The conditional comments are required to support the &lt;picture> element in Internet Explorer 9.</p>
+
+              <p>The code above would create the following output:</p>
+
+              <picture>
+                  <!--[if IE 9]><video style="display: none;"><![endif]-->
+                  <source srcset="assets/img/wedding-large.jpg" media="(min-width: 640px)">
+                  <source srcset="assets/img/wedding-medium.jpg" media="(min-width: 320px)">
+                  <source srcset="assets/img/wedding-small.jpg">
+                  <!--[if IE 9]></video><![endif]-->
+                  <img src="assets/img/wedding-small.jpg" alt="Wedding Day">
+              </picture>
+
+              <p>There is also <a href="https://github.com/miller/grunt-responsive-images-converter">a Grunt task available</a> for converting your Markdown images in to Responsive Images.</p>
 
             </div>
           </section>
@@ -160,7 +178,7 @@
     <aside class="sidebar">
       <section class="content-block">
           <h1 class="aside">Latest</h1>
-          <p>v0.1.2</p>
+          <p>v0.1.3</p>
       </section>
 
       <section class="highlight-block">
@@ -191,10 +209,20 @@
   </div>
 </div>
 
-    <script src="assets/js/srcset.min.js"></script>
     <script src="assets/js/matchmedia.js"></script>
     <script src="assets/js/picturefill.js"></script>
     <script src="assets/js/common.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-534640-12', 'andismith.com');
+      ga('send', 'pageview');
+
+    </script>
 
 
   </body>
