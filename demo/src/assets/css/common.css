@@ -1692,3 +1692,7 @@ pre[class*="language-"] {
   margin-left: 0;
   margin-right: 0;
 }
+
+picture img {
+  max-width: 100%;
+}
