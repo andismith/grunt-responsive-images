@@ -304,7 +304,7 @@ module.exports = function(grunt) {
         extName = '';
 
     extName = path.extname(dstPath);
-    baseName = path.basename(srcPath, extName); // filename without extension
+    baseName = path.basename(dstPath, extName); // filename without extension
 
     if (customDest) {
 
