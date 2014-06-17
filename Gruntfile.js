@@ -79,6 +79,32 @@ module.exports = function(grunt) {
           dest: 'tmp/'
         }]
       },
+      file_wildcard_options_without_ext: {
+        options: {
+          sizes: [{
+            aspectRatio: false,
+            height: 240,
+            name: 'small',
+            width: 320
+          },{
+            aspectRatio: false,
+            height: 480,
+            name: 'medium',
+            width: 640
+          },{
+            aspectRatio: false,
+            height: 768,
+            name: 'large',
+            width: 1024
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['file_wildcard_options_without_ext/**/*'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
       custom_options: {
         options: {
           sizes: [{

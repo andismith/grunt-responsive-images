@@ -51,7 +51,7 @@
    */
   var compareImageProperties = function(filename, actualPath, expectedPath) {
     var deferred = q.defer();
-    
+
     // load created image
     gm(actualPath + filename).identify(function(error, actualProp) {
       if (error) {
@@ -77,7 +77,7 @@
                 'x' + expectedProp.size.height + ' - Q:' + expectedProp.quality +
                 ') should match');
             }
-          }   
+          }
         });
       }
     });
@@ -114,7 +114,7 @@
   var checkImages = function(actual, expected, files, test) {
     var series = [],
         file = {};
-    
+
     test.expect(files.length);
 
     files.forEach(function(filename) {
@@ -134,7 +134,7 @@
     });
   };
 
-  
+
   // List of tests to be run
   exports.responsive_images = {
     default_options: function(test) {
@@ -161,6 +161,23 @@
             'mickey-mouse-small.gif',
             'mickey-mouse-medium.gif',
             'mickey-mouse-large.gif'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    file_wildcard_options_without_ext: function (test) {
+      var actualPath = 'tmp/file_wildcard_options_without_ext/',
+          expectedPath = 'test/expected/file_wildcard_options_without_ext/',
+          files = [
+            'mario-yoshi-small.jpg',
+            'mario-yoshi-medium.jpg',
+            'mario-yoshi-large.jpg',
+            'sub_directory/mickey-mouse-small.gif',
+            'sub_directory/mickey-mouse-medium.gif',
+            'sub_directory/mickey-mouse-large.gif',
+            'sub_directory/sub_sub_directory/sonic-small.png',
+            'sub_directory/sub_sub_directory/sonic-medium.png',
+            'sub_directory/sub_sub_directory/sonic-large.png'
           ];
 
       checkImages(actualPath, expectedPath, files, test);
