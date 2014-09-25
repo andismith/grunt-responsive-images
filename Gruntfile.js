@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp']
+      tests: ['tmp', '!tmp/new_files_only/magikarp-200.png', '!tmp/new_files_only/magikarp-300.png']
     },
 
     // Configuration to be run (and then tested).
@@ -96,6 +96,11 @@ module.exports = function(grunt) {
             width: 660,
             name: "large",
             suffix: "_x2",  // retina gfx
+            quality: 50
+          },{
+            createNoScaledImage: true,
+            width: 1660,
+            name: "largest",
             quality: 50
           }]
         },
@@ -319,6 +324,7 @@ module.exports = function(grunt) {
       },
       global_quality: {
         options: {
+          tryAnimated: true,
           quality: 80,
           sizes: [{
             width: 320
@@ -331,6 +337,59 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['global_quality/**/*.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+      animated: {
+        options: {
+          tryAnimated: true,
+          quality: 80,
+          sizes: [{
+            width: 320
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['animated/**/*.gif'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+      new_files_only_prep: {
+        options: {
+          sizes: [{
+              aspectRatio: false,
+              width: '200px'
+            },{
+              aspectRatio: false,
+              width: '300px'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['new_files_only/gummi-bears.jpg'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+      new_files_only: {
+        options: {
+          newFilesOnly: true,
+          sizes: [{
+              aspectRatio: false,
+              width: '100px'
+            },{
+              aspectRatio: false,
+              width: '200px'
+            },{
+              aspectRatio: false,
+              width: '300px'
+            }]
+        },
+        files: [{
+          expand: true,
+          src: ['new_files_only/**/*.{jpg,gif,png}'],
           cwd: 'test/assets/',
           dest: 'tmp/'
         }]

@@ -51,7 +51,7 @@
    */
   var compareImageProperties = function(filename, actualPath, expectedPath) {
     var deferred = q.defer();
-    
+
     // load created image
     gm(actualPath + filename).identify(function(error, actualProp) {
       if (error) {
@@ -77,7 +77,7 @@
                 'x' + expectedProp.size.height + ' - Q:' + expectedProp.quality +
                 ') should match');
             }
-          }   
+          }
         });
       }
     });
@@ -114,7 +114,7 @@
   var checkImages = function(actual, expected, files, test) {
     var series = [],
         file = {};
-    
+
     test.expect(files.length);
 
     files.forEach(function(filename) {
@@ -134,7 +134,7 @@
     });
   };
 
-  
+
   // List of tests to be run
   exports.responsive_images = {
     default_options: function(test) {
@@ -295,6 +295,29 @@
             'night_garden-320.jpg',
             'night_garden-640.jpg',
             'night_garden-1024.jpg'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    animated: function(test) {
+      var actualPath = 'tmp/animated/',
+          expectedPath = 'test/expected/animated/',
+          files = [
+            'olaf-320.gif'
+          ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
+    new_files_only: function(test) {
+      var actualPath = 'tmp/new_files_only/',
+          expectedPath = 'test/expected/new_files_only/',
+          files = [
+            'gummi-bears-100.jpg',
+            'gummi-bears-200.jpg',
+            'gummi-bears-300.jpg',
+            'darkwing-duck-100.jpg',
+            'darkwing-duck-200.jpg',
+            'darkwing-duck-300.jpg'
           ];
 
       checkImages(actualPath, expectedPath, files, test);

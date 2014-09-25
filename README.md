@@ -36,8 +36,8 @@ Once both the plugin and graphics engine have been installed, it may be enabled 
 grunt.loadNpmTasks('grunt-responsive-images');
 ```
 
-## Important
-v0.1.0 changes some of the default settings for Grunt Responsive Images. Before updating, please ensure you check the readme for changes.
+## Back For More?
+Check the release history at the bottom of this readme for what's changed!
 
 ## The "responsive_images" task
 
@@ -73,6 +73,13 @@ grunt.initConfig({
   *Version:* 0.1.0 and above
 
   Chooses which graphics engine to use when resizing images. To use GraphicsMagick, set this to `gm`. To use ImageMagick, set this to `im`. You'll need the relevant engine installed.
+
+* **options.newFilesOnly**<br />
+  *Type:* `Boolean`<br />
+  *Default:* `true`<br />
+  *Version:* 0.1.4 and above
+
+  Only process files that do not already exist in the destination folder. Note this is a rather basic check for whether to process files, it does not check timestamps or file data currently. This option is useful for making the task fast during development.
 
 * **options.sizes**<br />
   *Type:* `Array`<br />
@@ -130,7 +137,7 @@ sizes: [{
     *Default:* `100`<br />
     *Available Values:* `1` - `100`<br />
     *Version:* 0.0.4 and above
-    
+
     JPEG format only. The quality of the image, 100 being the highest quality and 1 being the lowest.
 
     Please note: In versions below 0.1.0, quality is specified between 0 and 1.
@@ -157,7 +164,7 @@ sizes: [{
     *Default:* `Center`<br />
     *Available Values:* `NorthWest` || `North` || `NorthEast` || `West` || `Center` || `East` || `SouthWest` || `South` || `SouthEast`<br />
     *Version:* 0.1.0 and above
-    
+
     `gravity` determines the placement of the image within the crop. The default is `Center`.
     This setting only applies if an image is cropped. Cropping occurs when the aspectRatio is set to `false` and both width and height are specified.
 
@@ -188,9 +195,9 @@ sizes: [{
   *Type:* `Object`<br />
   *Default:* `{ percentage: 'pc', pixel: '', multiply: 'x' }`<br />
   *Version:* 0.1.0 and above
-  
+
   'units' contains the strings that should be used to represent the size units in an image 'name' when `name` has not been specified. e.g. `my-image-50pcx50pc.jpg`
-  
+
   * **pixel**
     *Type:* `String`<br />
     *Default:* ``<br />
@@ -314,9 +321,24 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 * **How do I only process recently added images?**
 
-  Use this task in combination with [Grunt Newer](https://npmjs.org/package/grunt-newer).
+  Use the option newFilesOnly to only produce files that do not exist.
 
 ## Release History
+
+*0.1.4*
+
+* Skip images with newFilesOnly. Set this option to true and Grunt Responsive Images will check if the image has already been created before creating a new version. This is only a basic check, it doesn't check for changes in the file - only whether the file does or does not exist. A future version will also check the timestamp.
+* Every option (except width and height) can be defined globally. This includes:
+  * aspectRatio
+  * gravity
+  * quality
+  * rename
+  * separator
+  * units
+  * upscale
+* Don't want to create images for larger sizes if you're not upscaling? Just set createNoScaledImage to true. And yes, you can do this globally too.
+* Animated images are now skipped. This is due to ImageMagick failing on animated GIFs and GraphicsMagick adding Megabytes to their size. If you really want animated files, you can turn it back on with tryAnimated. Unfortunately, resizing animated images is just too difficult a problem for a command line tool.
+* Do you want to build a snowman?
 
 *0.1.3*
 

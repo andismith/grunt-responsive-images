@@ -20,10 +20,17 @@ module.exports = function(grunt) {
   var gm    = require('gm');
   var path  = require('path');
 
-  var DEFAULT_OPTIONS = { 
-    engine: 'gm',         // gm or im - DEFAULT CHANGED
-    separator: '-',
-    quality: 100,         // value between 1 and 100
+  var DEFAULT_OPTIONS = {
+    aspectRatio: true,          // maintain the aspect ratio of the image (when width and height are supplied)
+    createNoScaledImage: false, // whether to create files if upscale is set to false and large sizes are specified
+    engine: 'gm',               // gm or im
+    gravity: 'Center',          // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
+    newFilesOnly: true,         // NEW VALUE - whether to only run for new files/sizes only
+    quality: 100,               // value between 1 and 100
+    rename: true,               // whether file should keep its name
+    separator: '-',             // separator between name and filesize
+    tryAnimated: false,         // DEFAULT CHANGED - whether to try to resize animated files
+    upscale: false,             // whether to upscale the image
     sizes: [{
       name: 'small',
       width: 320
@@ -34,13 +41,6 @@ module.exports = function(grunt) {
       name: 'large',
       width: 1024
     }]
-  };
-
-  var DEFAULT_SIZE_OPTIONS = {
-    aspectRatio: true,  // DEFAULT CHANGED - maintain the aspect ratio of the image (when width and height are supplied) 
-    gravity: 'Center',  // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
-    upscale: false,     // DEFAULT CHANGED - true/false
-    rename: true        // whether file should keep its name
   };
 
   var DEFAULT_UNIT_OPTIONS = {
@@ -56,8 +56,8 @@ module.exports = function(grunt) {
       brewurl: 'imagemagick',
       url: 'http://www.imagemagick.org/script/binary-releases.php',
       alternative: {
-        code: 'gm',
-        name: 'GraphicsMagick'
+      code: 'gm',
+      name: 'GraphicsMagick'
       }
     },
     gm: {
@@ -65,11 +65,14 @@ module.exports = function(grunt) {
       brewurl: 'graphicsmagick',
       url: 'http://www.graphicsmagick.org/download.html',
       alternative: {
-        code: 'im',
-        name: 'ImageMagick'
+      code: 'im',
+      name: 'ImageMagick'
       }
     }
   };
+
+  var cache = {},
+    gfxEngine = {};
 
   /**
    * Set the engine to ImageMagick or GraphicsMagick
@@ -82,7 +85,7 @@ module.exports = function(grunt) {
       return grunt.fail.warn('Invalid render engine specified');
     }
     grunt.verbose.ok('Using render engine: ' + GFX_ENGINES[engine].name);
-    
+
     if (engine === 'im') {
       return gm.subClass({ imageMagick: (engine === 'im') });
     }
@@ -98,7 +101,7 @@ module.exports = function(grunt) {
    * @return  {boolean}         Whether it is a valid array with items.
    */
   var isValidArray = function(obj) {
-    return (_.isArray(obj) && obj.length > 0);
+   return (_.isArray(obj) && obj.length > 0);
   };
 
   /**
@@ -115,8 +118,8 @@ module.exports = function(grunt) {
     // Valid values = 1, '1px', '1', '1%', '1.1%', '11.11111%', '111111%'
     // Invalid values = -1, '1.1.1%', '1a', 'a1'
     var pcRegExp = /^[0-9]*\.?[0-9]+%?$/,
-        pxRegExp = /^[0-9]+(?:px)?$/,
-        isValid = false;
+      pxRegExp = /^[0-9]+(?:px)?$/,
+      isValid = false;
 
     if ((width || height)) {
       // check if we have a valid percentage value
@@ -150,9 +153,6 @@ module.exports = function(grunt) {
    * @return  {string}          A new name
    */
   var getName = function(properties, options) {
-
-    //name, width, height, separator, suffix
-
     var filename = '',
       widthUnit = '',
       heightUnit = '';
@@ -204,7 +204,7 @@ module.exports = function(grunt) {
       test = files.src;
     } catch (exception) {
       grunt.fail.fatal('Unable to read configuration.\n' +
-        'Have you specified a target? See: http://gruntjs.com/configuring-tasks');
+      'Have you specified a target? See: http://gruntjs.com/configuring-tasks');
     }
   };
 
@@ -214,11 +214,11 @@ module.exports = function(grunt) {
    * @private
    * @param   {object}          files         The files object
    */
-  var checkForSingleSource = function(files) {     
+  var checkForSingleSource = function(files) {
     // more than 1 source.
     if (files.src.length > 1) {
       return grunt.fail.warn('Unable to resize more than one image in compact or files object format.\n'+
-        'For multiple files please use the files array format.\nSee http://gruntjs.com/configuring-tasks');
+      'For multiple files please use the files array format.\nSee http://gruntjs.com/configuring-tasks');
     }
   };
 
@@ -247,7 +247,7 @@ module.exports = function(grunt) {
       l = keys.length;
     for (i = 0; i < l; i++) {
       if (obj[keys[i]] && obj[keys[i]].toString().indexOf(remove) > -1) {
-        obj[keys[i]] = obj[keys[i]].toString().replace(remove, '');
+      obj[keys[i]] = obj[keys[i]].toString().replace(remove, '');
       }
     }
     return obj;
@@ -266,10 +266,19 @@ module.exports = function(grunt) {
       grunt.log.error(error.message);
 
       grunt.fail.warn('\nPlease ensure ' + GFX_ENGINES[engine].name + ' is installed correctly.\n' +
-        '`brew install ' + GFX_ENGINES[engine].brewurl + '` or see ' + GFX_ENGINES[engine].url + ' for more details.\n' +
-        'Alternatively, set options.engine to \'' + GFX_ENGINES[engine].alternative.code + '\' to use ' + GFX_ENGINES[engine].alternative.name + '.\n');
+      '`brew install ' + GFX_ENGINES[engine].brewurl + '` or see ' + GFX_ENGINES[engine].url + ' for more details.\n' +
+      'Alternatively, set options.engine to \'' + GFX_ENGINES[engine].alternative.code + '\' to use ' + GFX_ENGINES[engine].alternative.name + '.\n');
     } else {
       grunt.fail.warn(error.message);
+    }
+  };
+
+  var isAnimatedGif = function(data, dstPath, tryAnimated) {
+    // GIF87 cannot be animated.
+    // data.Delay and Scene can identify an animation GIF
+    if (!tryAnimated && data.format.toUpperCase() === 'GIF' && data.Delay && data.Scene) {
+      grunt.verbose.warn(dstPath + ' is animated - skipping');
+      return true;
     }
   };
 
@@ -283,8 +292,86 @@ module.exports = function(grunt) {
   var outputResult = function(count, name) {
     if (count) {
       grunt.log.writeln('Resized ' + count.toString().cyan + ' ' +
-        grunt.util.pluralize(count, 'file/files') + ' for ' + name);
+      grunt.util.pluralize(count, 'file/files') + ' for ' + name);
     }
+  };
+
+  /**
+   * Check whether a new version exists
+   *
+   * @private
+   * @param   {string}          srcPath     File source path
+   * @param   {string}          dstPath     File destination path
+   */
+  var isFileNewVersion = function(srcPath, dstPath) {
+    return (!grunt.file.exists(dstPath));
+  };
+
+  var processImage = function(srcPath, dstPath, sizeOptions, tally, callback) {
+    var image = gfxEngine(srcPath);
+
+    image.identify(function(err, data) {
+      if (!isAnimatedGif(data, dstPath, sizeOptions.tryAnimated)) {
+      image.size(function(error, size) {
+        var sizingMethod = '';
+        var mode = 'resize';
+
+        if (error) {
+         handleImageErrors(error, sizeOptions.engine);
+        } else {
+
+        if (!sizeOptions.aspectRatio && sizeOptions.width && sizeOptions.height) {
+          // crop image
+          sizingMethod = '^';
+          mode = 'crop';
+        }
+
+        if (sizeOptions.width > size.width || sizeOptions.height > size.height) {
+          if (sizeOptions.upscale) {
+          // upscale
+          if (sizeOptions.aspectRatio) {
+            sizingMethod = '^';
+          } else {
+            sizingMethod = '!';
+          }
+          }
+
+          if (sizeOptions.createNoScaledImage) {
+            grunt.verbose.ok('Upscaled image ' + dstPath + ' will not be created');
+            return callback();
+          }
+        }
+
+
+        if (sizeOptions.filter) {
+          image.filter(sizeOptions.filter);
+        }
+
+        image
+          .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
+          .quality(sizeOptions.quality);
+
+        if (mode === 'crop') {
+          image
+          .gravity(sizeOptions.gravity)
+          .crop(sizeOptions.width, sizeOptions.height, 0, 0);
+        }
+
+        image.write(dstPath, function (error) {
+          if (error) {
+            handleImageErrors(error, sizeOptions.engine);
+          } else {
+            grunt.verbose.ok('Responsive Image: ' + srcPath + ' now '+ dstPath);
+            tally[sizeOptions.id]++;
+          }
+          return callback();
+        });
+        }
+      });
+      } else {
+      return callback();
+      }
+    });
   };
 
 
@@ -295,13 +382,14 @@ module.exports = function(grunt) {
    * @param   {string}          srcPath   The source path
    * @param   {string}          filename  Image Filename
    * @param   {object}          sizeOptions
-   * @param   {string}          customDest 
+   * @param   {string}          customDest
    * @param   {string}          origCwd
+   * @return                    The complete path and filename
    */
   var getDestination = function(srcPath, dstPath, sizeOptions, customDest, origCwd) {
     var baseName = '',
-        dirName = '',
-        extName = '';
+      dirName = '',
+      extName = '';
 
     extName = path.extname(dstPath);
     baseName = path.basename(srcPath, extName); // filename without extension
@@ -309,9 +397,9 @@ module.exports = function(grunt) {
     if (customDest) {
 
       sizeOptions.path = srcPath.replace(new RegExp(origCwd), "").replace(new RegExp(path.basename(srcPath)+"$"), "");
-      
+
       grunt.template.addDelimiters('size', '{%', '%}');
-      
+
       dirName = grunt.template.process(customDest, {
         delimiters: 'size',
         data: sizeOptions
@@ -319,9 +407,7 @@ module.exports = function(grunt) {
 
       checkDirectoryExists(path.join(dirName));
       return path.join(dirName, baseName + extName);
-
     } else {
-      
       dirName = path.dirname(dstPath);
       checkDirectoryExists(path.join(dirName));
       return path.join(dirName, baseName + sizeOptions.outputName + extName);
@@ -333,7 +419,6 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('responsive_images', 'Create images at different sizes for responsive websites.', function() {
 
     var done = this.async();
-    var gfxEngine = {};
     var i = 0;
     var series = [];
     var options = this.options(DEFAULT_OPTIONS); // Merge task-specific and/or target-specific options with these defaults.
@@ -350,14 +435,12 @@ module.exports = function(grunt) {
 
     options.sizes.forEach(function(s) {
 
-      var sizeOptions = _.extend(_.clone(DEFAULT_SIZE_OPTIONS), s);
+      var sizeOptions = _.extend({}, options, s);
 
       if (!isValidSize(sizeOptions.width, sizeOptions.height)) {
         // allow task to be by-passed if no images
         return grunt.log.warn('Size is invalid (' + sizeOptions.width + ', ' + sizeOptions.height + ')');
       }
-
-      sizeOptions.quality = sizeOptions.quality || options.quality;
 
       if (!isValidQuality(sizeOptions.quality)) {
         return grunt.log.warn('Quality configuration has changed to values between 1 - 100. Please update your configuration');
@@ -372,87 +455,47 @@ module.exports = function(grunt) {
         return grunt.log.warn('Unable to compile; no valid source files were found.');
       } else {
 
-        // Iterate over all specified file groups.
-        task.files.forEach(function(f) {
+      // Iterate over all specified file groups.
+      task.files.forEach(function(f) {
 
-          var srcPath = '',
-              dstPath = '';
+        var srcPath = '',
+          dstPath = '';
 
-          checkForValidTarget(f);
-          checkForSingleSource(f);
+        checkForValidTarget(f);
+        checkForSingleSource(f);
 
-          // create a name for our image based on name, width, height
-          sizeOptions.name = getName({ name: sizeOptions.name, width: sizeOptions.width, height: sizeOptions.height }, options);
+        // create a name for our image based on name, width, height
+        sizeOptions.name = getName({ name: sizeOptions.name, width: sizeOptions.width, height: sizeOptions.height }, options);
 
-          // create an output name with prefix, suffix
-          sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, options.separator, sizeOptions.suffix, sizeOptions.rename);
+        // create an output name with prefix, suffix
+        sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, sizeOptions.separator, sizeOptions.suffix, sizeOptions.rename);
 
-          srcPath = f.src[0];
-          dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd);
+        srcPath = f.src[0];
+        dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd);
 
-          // remove pixels from the value so the gfx process doesn't complain
-          sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
+        // remove pixels from the value so the gfx process doesn't complain
+        sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
 
-          series.push(function(callback) {
-
-            var image = gfxEngine(srcPath);
-
-            image.size(function(error, size) {
-              
-              var sizingMethod = '';
-              var mode = 'resize';
-
-              if (error) {
-                handleImageErrors(error, options.engine);
-              } else {
-
-                if (!sizeOptions.aspectRatio && sizeOptions.width && sizeOptions.height) {
-                  // crop image
-                  sizingMethod = '^';
-                  mode = 'crop';
-                }
-
-                if (sizeOptions.upscale  && (sizeOptions.width > size.width || sizeOptions.height > size.height)) {
-                  // upscale
-                  if (sizeOptions.aspectRatio) {
-                    sizingMethod = '^';
-                  } else {
-                    sizingMethod = '!';
-                  }
-                }
-                
-                if (sizeOptions.filter) {
-                  image.filter(sizeOptions.filter);
-                }
-
-                image
-                  .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
-                  .quality(sizeOptions.quality);
-
-                if (mode === 'crop') {
-                  image
-                    .gravity(sizeOptions.gravity)
-                    .crop(sizeOptions.width, sizeOptions.height, 0, 0);
-                }
-                
-                image.write(dstPath, function (error) {
-                  if (error) {
-                    handleImageErrors(error, options.engine);
-                  } else {
-                    grunt.verbose.ok('Responsive Image: ' + srcPath + ' now '+ dstPath);
-                    tally[sizeOptions.id]++;
-                  }
-                  return callback();
-                });
-              }
-            });
-          });
-        });
-      
         series.push(function(callback) {
-          outputResult(tally[sizeOptions.id], sizeOptions.name);
-          return callback();
+
+          if (sizeOptions.newFilesOnly) {
+            if (isFileNewVersion(srcPath, dstPath)) {
+              return processImage(srcPath, dstPath, sizeOptions, tally, callback);
+            } else {
+              grunt.verbose.ok('File already exists: ' + dstPath);
+              return callback();
+            }
+          } else {
+            return processImage(srcPath, dstPath, sizeOptions, tally, callback);
+          }
+
         });
+      });
+
+      series.push(function(callback) {
+        outputResult(tally[sizeOptions.id], sizeOptions.name);
+        return callback();
+      });
       }
     });
 
