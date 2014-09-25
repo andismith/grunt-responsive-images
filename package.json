@@ -1,7 +1,7 @@
 {
   "name": "grunt-responsive-images",
   "description": "Produce images at different sizes for responsive websites.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/andismith/grunt-responsive-images",
   "author": {
     "name": "andismith",
