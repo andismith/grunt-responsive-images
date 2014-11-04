@@ -348,7 +348,7 @@ module.exports = function(grunt) {
         }
 
         image
-          .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
+          .sample(sizeOptions.width, sizeOptions.height, sizingMethod)
           .quality(sizeOptions.quality);
 
         if (mode === 'crop') {
