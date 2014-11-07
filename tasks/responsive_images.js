@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
   var DEFAULT_OPTIONS = {
     aspectRatio: true,          // maintain the aspect ratio of the image (when width and height are supplied)
-    createNoScaledImage: false, // whether to create files if upscale is set to false and large sizes are specified
+    createNoScaledImage: true, // whether to create files if upscale is set to false and large sizes are specified
     engine: 'gm',               // gm or im
     gravity: 'Center',          // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
     newFilesOnly: true,         // NEW VALUE - whether to only run for new files/sizes only
@@ -328,17 +328,18 @@ module.exports = function(grunt) {
 
         if (sizeOptions.width > size.width || sizeOptions.height > size.height) {
           if (sizeOptions.upscale) {
-          // upscale
-          if (sizeOptions.aspectRatio) {
-            sizingMethod = '^';
+            // upscale
+            if (sizeOptions.aspectRatio) {
+              sizingMethod = '^';
+            } else {
+              sizingMethod = '!';
+            }
           } else {
-            sizingMethod = '!';
-          }
-          }
-
-          if (sizeOptions.createNoScaledImage) {
-            grunt.verbose.ok('Upscaled image ' + dstPath + ' will not be created');
-            return callback();
+            // create not scaled images
+            if ( !sizeOptions.createNoScaledImage ) {
+              grunt.verbose.ok('Upscaled image ' + dstPath + ' will not be created');
+              return callback();
+            }
           }
         }
 
