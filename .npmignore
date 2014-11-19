@@ -1,0 +1,4 @@
+demo/
+test/
+.jshintrc
+.travis.yml
