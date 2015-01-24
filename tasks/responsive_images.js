@@ -311,8 +311,7 @@ module.exports = function(grunt) {
     var image = gfxEngine(srcPath);
 
     image.identify(function(err, data) {
-
-      if (err) {
+      if(err){
         handleImageErrors(err, sizeOptions.engine);
       }
 
