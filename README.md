@@ -325,6 +325,14 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 ## Release History
 
+*0.1.5*
+
+* Test files are no longer take up disk space.
+* Improved error handling for isAnimated.
+* Fixed Travis-CI build dependencies
+* Files can change format
+* Come with me if you want to live
+
 *0.1.4*
 
 * Skip images with newFilesOnly. Set this option to true and Grunt Responsive Images will check if the image has already been created before creating a new version. This is only a basic check, it doesn't check for changes in the file - only whether the file does or does not exist. A future version will also check the timestamp.
