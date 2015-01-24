@@ -56,8 +56,8 @@ module.exports = function(grunt) {
       brewurl: 'imagemagick',
       url: 'http://www.imagemagick.org/script/binary-releases.php',
       alternative: {
-      code: 'gm',
-      name: 'GraphicsMagick'
+        code: 'gm',
+        name: 'GraphicsMagick'
       }
     },
     gm: {
@@ -65,8 +65,8 @@ module.exports = function(grunt) {
       brewurl: 'graphicsmagick',
       url: 'http://www.graphicsmagick.org/download.html',
       alternative: {
-      code: 'im',
-      name: 'ImageMagick'
+        code: 'im',
+        name: 'ImageMagick'
       }
     }
   };
