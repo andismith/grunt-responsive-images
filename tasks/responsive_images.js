@@ -276,7 +276,7 @@ module.exports = function(grunt) {
   var isAnimatedGif = function(data, dstPath, tryAnimated) {
     // GIF87 cannot be animated.
     // data.Delay and Scene can identify an animation GIF
-    if (!tryAnimated && data.format.toUpperCase() === 'GIF' && data.Delay && data.Scene) {
+    if (!tryAnimated && data && data.format && data.format.toUpperCase() === 'GIF' && data.Delay && data.Scene) {
       grunt.verbose.warn(dstPath + ' is animated - skipping');
       return true;
     }
@@ -311,6 +311,11 @@ module.exports = function(grunt) {
     var image = gfxEngine(srcPath);
 
     image.identify(function(err, data) {
+
+      if (err) {
+        handleImageErrors(err, sizeOptions.engine);
+      }
+
       if (!isAnimatedGif(data, dstPath, sizeOptions.tryAnimated)) {
       image.size(function(error, size) {
         var sizingMethod = '';
@@ -455,47 +460,47 @@ module.exports = function(grunt) {
         return grunt.log.warn('Unable to compile; no valid source files were found.');
       } else {
 
-      // Iterate over all specified file groups.
-      task.files.forEach(function(f) {
+        // Iterate over all specified file groups.
+        task.files.forEach(function(f) {
 
-        var srcPath = '',
-          dstPath = '';
+          var srcPath = '',
+            dstPath = '';
 
-        checkForValidTarget(f);
-        checkForSingleSource(f);
+          checkForValidTarget(f);
+          checkForSingleSource(f);
 
-        // create a name for our image based on name, width, height
-        sizeOptions.name = getName({ name: sizeOptions.name, width: sizeOptions.width, height: sizeOptions.height }, options);
+          // create a name for our image based on name, width, height
+          sizeOptions.name = getName({ name: sizeOptions.name, width: sizeOptions.width, height: sizeOptions.height }, options);
 
-        // create an output name with prefix, suffix
-        sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, sizeOptions.separator, sizeOptions.suffix, sizeOptions.rename);
+          // create an output name with prefix, suffix
+          sizeOptions.outputName = addPrefixSuffix(sizeOptions.name, sizeOptions.separator, sizeOptions.suffix, sizeOptions.rename);
 
-        srcPath = f.src[0];
-        dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd);
+          srcPath = f.src[0];
+          dstPath = getDestination(srcPath, f.dest, sizeOptions, f.custom_dest, f.orig.cwd);
 
-        // remove pixels from the value so the gfx process doesn't complain
-        sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
+          // remove pixels from the value so the gfx process doesn't complain
+          sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
+
+          series.push(function(callback) {
+
+            if (sizeOptions.newFilesOnly) {
+              if (isFileNewVersion(srcPath, dstPath)) {
+                return processImage(srcPath, dstPath, sizeOptions, tally, callback);
+              } else {
+                grunt.verbose.ok('File already exists: ' + dstPath);
+                return callback();
+              }
+            } else {
+              return processImage(srcPath, dstPath, sizeOptions, tally, callback);
+            }
+
+          });
+        });
 
         series.push(function(callback) {
-
-          if (sizeOptions.newFilesOnly) {
-            if (isFileNewVersion(srcPath, dstPath)) {
-              return processImage(srcPath, dstPath, sizeOptions, tally, callback);
-            } else {
-              grunt.verbose.ok('File already exists: ' + dstPath);
-              return callback();
-            }
-          } else {
-            return processImage(srcPath, dstPath, sizeOptions, tally, callback);
-          }
-
+          outputResult(tally[sizeOptions.id], sizeOptions.name);
+          return callback();
         });
-      });
-
-      series.push(function(callback) {
-        outputResult(tally[sizeOptions.id], sizeOptions.name);
-        return callback();
-      });
       }
     });
 
