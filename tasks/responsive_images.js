@@ -31,6 +31,7 @@ module.exports = function(grunt) {
     separator: '-',             // separator between name and filesize
     tryAnimated: false,         // DEFAULT CHANGED - whether to try to resize animated files
     upscale: false,             // whether to upscale the image
+    sample: false,
     customIn: null,
     customOut: null,
     sizes: [{
@@ -359,9 +360,15 @@ module.exports = function(grunt) {
           image.filter(sizeOptions.filter);
         }
 
-        image
-          .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
-          .quality(sizeOptions.quality);
+        if (sizeOptions.sample) {
+          image
+            .sample(sizeOptions.width, sizeOptions.height, sizingMethod)
+            .quality(sizeOptions.quality);
+        } else {
+          image
+            .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
+            .quality(sizeOptions.quality);
+        }
 
         if (mode === 'crop') {
           image

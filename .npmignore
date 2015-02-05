@@ -1,4 +1,5 @@
 demo/
 test/
+tmp/
 .jshintrc
 .travis.yml

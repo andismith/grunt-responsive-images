@@ -184,6 +184,14 @@ sizes: [{
 
     `filter` effects the resizing operation of an image. Use `Point` for pixel art. [Read more about filters in the ImageMagick documentation](http://www.imagemagick.org/Usage/filter/).
 
+  * **sample**<br />
+    *Type:* `Boolean`<br />
+    *Default:* false.`<br />
+    *Available Values:* `true` || `false`<br />
+    *Version:* 0.1.6 and above.
+
+    Sometimes using 'sample' on PNGs may produce the same output with smaller filesizes, sometimes the output will be worse. Use this option to fine tune your images to use 'sample' instead of 'resize' where it is possible to do so.
+
 * **options.separator**<br />
   *Type:* `String`<br />
   *Default:* `-`<br />
