@@ -31,6 +31,8 @@ module.exports = function(grunt) {
     separator: '-',             // separator between name and filesize
     tryAnimated: false,         // DEFAULT CHANGED - whether to try to resize animated files
     upscale: false,             // whether to upscale the image
+    customIn: null,
+    customOut: null,
     sizes: [{
       name: 'small',
       width: 320
@@ -346,6 +348,12 @@ module.exports = function(grunt) {
           }
         }
 
+        if (sizeOptions.customIn) {
+          image.in(sizeOptions.customIn);
+        }
+        if (sizeOptions.customOut) {
+          image.out(sizeOptions.customOut);
+        }
 
         if (sizeOptions.filter) {
           image.filter(sizeOptions.filter);

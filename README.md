@@ -215,6 +215,20 @@ sizes: [{
     *Default:* `x`<br />
     *Version:* 0.1.0 and above
 
+* **options.customIn**
+  *Type:* `String`<br />
+  *Default:* `null`<br />
+  *Version:* 0.1.6 and above
+
+Custom input arguments as specified at https://github.com/aheckmann/gm#custom-arguments
+
+* **options.customOut**
+  *Type:* `String`<br />
+  *Default:* `null`<br />
+  *Version:* 0.1.6 and above
+
+Custom output arguments as specified at https://github.com/aheckmann/gm#custom-arguments
+
 ### Usage Examples
 
 #### Default Options
