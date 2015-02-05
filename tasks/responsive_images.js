@@ -352,7 +352,7 @@ module.exports = function(grunt) {
           image.in(sizeOptions.customIn);
         }
         if (sizeOptions.customOut) {
-          image.in(sizeOptions.customOut);
+          image.out(sizeOptions.customOut);
         }
 
         if (sizeOptions.filter) {
