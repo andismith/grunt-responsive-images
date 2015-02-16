@@ -186,7 +186,7 @@ sizes: [{
 
   * **sample**<br />
     *Type:* `Boolean`<br />
-    *Default:* false.`<br />
+    *Default:* `false`<br />
     *Available Values:* `true` || `false`<br />
     *Version:* 0.1.6 and above.
 
