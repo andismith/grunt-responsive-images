@@ -335,12 +335,15 @@ module.exports = function(grunt) {
 
         if (sizeOptions.width > size.width || sizeOptions.height > size.height) {
           if (sizeOptions.upscale) {
-          // upscale
-          if (sizeOptions.aspectRatio) {
-            sizingMethod = '^';
+            // upscale
+            if (sizeOptions.aspectRatio) {
+              sizingMethod = '^';
+            } else {
+              sizingMethod = '!';
+            }
           } else {
-            sizingMethod = '!';
-          }
+            // no not upscale/resize smaller images
+            sizingMethod = '>';
           }
 
           if (sizeOptions.createNoScaledImage) {
