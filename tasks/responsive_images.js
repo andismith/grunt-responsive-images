@@ -342,7 +342,7 @@ module.exports = function(grunt) {
               sizingMethod = '!';
             }
           } else {
-            // no not upscale/resize smaller images
+            // do not upscale/resize smaller images
             sizingMethod = '>';
           }
 
