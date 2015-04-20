@@ -161,7 +161,7 @@ module.exports = function(grunt) {
       heightUnit = '';
 
     // name takes precedence
-    if (properties.name) {
+    if (typeof properties.name !== undefined) {
       return properties.name;
     } else {
       // figure out the units for width and height (they can be different)
