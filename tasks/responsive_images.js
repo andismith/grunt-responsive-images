@@ -502,7 +502,8 @@ module.exports = function(grunt) {
                 return processImage(srcPath, dstPath, sizeOptions, tally, callback);
               } else {
                 grunt.verbose.ok('File already exists: ' + dstPath);
-                return callback();
+                // defer the callback
+                setImmediate(callback);
               }
             } else {
               return processImage(srcPath, dstPath, sizeOptions, tally, callback);
