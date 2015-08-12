@@ -313,10 +313,21 @@ module.exports = function(grunt) {
   var processImage = function(srcPath, dstPath, sizeOptions, tally, callback) {
     var image = gfxEngine(srcPath);
 
-    image.identify(function(err, data) {
+    image.identify("%m:%T:%s\n", function(err, dataRaw) {
       if(err){
         handleImageErrors(err, sizeOptions.engine);
       }
+
+      var lastLineData = dataRaw.trim().split("\n").slice(-1)[0].split(":");
+      if (lastLineData.length !== 3) {
+        handleImageErrors(new Error("Could not parse identify output: " + dataRaw), sizeOptions.engine);
+      }
+
+      var data = {
+        format: lastLineData[0],
+        Delay: parseInt(lastLineData[1], 10),
+        Scene: parseInt(lastLineData[2], 10)
+      };
 
       if (!isAnimatedGif(data, dstPath, sizeOptions.tryAnimated)) {
       image.size(function(error, size) {
