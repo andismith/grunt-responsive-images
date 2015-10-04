@@ -34,6 +34,7 @@ module.exports = function(grunt) {
     sample: false,
     customIn: null,
     customOut: null,
+    sharpen: null,
     sizes: [{
       name: 'small',
       width: 320
@@ -385,6 +386,11 @@ module.exports = function(grunt) {
           image
           .gravity(sizeOptions.gravity)
           .crop(sizeOptions.width, sizeOptions.height, 0, 0);
+        }
+
+        if (sizeOptions.sharpen) {
+          image
+            .sharpen(sizeOptions.sharpen.radius, sizeOptions.sharpen.sigma);
         }
 
         image.write(dstPath, function (error) {
