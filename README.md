@@ -238,16 +238,24 @@ sizes: [{
 * **options.customIn**
   *Type:* `String`<br />
   *Default:* `null`<br />
-  *Version:* 0.1.6 and above
+  *Version:* 0.1.6 and above<br />
+  *Type:* `Array`<br />
+  *Default:* `null`<br />
+  *Version:* X.X.X and above
 
 Custom input arguments as specified at https://github.com/aheckmann/gm#custom-arguments
+See example below.
 
 * **options.customOut**
   *Type:* `String`<br />
   *Default:* `null`<br />
-  *Version:* 0.1.6 and above
+  *Version:* 0.1.6 and above<br />
+  *Type:* `Array`<br />
+  *Default:* `null`<br />
+  *Version:* X.X.X and above
 
 Custom output arguments as specified at https://github.com/aheckmann/gm#custom-arguments
+See example below.
 
 ### Usage Examples
 
@@ -333,6 +341,36 @@ Please note that `{%= width %}`, `{%= height %}` and `{%= name %}` are only avai
 The `{%= path %}` value contains additional directory structure from the current working directory (cwd in files array) to each image.  Using `{%= path %}` allows any complex directory structure to persist into the rendered responsive images directory.
 
 NOTE: for grunt-responsive-images to pick up images within subdirectories you must set your files.src property to `**/*.{jpg,gif,png}`.
+
+#### Custom Input/Output options
+The options `customIn` and `customOut` pass additional arguments to the graphics engine.  Refer to your graphics engine 
+documentation for a full list of the possibilities.  `customIn` places arguments after the `convert` command and before
+any other arguments, while `customOut` places arguments after any other arguments, but before the output file name.
+
+```js
+grunt.initConfig({
+  responsive_images: {
+    myTask: {
+      options: {
+        customIn: ['-interlace', 'line'], // produce progressive images
+        customOut: [
+            // draw a copywrite notice in the bottom-right corner
+            '-gravity', 'SouthEast', '-font', "Arial", '-pointsize', '12',
+            '-fill', '#445', '-draw', 'text 5,2 \'\u00A9 copywrite\'',
+            '-fill', '#ffe', '-draw', 'text 6,3 \'\u00A9 copywrite\''
+        ]
+      },
+      files: {
+        'dest/mario-yoshi.jpg': 'test/assets/mario-yoshi.jpg'
+      }
+    }
+  }
+})
+```
+
+With `gm` this produces the command-line invocation:
+
+`gm "convert" "-interlace" "line" "-quality" "100" "test/assets/mario-yoshi.jpg" "-resize" "320x" "-gravity" "SouthEast" "-font" "Arial" "-pointsize" "12" "-fill" "#445" "-draw" "text 5,2 '© copyright'" "-fill" "#ffe" "-draw" "text 6,3 '© copyright'" "dest/mario-yoshi.jpg"`
 
 ## As Seen On...
 
