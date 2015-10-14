@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     aspectRatio: true,          // maintain the aspect ratio of the image (when width and height are supplied)
     createNoScaledImage: false, // whether to create files if upscale is set to false and large sizes are specified
     engine: 'gm',               // gm or im
+    concurrency: 1,             // Simultaneous gm processes to invoke.  CPU Cores - 1 is a reasonable choice.
     gravity: 'Center',          // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
     newFilesOnly: true,         // NEW VALUE - whether to only run for new files/sizes only
     quality: 100,               // value between 1 and 100
@@ -457,6 +458,7 @@ module.exports = function(grunt) {
     var done = this.async();
     var i = 0;
     var series = [];
+    var resizeparallel = [];
     var options = this.options(DEFAULT_OPTIONS); // Merge task-specific and/or target-specific options with these defaults.
     var tally = {};
     var task = this;
@@ -512,7 +514,8 @@ module.exports = function(grunt) {
           // remove pixels from the value so the gfx process doesn't complain
           sizeOptions = removeCharsFromObjectValue(sizeOptions, ['width', 'height'], 'px');
 
-          series.push(function(callback) {
+          // resize images in parallel if options.concurrency > 1
+          resizeparallel.push(function(callback) {
 
             if (sizeOptions.newFilesOnly) {
               if (isFileNewVersion(srcPath, dstPath)) {
@@ -526,6 +529,11 @@ module.exports = function(grunt) {
             }
 
           });
+        });
+
+        // resize images in parallel if options.concurrency > 1
+        series.push(function(callback) {
+          async.parallelLimit(resizeparallel, options.concurrency, callback);
         });
 
         series.push(function(callback) {
