@@ -355,7 +355,7 @@ grunt.initConfig({
         customIn: ['-interlace', 'line'], // produce progressive images
         customOut: [
             // draw a copywrite notice in the bottom-right corner
-            '-gravity', 'SouthEast', '-font', "Arial", '-pointsize', '12',
+            '-gravity', 'SouthEast', '-font', 'Arial', '-pointsize', '12',
             '-fill', '#445', '-draw', 'text 5,2 \'\u00A9 copywrite\'',
             '-fill', '#ffe', '-draw', 'text 6,3 \'\u00A9 copywrite\''
         ]
