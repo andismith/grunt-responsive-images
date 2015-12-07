@@ -1,4 +1,8 @@
-# grunt-responsive-images [![NPM version](https://badge.fury.io/js/grunt-responsive-images.png)](http://badge.fury.io/js/grunt-responsive-images)
+# grunt-responsive-images 
+
+![NPM version](https://img.shields.io/npm/v/grunt-responsive-images.svg)
+![Downloads Per Month](https://img.shields.io/npm/dm/grunt-responsive-images.svg)
+![Downloads Total](https://img.shields.io/npm/dt/grunt-responsive-images.svg)
 
 > Produces images at different sizes
 
