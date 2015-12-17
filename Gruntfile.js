@@ -56,16 +56,19 @@ module.exports = function(grunt) {
       file_wildcard_options: {
         options: {
           sizes: [{
+            upscale: true,
             aspectRatio: false,
             height: 240,
             name: 'small',
             width: 320
           },{
+            upscale: true,
             aspectRatio: false,
             height: 480,
             name: 'medium',
             width: 640
           },{
+            upscale: true,
             aspectRatio: false,
             height: 768,
             name: 'large',
@@ -114,13 +117,16 @@ module.exports = function(grunt) {
       pixel_sizes: {
         options: {
           sizes: [{
+              upscale: true,
               aspectRatio: false,
               width: '10px'
             },{
+              upscale: true,
               aspectRatio: false,
               height: '50px',
               width: '50px'
             },{
+              upscale: true,
               aspectRatio: false,
               height: '500px',
               width: '200px'
@@ -295,6 +301,21 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['rename/**.{jpg,gif,png}'],
+          cwd: 'test/assets/',
+          dest: 'tmp/'
+        }]
+      },
+       no_upscale: {
+        options: {
+          sizes: [{
+            width: 1920,
+            name: 'large'
+          }]
+        },
+        files: [{
+          upscale: false,
+          expand: true,
+          src: ['no_upscale/**.{jpg,gif,png}'],
           cwd: 'test/assets/',
           dest: 'tmp/'
         }]

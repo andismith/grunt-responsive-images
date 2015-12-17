@@ -277,6 +277,16 @@
 
       checkImages(actualPath, expectedPath, files, test);
     },
+    no_upscale: function(test) {
+      var actualPath = 'tmp/no_upscale/',
+        expectedPath = 'test/expected/no_upscale/',
+        files = [
+          'minions-large.jpg',
+          'minions-half-large.jpg'
+        ];
+
+      checkImages(actualPath, expectedPath, files, test);
+    },
     filters: function(test) {
       var actualPath = 'tmp/filters/',
           expectedPath = 'test/expected/filters/',
