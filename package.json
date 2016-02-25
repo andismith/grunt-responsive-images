@@ -31,8 +31,8 @@
   "dependencies": {
     "async": "~0.2.8",
     "gm": "~1.14.2",
-    "grunt": "~0.4.1",
-    "lodash": "~1.0.0",
+    "grunt": "~0.4.5",
+    "lodash": "~4.0.0",
     "node-imagemagick": "~0.1.8"
   },
   "devDependencies": {
