@@ -208,6 +208,13 @@ sizes: [{
 
     Sometimes using 'sample' on PNGs may produce the same output with smaller filesizes, sometimes the output will be worse. Use this option to fine tune your images to use 'sample' instead of 'resize' where it is possible to do so.
 
+  * **density**<br />
+    *Type:* `Number`<br />
+    *Default:* `72`<br />
+    *Version:* 0.1.7 and above
+    
+    `density` effects the output resolution in dpi of an image. The default is 72 dpi.
+
 * **options.separator**<br />
   *Type:* `String`<br />
   *Default:* `-`<br />

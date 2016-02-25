@@ -23,6 +23,7 @@ module.exports = function(grunt) {
   var DEFAULT_OPTIONS = {
     aspectRatio: true,          // maintain the aspect ratio of the image (when width and height are supplied)
     createNoScaledImage: false, // whether to create files if upscale is set to false and large sizes are specified
+    density: 72,                // the output resolution (dpi) of the image
     engine: 'gm',               // gm or im
     gravity: 'Center',          // gravity for cropped images: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, or SouthEast
     newFilesOnly: true,         // NEW VALUE - whether to only run for new files/sizes only
@@ -145,10 +146,17 @@ module.exports = function(grunt) {
     return isValid;
   };
 
+  /**
+   * Checks value if is a valid quality between 1 and 100.
+   * 
+   * @private
+   * @param   {number}    quality The quality.
+   * @return  {boolean}   Whether the quality is valid.
+   */
   var isValidQuality = function(quality) {
-    return (quality > 1);
+    return (quality > 1) && (quality <= 100);
   };
-
+  
   /**
    * Create a name to suffix to our file.
    *
@@ -398,6 +406,10 @@ module.exports = function(grunt) {
         if (sizeOptions.sharpen) {
           image
             .sharpen(sizeOptions.sharpen.radius, sizeOptions.sharpen.sigma);
+        }
+        
+        if (sizeOptions.density) {
+          image.density(sizeOptions.density, sizeOptions.density);
         }
 
         image.write(dstPath, function (error) {
