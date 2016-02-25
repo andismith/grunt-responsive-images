@@ -332,6 +332,10 @@ module.exports = function(grunt) {
 
       if (!isAnimatedGif(data, dstPath, sizeOptions.tryAnimated)) {
       image.size(function(error, size) {
+        var sizeTo = {
+          width: sizeOptions.width,
+          height: sizeOptions.height
+        };
         var sizingMethod = '';
         var mode = 'resize';
 
@@ -347,12 +351,15 @@ module.exports = function(grunt) {
 
         if (sizeOptions.width > size.width || sizeOptions.height > size.height) {
           if (sizeOptions.upscale) {
-          // upscale
-          if (sizeOptions.aspectRatio) {
-            sizingMethod = '^';
-          } else {
-            sizingMethod = '!';
-          }
+            // upscale
+            if (sizeOptions.aspectRatio) {
+              sizingMethod = '^';
+            } else {
+              sizingMethod = '!';
+            }
+          } else if (sizeOptions.aspectRatio) {
+            sizeTo.width = size.width;
+            sizeTo.height = size.height;
           }
 
           if (sizeOptions.createNoScaledImage) {
@@ -374,11 +381,11 @@ module.exports = function(grunt) {
 
         if (sizeOptions.sample) {
           image
-            .sample(sizeOptions.width, sizeOptions.height, sizingMethod)
+            .sample(sizeTo.width, sizeTo.height, sizingMethod)
             .quality(sizeOptions.quality);
         } else {
           image
-            .resize(sizeOptions.width, sizeOptions.height, sizingMethod)
+            .resize(sizeTo.width, sizeTo.height, sizingMethod)
             .quality(sizeOptions.quality);
         }
 
