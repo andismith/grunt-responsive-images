@@ -213,7 +213,7 @@ sizes: [{
     *Default:* `72`<br />
     *Version:* 0.1.7 and above
     
-    `density` effects the output resolution in dpi of an image. The default is 72 dpi.
+    `density` effects the output resolution, in dpi, of an image. The default is 72 dpi.
 
 * **options.separator**<br />
   *Type:* `String`<br />
