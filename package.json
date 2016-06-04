@@ -23,7 +23,7 @@
   ],
   "main": "Gruntfile.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 4.4.2"
   },
   "scripts": {
     "test": "grunt test"
@@ -31,8 +31,8 @@
   "dependencies": {
     "async": "~0.2.8",
     "gm": "~1.14.2",
-    "grunt": "~0.4.1",
-    "lodash": "~1.0.0",
+    "grunt": ">=0.4.5",
+    "lodash": ">3.0.0",
     "node-imagemagick": "~0.1.8"
   },
   "devDependencies": {
