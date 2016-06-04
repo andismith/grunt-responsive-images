@@ -33,8 +33,8 @@ module.exports = function(grunt) {
     tryAnimated: false,         // DEFAULT CHANGED - whether to try to resize animated files
     upscale: false,             // whether to upscale the image
     sample: false,
-    customIn: null,
-    customOut: null,
+    customIn: null,             // array of graphics engine arguments
+    customOut: null,            // array of graphics engine arguments
     sharpen: null,
     sizes: [{
       name: 'small',
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
 
   /**
    * Checks value if is a valid quality between 1 and 100.
-   * 
+   *
    * @private
    * @param   {number}    quality The quality.
    * @return  {boolean}   Whether the quality is valid.
@@ -156,7 +156,7 @@ module.exports = function(grunt) {
   var isValidQuality = function(quality) {
     return (quality > 1) && (quality <= 100);
   };
-  
+
   /**
    * Create a name to suffix to our file.
    *
@@ -376,11 +376,14 @@ module.exports = function(grunt) {
           }
         }
 
-        if (sizeOptions.customIn) {
+        // Add custom Input arguments to the graphics engine command before filter or quality options.
+        // customIn: ['-interlace', 'line']
+        // yields the command
+        // gm "convert" "-interlace" "line" "-quality" "60" "img/inputfile.jpg" ...
+        if (isValidArray(sizeOptions.customIn)) {
+          sizeOptions.customIn.forEach(function(val){ image.in(val); });
+        } else if (sizeOptions.customIn) {
           image.in(sizeOptions.customIn);
-        }
-        if (sizeOptions.customOut) {
-          image.out(sizeOptions.customOut);
         }
 
         if (sizeOptions.filter) {
@@ -407,9 +410,23 @@ module.exports = function(grunt) {
           image
             .sharpen(sizeOptions.sharpen.radius, sizeOptions.sharpen.sigma);
         }
-        
+
         if (sizeOptions.density) {
           image.density(sizeOptions.density, sizeOptions.density);
+        }
+
+        // Add custom Output arguments to the graphics engine command after all other options, but before the output filename.
+        // customOut: [
+        //      '-gravity', 'SouthEast', '-font', "Arial", '-pointsize', '12',
+        //      '-fill', '#445', '-draw', 'text 5,2 \'\u00A9 copyright\'',
+        //      '-fill', '#ffe', '-draw', 'text 6,3 \'\u00A9 copyright\''
+        // ]
+        // yields the command
+        // gm "convert" ... "img/inputfile.jpg" "-resize" "1280x" "-gravity" "SouthEast" "-font" "Arial" "-pointsize" "12" "-fill" "#445" "-draw" "text 5,2 '© copyright'" "-fill" "#ffe" "-draw" "text 6,3 '© copyright'" "tmp/img/outputfile.jpg"
+        if (isValidArray(sizeOptions.customOut)) {
+          sizeOptions.customOut.forEach(function(val){ image.out(val); });
+        } else if (sizeOptions.customOut) {
+          image.out(sizeOptions.customOut);
         }
 
         image.write(dstPath, function (error) {
