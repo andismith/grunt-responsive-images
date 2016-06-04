@@ -23,8 +23,14 @@ If you're a Mac user and have [Homebrew](http://brew.sh/) installed, simply type
 ```shell
 brew install GraphicsMagick
 ```
-Otherwise, please visit the [GraphicsMagick downloads page](http://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/).
 
+Alternatively, you can try:
+
+    $ sudo add-apt-repository ppa:dhor/myway
+    $ sudo apt-get update
+    $ sudo apt-get install graphicsmagick
+
+Otherwise, please visit the [GraphicsMagick downloads page](http://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/).
 
 **Or installing ImageMagick**
 
@@ -417,6 +423,11 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
   Use the option newFilesOnly to only produce files that do not exist.
 
 ## Release History
+
+*0.1.9*
+
+* Fixes to customIn and customOut to make it work for multiple arguments - and a fix for the emit location for customOut.
+* Added concurrency option for parallel invocation of the graphics engine
 
 *0.1.8*
 
