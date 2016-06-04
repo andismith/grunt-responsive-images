@@ -392,6 +392,8 @@ The following sites and libraries are using Grunt Responsive Images (because the
 
 And the inspiration for [grunt-responsive-videos](https://github.com/sjwilliams/grunt-responsive-videos).
 
+Also, the plugin [grunt-responsive-images-extender](https://github.com/smaxtastic/grunt-responsive-images-extender) is a fitting add-on to leverage your images in `srcset` and `sizes` attributes of your `img` tags.
+
 Please let us know if your live site or library uses Grunt Responsive Images. We'll add our favorites.
 
 ## FAQ
