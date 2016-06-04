@@ -33,13 +33,17 @@
     "gm": "~1.14.2",
     "grunt": ">=0.4.5",
     "lodash": ">3.0.0",
+    "async": "~1.5.2",
+    "gm": "~1.21.1",
+    "grunt": "~0.4.5",
+    "lodash": "~4.5.1",
     "node-imagemagick": "~0.1.8"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "q": "~0.9.7"
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "q": "~1.4.1"
   },
   "keywords": [
     "grunt",
