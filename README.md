@@ -1,4 +1,4 @@
-# grunt-responsive-images 
+# grunt-responsive-images
 
 ![NPM version](https://img.shields.io/npm/v/grunt-responsive-images.svg)
 ![Downloads Per Month](https://img.shields.io/npm/dm/grunt-responsive-images.svg)
@@ -212,7 +212,7 @@ sizes: [{
     *Type:* `Number`<br />
     *Default:* `72`<br />
     *Version:* 0.1.7 and above
-    
+
     `density` effects the output resolution, in dpi, of an image. The default is 72 dpi.
 
 * **options.separator**<br />
@@ -252,7 +252,7 @@ sizes: [{
   *Version:* 0.1.6 and above<br />
   *Type:* `Array`<br />
   *Default:* `null`<br />
-  *Version:* X.X.X and above
+  *Version:* 0.1.8 and above
 
 Custom input arguments as specified at https://github.com/aheckmann/gm#custom-arguments
 See example below.
@@ -263,7 +263,7 @@ See example below.
   *Version:* 0.1.6 and above<br />
   *Type:* `Array`<br />
   *Default:* `null`<br />
-  *Version:* X.X.X and above
+  *Version:* 0.1.8 and above
 
 Custom output arguments as specified at https://github.com/aheckmann/gm#custom-arguments
 See example below.
@@ -354,7 +354,7 @@ The `{%= path %}` value contains additional directory structure from the current
 NOTE: for grunt-responsive-images to pick up images within subdirectories you must set your files.src property to `**/*.{jpg,gif,png}`.
 
 #### Custom Input/Output options
-The options `customIn` and `customOut` pass additional arguments to the graphics engine.  Refer to your graphics engine 
+The options `customIn` and `customOut` pass additional arguments to the graphics engine.  Refer to your graphics engine
 documentation for a full list of the possibilities.  `customIn` places arguments after the `convert` command and before
 any other arguments, while `customOut` places arguments after any other arguments, but before the output file name.
 
@@ -407,6 +407,11 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
   Use the option newFilesOnly to only produce files that do not exist.
 
 ## Release History
+
+*0.1.8*
+
+* Grunt version update
+* Resizing should now respect original image size. Output resolution setable
 
 *0.1.7*
 
