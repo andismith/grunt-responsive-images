@@ -78,6 +78,14 @@ grunt.initConfig({
 
   Chooses which graphics engine to use when resizing images. To use GraphicsMagick, set this to `gm`. To use ImageMagick, set this to `im`. You'll need the relevant engine installed.
 
+* **options.concurrency**<br />
+  *Type:* `Integer`<br />
+  *Default:* `1`<br />
+  *Version:* X.X.X and above
+
+  Specifies the number of concurrent graphics engine processes.  A reasonable choice is one fewer than the number
+of cpu cores.
+
 * **options.newFilesOnly**<br />
   *Type:* `Boolean`<br />
   *Default:* `true`<br />
