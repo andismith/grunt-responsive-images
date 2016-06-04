@@ -7,7 +7,7 @@
 > Produces images at different sizes
 
 ## Getting Started
-This plugin requires Grunt `~0.4.0`.
+This plugin requires Grunt `~0.4.5`.
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -207,6 +207,13 @@ sizes: [{
     *Version:* 0.1.6 and above.
 
     Sometimes using 'sample' on PNGs may produce the same output with smaller filesizes, sometimes the output will be worse. Use this option to fine tune your images to use 'sample' instead of 'resize' where it is possible to do so.
+
+  * **density**<br />
+    *Type:* `Number`<br />
+    *Default:* `72`<br />
+    *Version:* 0.1.7 and above
+    
+    `density` effects the output resolution, in dpi, of an image. The default is 72 dpi.
 
 * **options.separator**<br />
   *Type:* `String`<br />
