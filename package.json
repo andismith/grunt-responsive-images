@@ -29,20 +29,16 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "async": "~0.2.8",
-    "gm": "~1.14.2",
+    "async": "^2.0.0-rc.6",
+    "gm": "~1.22.0",
     "grunt": ">=0.4.5",
-    "lodash": ">=4.6.1",
-    "async": "~1.5.2",
-    "gm": "~1.21.1",
-    "grunt": "~0.4.5",
-    "lodash": "~4.5.1",
+    "lodash": ">=4.13.1",
     "node-imagemagick": "~0.1.8"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~1.0.0",
     "grunt-contrib-clean": "~1.0.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-nodeunit": "~1.0.0",
     "q": "~1.4.1"
   },
   "keywords": [
