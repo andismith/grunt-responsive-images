@@ -166,8 +166,7 @@ module.exports = function(grunt) {
    * @return  {string}          A new name
    */
   var getName = function(properties, options) {
-    var filename = '',
-      widthUnit = '',
+    var widthUnit = '',
       heightUnit = '';
 
     // name takes precedence
