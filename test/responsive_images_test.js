@@ -63,19 +63,23 @@
             deferred.reject('Failed to load expected image "' + expectedPath + filename + '"');
           } else {
             // check if we have a match
-            if ((actualProp.Compression === expectedProp.Compression) &&
+            if ((actualProp.Compression.toString() === expectedProp.Compression.toString()) &&
               (actualProp.size.width === expectedProp.size.width) &&
               (actualProp.size.height === expectedProp.size.height) &&
               (actualProp['JPEG-Quality'] === expectedProp['JPEG-Quality'])) {
               deferred.resolve(true);
             } else {
               deferred.reject(filename + ': ' +
-                'actual image (' + actualProp.compression + ' ' + actualProp.size.width +
-                'x' + actualProp.size.height + ' - Q:' + actualProp.quality +
+                'actual image ([' + actualProp.Compression + '] ' + actualProp.size.width +
+                'x' + actualProp.size.height + ' - Q:' + actualProp['JPEG-Quality'] +
                 ') and ' +
-                'expected image (' + expectedProp.compression + ' ' + expectedProp.size.width +
-                'x' + expectedProp.size.height + ' - Q:' + expectedProp.quality +
-                ') should match');
+                'expected image ([' + expectedProp.Compression + '] ' + expectedProp.size.width +
+                'x' + expectedProp.size.height + ' - Q:' + expectedProp['JPEG-Quality'] +
+                ') should match - ' +
+                (actualProp.Compression.toString() === expectedProp.Compression.toString()) + ', ' +
+                (actualProp.size.width === expectedProp.size.width) + ', ' +
+                (actualProp.size.height === expectedProp.size.height) + ', ' +
+                (actualProp['JPEG-Quality'] === expectedProp['JPEG-Quality']));
             }
           }
         });
