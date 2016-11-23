@@ -424,6 +424,11 @@ Please let us know if your live site or library uses Grunt Responsive Images. We
 
 ## Release History
 
+*1.10.0*
+
+* Updated dependencies
+* Version bump
+
 *0.1.9*
 
 * Fixes to customIn and customOut to make it work for multiple arguments - and a fix for the emit location for customOut.
