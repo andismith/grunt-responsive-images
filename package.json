@@ -15,12 +15,7 @@
   "bugs": {
     "url": "https://github.com/andismith/grunt-responsive-images/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/andismith/grunt-responsive-images/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "main": "Gruntfile.js",
   "engines": {
     "node": ">= 4.4.2"
