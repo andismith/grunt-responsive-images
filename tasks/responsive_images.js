@@ -353,7 +353,7 @@ module.exports = function(grunt) {
 
         if (!sizeOptions.aspectRatio && sizeOptions.width && sizeOptions.height) {
           // crop image
-          sizingMethod = '^';
+          sizingMethod = '!'; // Aspect ratio is false, force specified size.
           mode = 'crop';
         }
 
@@ -394,7 +394,9 @@ module.exports = function(grunt) {
           image
             .sample(sizeTo.width, sizeTo.height, sizingMethod)
             .quality(sizeOptions.quality);
-        } else {
+        } else if (mode != 'crop') {
+          // 'sample' is a simplified form of 'resize'.
+          // 'resize' is what we do by default, but not if crop is already specified.
           image
             .resize(sizeTo.width, sizeTo.height, sizingMethod)
             .quality(sizeOptions.quality);
