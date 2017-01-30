@@ -353,7 +353,7 @@ module.exports = function(grunt) {
 
         if (!sizeOptions.aspectRatio && sizeOptions.width && sizeOptions.height) {
           // crop image
-          sizingMethod = '!'; // Aspect ratio is false, force specified size.
+          sizingMethod = ''; // Aspect ratio is false, default sizing method.
           mode = 'crop';
         }
 
