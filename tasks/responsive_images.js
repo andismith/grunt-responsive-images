@@ -463,8 +463,8 @@ module.exports = function(grunt) {
       dirName = '',
       extName = '';
 
-    extName = path.extname(dstPath);
-    baseName = path.basename(dstPath, extName); // filename without extension
+    extName = path.extname(srcPath);
+    baseName = path.basename(srcPath, extName); // filename without extension
 
     if (customDest) {
 
@@ -480,9 +480,9 @@ module.exports = function(grunt) {
       checkDirectoryExists(path.join(dirName));
       return path.join(dirName, baseName + extName);
     } else {
-      dirName = path.dirname(dstPath);
-      checkDirectoryExists(path.join(dirName));
-      return path.join(dirName, baseName + sizeOptions.outputName + extName);
+      dirName = path.normalize(dstPath);
+      checkDirectoryExists(dirName);
+      return dirName + baseName + sizeOptions.outputName + extName;
     }
   };
 
