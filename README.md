@@ -201,10 +201,10 @@ The settings available are as follows:
 
   Sharpen allows you to pass an object with 'sigma' and 'radius' options. The most important factor is the sigma. As it is the real control of the sharpening operation. Sigma can be any floating point value from  .1  for practically no sharpening to 3 or more for sever sharpening. 0.5 to 1.0 work well. Radius is the limit of the effect as is the threshold. Radius is only in integer units as that is the way the algorithm works, the larger it is the slower it is.  But it should be at a minimum 1 or better still 2 times the sigma. For example:
 ```js
-        sharpen: {
-            sigma: 1,
-            radius: 2
-        }
+sharpen: {
+    sigma: 1,
+    radius: 2
+}
 ```
 * **filter**<br />
   *Type:* `String`<br />
