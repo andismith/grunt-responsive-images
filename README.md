@@ -107,7 +107,7 @@ of cpu cores.
   An array of objects containing the sizes and settings we want to resize our image to.
 
   For example:
-  ```js
+```js
 sizes: [{
       name: "small",
       width: 480
@@ -117,117 +117,117 @@ sizes: [{
   }]
 ```
 
-  The settings available are as follows:
+The settings available are as follows:
 
-  * **width**<br />
-    *Type:* `Number` or `String`<br />
-    *Version:* 0.0.1 and above
+* **width**<br />
+  *Type:* `Number` or `String`<br />
+  *Version:* 0.0.1 and above
 
-    `width` can either be in pixels or percentages. Please note both width and height need to use the same units, so if width is a percentage value and you wish to specify a height this must also be a percentage.
+  `width` can either be in pixels or percentages. Please note both width and height need to use the same units, so if width is a percentage value and you wish to specify a height this must also be a percentage.
 
-    The following values are examples of valid widths: `1`, `'1px'`, `'1'`, `'1%'`, `'1.1%'`, `'11.11111%'`, `'111111%'`<br />
-    The following values are examples of invalid values for width: `-1`, `1.1`, `1.1px`, `'1.1.1%'`, `'1a'`, `'a1'`
+  The following values are examples of valid widths: `1`, `'1px'`, `'1'`, `'1%'`, `'1.1%'`, `'11.11111%'`, `'111111%'`<br />
+  The following values are examples of invalid values for width: `-1`, `1.1`, `1.1px`, `'1.1.1%'`, `'1a'`, `'a1'`
 
-  * **height**<br />
-    *Type:* `Number` or `String`<br />
-    *Version:* 0.0.1 and above
+* **height**<br />
+  *Type:* `Number` or `String`<br />
+  *Version:* 0.0.1 and above
 
-    `height` can either be in pixels or percentages. Please note both width and height need to use the same units, so if height is a percentage value and you wish to specify a width this must also be a percentage.<br />
-    `height` accepts the same values as width.
+  `height` can either be in pixels or percentages. Please note both width and height need to use the same units, so if height is a percentage value and you wish to specify a width this must also be a percentage.<br />
+  `height` accepts the same values as width.
 
-  * **name**<br />
-    *Type:* `String`<br />
-    *Default:* none<br />
-    *Version:* 0.0.1 and above
+* **name**<br />
+  *Type:* `String`<br />
+  *Default:* none<br />
+  *Version:* 0.0.1 and above
 
-    If a `name` is specified, then the file will be suffixed with this name. e.g. `my-image-small.jpg`<br />
-    If a `name` is not specified, then the file will be suffixed with the width and/or height specified in the size options. e.g. `my-image-320x240.jpg`
+  If a `name` is specified, then the file will be suffixed with this name. e.g. `my-image-small.jpg`<br />
+  If a `name` is not specified, then the file will be suffixed with the width and/or height specified in the size options. e.g. `my-image-320x240.jpg`
 
-  * **rename**<br />
-    *Type:* `Boolean`<br />
-    *Default:* `true`<br />
-    *Version:* 0.1.3 and above
+* **rename**<br />
+  *Type:* `Boolean`<br />
+  *Default:* `true`<br />
+  *Version:* 0.1.3 and above
 
-    If `rename` is set to `false`, then at this size the file will not be renamed, but will instead keep its original name. Suffixes will still be applied.
+  If `rename` is set to `false`, then at this size the file will not be renamed, but will instead keep its original name. Suffixes will still be applied.
 
-  * **quality**<br />
-    *Type:* `Number`<br />
-    *Default:* `100`<br />
-    *Available Values:* `1` - `100`<br />
-    *Version:* 0.0.4 and above
+* **quality**<br />
+  *Type:* `Number`<br />
+  *Default:* `100`<br />
+  *Available Values:* `1` - `100`<br />
+  *Version:* 0.0.4 and above
 
-    JPEG format only. The quality of the image, 100 being the highest quality and 1 being the lowest.
+  JPEG format only. The quality of the image, 100 being the highest quality and 1 being the lowest.
 
-    Please note: In versions below 0.1.0, quality is specified between 0 and 1.
+  Please note: In versions below 0.1.0, quality is specified between 0 and 1.
 
-  * **suffix**<br />
-    *Type:* `String`<br />
-    *Default:* none<br />
-    *Version:* 0.0.1 and above
+* **suffix**<br />
+  *Type:* `String`<br />
+  *Default:* none<br />
+  *Version:* 0.0.1 and above
 
-    Use `suffix` for retina graphic filenames. e.g. `my-image-320x240_x2.jpg`
+  Use `suffix` for retina graphic filenames. e.g. `my-image-320x240_x2.jpg`
 
-  * **aspectRatio**<br />
-    *Type:* `Boolean`<br />
-    *Default:* `true`<br />
-    *Available Values:* `true` || `false`<br />
-    *Version:* 0.1.0 and above
+* **aspectRatio**<br />
+  *Type:* `Boolean`<br />
+  *Default:* `true`<br />
+  *Available Values:* `true` || `false`<br />
+  *Version:* 0.1.0 and above
 
-    Maintains the aspect ratio of the image. The width and the height are treated as maximum values,
-    so the image is expanded or contracted to fit the width and height value while maintaining the aspect ratio of the image.
-    If `aspectRatio` is set to `false` and both width and height are specified, the image will be cropped.
+  Maintains the aspect ratio of the image. The width and the height are treated as maximum values,
+  so the image is expanded or contracted to fit the width and height value while maintaining the aspect ratio of the image.
+  If `aspectRatio` is set to `false` and both width and height are specified, the image will be cropped.
 
-  * **gravity**<br />
-    *Type:* `String`<br />
-    *Default:* `Center`<br />
-    *Available Values:* `NorthWest` || `North` || `NorthEast` || `West` || `Center` || `East` || `SouthWest` || `South` || `SouthEast`<br />
-    *Version:* 0.1.0 and above
+* **gravity**<br />
+  *Type:* `String`<br />
+  *Default:* `Center`<br />
+  *Available Values:* `NorthWest` || `North` || `NorthEast` || `West` || `Center` || `East` || `SouthWest` || `South` || `SouthEast`<br />
+  *Version:* 0.1.0 and above
 
-    `gravity` determines the placement of the image within the crop. The default is `Center`.
-    This setting only applies if an image is cropped. Cropping occurs when the aspectRatio is set to `false` and both width and height are specified.
+  `gravity` determines the placement of the image within the crop. The default is `Center`.
+  This setting only applies if an image is cropped. Cropping occurs when the aspectRatio is set to `false` and both width and height are specified.
 
-  * **upscale**<br />
-    *Type:* `Boolean`<br />
-    *Default:* `false`<br />
-    *Available Values:* `true` || `false`<br />
-    *Version:* 0.1.0 and above.
+* **upscale**<br />
+  *Type:* `Boolean`<br />
+  *Default:* `false`<br />
+  *Available Values:* `true` || `false`<br />
+  *Version:* 0.1.0 and above.
 
-    If the requested size is larger than the source image should the image be upscaled?
+  If the requested size is larger than the source image should the image be upscaled?
 
-  * **sharpen**<br />
-    *Type:* `Object`<br />
-    *Default:* `null`<br />
-    *Version:* 0.1.7 and above
+* **sharpen**<br />
+  *Type:* `Object`<br />
+  *Default:* `null`<br />
+  *Version:* 0.1.7 and above
 
-    Sharpen allows you to pass an object with 'sigma' and 'radius' options. The most important factor is the sigma. As it is the real control of the sharpening operation. Sigma can be any floating point value from  .1  for practically no sharpening to 3 or more for sever sharpening. 0.5 to 1.0 work well. Radius is the limit of the effect as is the threshold. Radius is only in integer units as that is the way the algorithm works, the larger it is the slower it is.  But it should be at a minimum 1 or better still 2 times the sigma. For example:
+  Sharpen allows you to pass an object with 'sigma' and 'radius' options. The most important factor is the sigma. As it is the real control of the sharpening operation. Sigma can be any floating point value from  .1  for practically no sharpening to 3 or more for sever sharpening. 0.5 to 1.0 work well. Radius is the limit of the effect as is the threshold. Radius is only in integer units as that is the way the algorithm works, the larger it is the slower it is.  But it should be at a minimum 1 or better still 2 times the sigma. For example:
+```js
+sharpen: {
+    sigma: 1,
+    radius: 2
+}
+```
+* **filter**<br />
+  *Type:* `String`<br />
+  *Default:* Either `Mitchell` if the image is being enlarged, or supports a palette or matte channel. Otherwise `Lanczos.`<br />
+  *Available Values:* `Point` || `Box` || `Triangle` || `Hermite` || `Hanning` || `Hamming` || `Blackman` || `Gaussian` || `Quadratic` || `Cubic` || `Catrom` || `Mitchell` || `Lanczos` || `Bessel` || `Sinc`<br />
+  *Version:* 0.1.1 and above.
 
-        sharpen: {
-            sigma: 1,
-            radius: 2
-        }
+  `filter` effects the resizing operation of an image. Use `Point` for pixel art. [Read more about filters in the ImageMagick documentation](http://www.imagemagick.org/Usage/filter/).
 
-  * **filter**<br />
-    *Type:* `String`<br />
-    *Default:* Either `Mitchell` if the image is being enlarged, or supports a palette or matte channel. Otherwise `Lanczos.`<br />
-    *Available Values:* `Point` || `Box` || `Triangle` || `Hermite` || `Hanning` || `Hamming` || `Blackman` || `Gaussian` || `Quadratic` || `Cubic` || `Catrom` || `Mitchell` || `Lanczos` || `Bessel` || `Sinc`<br />
-    *Version:* 0.1.1 and above.
+* **sample**<br />
+  *Type:* `Boolean`<br />
+  *Default:* `false`<br />
+  *Available Values:* `true` || `false`<br />
+  *Version:* 0.1.6 and above.
 
-    `filter` effects the resizing operation of an image. Use `Point` for pixel art. [Read more about filters in the ImageMagick documentation](http://www.imagemagick.org/Usage/filter/).
+  Sometimes using 'sample' on PNGs may produce the same output with smaller filesizes, sometimes the output will be worse. Use this option to fine tune your images to use 'sample' instead of 'resize' where it is possible to do so.
 
-  * **sample**<br />
-    *Type:* `Boolean`<br />
-    *Default:* `false`<br />
-    *Available Values:* `true` || `false`<br />
-    *Version:* 0.1.6 and above.
+* **density**<br />
+  *Type:* `Number`<br />
+  *Default:* `72`<br />
+  *Version:* 0.1.7 and above
 
-    Sometimes using 'sample' on PNGs may produce the same output with smaller filesizes, sometimes the output will be worse. Use this option to fine tune your images to use 'sample' instead of 'resize' where it is possible to do so.
-
-  * **density**<br />
-    *Type:* `Number`<br />
-    *Default:* `72`<br />
-    *Version:* 0.1.7 and above
-
-    `density` effects the output resolution, in dpi, of an image. The default is 72 dpi.
+  `density` effects the output resolution, in dpi, of an image. The default is 72 dpi.
 
 * **options.separator**<br />
   *Type:* `String`<br />
@@ -243,22 +243,22 @@ sizes: [{
 
   'units' contains the strings that should be used to represent the size units in an image 'name' when `name` has not been specified. e.g. `my-image-50pcx50pc.jpg`
 
-  * **pixel**
-    *Type:* `String`<br />
-    *Default:* ``<br />
-    *Version:* 0.1.0 and above
+* **pixel**
+  *Type:* `String`<br />
+  *Default:* _(empty string)_<br />
+  *Version:* 0.1.0 and above
 
-  * **percentage**
-    *Type:* `String`<br />
-    *Default:* `pc`<br />
-    *Version:* 0.1.0 and above
+* **percentage**
+  *Type:* `String`<br />
+  *Default:* `pc`<br />
+  *Version:* 0.1.0 and above
 
-    Please note `%` cannot be used as a valid character in an image name.
+  Please note `%` cannot be used as a valid character in an image name.
 
-  * **multiply**
-    *Type:* `String`<br />
-    *Default:* `x`<br />
-    *Version:* 0.1.0 and above
+* **multiply**
+  *Type:* `String`<br />
+  *Default:* `x`<br />
+  *Version:* 0.1.0 and above
 
 * **options.customIn**
   *Type:* `String`<br />
