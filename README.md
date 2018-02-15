@@ -107,14 +107,17 @@ of cpu cores.
   An array of objects containing the sizes and settings we want to resize our image to.
 
   For example:
-  ```js
-sizes: [{
-      name: "small",
-      width: 480
-},{
-      name: "large",
-      width: 1024
-  }]
+```js
+sizes: [
+  {
+    name: "small",
+    width: 480
+  },
+  {
+    name: "large",
+    width: 1024
+  }
+]
 ```
 
   The settings available are as follows:
