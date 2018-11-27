@@ -6,6 +6,8 @@
 
 > Produces images at different sizes
 
+**Please note - this project is no longer being maintained**
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`.
 
