@@ -366,8 +366,12 @@ module.exports = function(grunt) {
               sizingMethod = '!';
             }
           } else if (sizeOptions.aspectRatio) {
-            sizeTo.width = size.width;
-            sizeTo.height = size.height;
+            if (sizeOptions.width > size.width) {
+              sizeTo.width = size.width;
+            }
+            if (sizeOptions.height > size.height) {
+              sizeTo.height = size.height;
+            }
           }
 
           if (sizeOptions.createNoScaledImage) {
